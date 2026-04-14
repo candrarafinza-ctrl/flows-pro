@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FLOWS PRO MAP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f5f5f5;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    #map {
+      height: 500px;
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>🌊 FLOWS PRO - Monitoring Banjir</h2>
+
+<div class="card">
+  <p id="tinggi">Tinggi: -</p>
+  <p id="status">Status: -</p>
+  <p id="water">Water: -</p>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+// ===== SET MAP =====
+var map = L.map('map').setView([1.666, 101.45], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// ===== AMBIL DATA =====
+function loadData() {
+
+  fetch("https://hceblnmngnnexxtkeiev.supabase.co/rest/v1/data_air?select=*&order=id.desc&limit=1", {
+    headers: {
+      "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    let d = data[0];
+
+    // tampilkan data teks
+    document.getElementById("tinggi").innerText = "Tinggi: " + d.tinggi_air + " cm";
+    document.getElementById("status").innerText = "Status: " + d.status;
+    document.getElementById("water").innerText = "Water: " + d.water_level;
+
+    // warna status
+    let warna = "green";
+    if(d.status == "WASPADA") warna = "orange";
+    if(d.status == "BAHAYA") warna = "red";
+
+    // hapus marker lama
+    if(window.marker) {
+      map.removeLayer(window.marker);
+    }
+
+    // buat marker baru
+    window.marker = L.circleMarker([d.latitude, d.longitude], {
+      color: warna,
+      radius: 10
+    }).addTo(map)
+    .bindPopup(
+      "<b>Status:</b> " + d.status + "<br>" +
+      "<b>Tinggi:</b> " + d.tinggi_air + " cm"
+    )
+    .openPopup();
+
+  });
+
+}
+
+// load pertama
+loadData();
+
+// auto refresh tiap 5 detik
+setInterval(loadData, 5000);
+
+</script>
+
+</body>
+</html>
