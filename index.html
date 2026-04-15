@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>FLOWS PRO</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
   <style>
     body {
@@ -37,10 +36,6 @@
     h1 {
       font-size: 40px;
     }
-
-    p {
-      opacity: 0.9;
-    }
   </style>
 </head>
 
@@ -48,36 +43,24 @@
 
 <div class="navbar">
   <div>🌊 FLOWS PRO</div>
-  <div>
-    <button class="btn" onclick="login()">Sign In</button>
-  </div>
 </div>
 
 <div class="hero">
   <h1>Monitoring Banjir Real-Time</h1>
-  <p>Sistem IoT untuk mendeteksi ketinggian air secara real-time</p>
+  <p>Sistem IoT berbasis web untuk deteksi banjir</p>
 
-  <br>
-  <button class="btn" onclick="login()">Login dengan Google</button>
+  <br><br>
+
+  <button class="btn" onclick="goLogin()">Login</button>
 </div>
 
 <script>
-
-const supabase = window.supabase.createClient(
-  "https://hceblnmngnnexxtkeiev.supabase.co",
-  "sb_secret_lfGyIobzrkpK9yVcoZ5OTA_31oYe6M_"
-);
-
-async function login() {
-  await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: window.location.origin + "/dashboard.html"
-    }
-  });
+function goLogin() {
+  window.location.href = "login.html";
 }
-
 </script>
 
 </body>
 </html>
+
+  "sb_secret_lfGyIobzrkpK9yVcoZ5OTA_31oYe6M_"
