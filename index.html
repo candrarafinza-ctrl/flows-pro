@@ -2,163 +2,80 @@
 <html>
 <head>
   <title>FLOWS PRO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI';
       background: linear-gradient(135deg, #0d47a1, #42a5f5);
       color: white;
+      text-align: center;
     }
 
-    .header {
+    .navbar {
       display: flex;
       justify-content: space-between;
-      padding: 15px;
-      font-weight: bold;
-    }
-
-    .logout {
-      background: red;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-    }
-
-    .status-box {
-      text-align: center;
-      margin: 10px;
       padding: 20px;
-      border-radius: 15px;
-      font-size: 24px;
       font-weight: bold;
     }
 
-    .aman { background: #2ecc71; }
-    .waspada { background: #f39c12; }
-    .bahaya { background: #e74c3c; }
-
-    .dashboard {
-      display: flex;
-      gap: 10px;
-      padding: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .card {
+    .btn {
       background: white;
-      color: black;
-      padding: 15px;
-      border-radius: 12px;
-      width: 150px;
-      text-align: center;
+      color: #0d47a1;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      font-weight: bold;
     }
 
-    #map {
-      height: 400px;
-      margin: 10px;
-      border-radius: 15px;
+    .hero {
+      margin-top: 120px;
+    }
+
+    h1 {
+      font-size: 40px;
+    }
+
+    p {
+      opacity: 0.9;
     }
   </style>
 </head>
 
 <body>
 
-<script>
-if(!localStorage.getItem("login")) {
-  window.location.href = "login.html";
-}
-</script>
-
-<div class="header">
+<div class="navbar">
   <div>🌊 FLOWS PRO</div>
-  <button class="logout" onclick="logout()">Logout</button>
-</div>
-
-<div id="statusBox" class="status-box">LOADING...</div>
-
-<div class="dashboard">
-  <div class="card">
-    <div>Tinggi Air</div>
-    <div id="tinggi">-</div>
-  </div>
-
-  <div class="card">
-    <div>Water</div>
-    <div id="water">-</div>
+  <div>
+    <button class="btn" onclick="login()">Sign In</button>
   </div>
 </div>
 
-<div id="map"></div>
+<div class="hero">
+  <h1>Monitoring Banjir Real-Time</h1>
+  <p>Sistem IoT untuk mendeteksi ketinggian air secara real-time</p>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <br>
+  <button class="btn" onclick="login()">Login dengan Google</button>
+</div>
 
 <script>
 
-function logout() {
-  localStorage.removeItem("login");
-  window.location.href = "login.html";
-}
+const supabase = window.supabase.createClient(
+  "https://hceblnmngnnexxtkeiev.supabase.co",
+  "ISI_ANON_KEY_KAMU"
+);
 
-var map = L.map('map').setView([1.666, 101.45], 13);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-var marker;
-
-function loadData() {
-
-  fetch("https://hceblnmngnnexxtkeiev.supabase.co/rest/v1/data_air?select=*&order=id.desc&limit=1", {
-    headers: {
-      "apikey": "ISI_API_KEY_KAMU"
+async function login() {
+  await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin + "/dashboard.html"
     }
-  })
-  .then(res => res.json())
-  .then(data => {
-
-    let d = data[0];
-
-    document.getElementById("tinggi").innerText = d.tinggi_air + " cm";
-    document.getElementById("water").innerText = d.water_level;
-
-    let statusBox = document.getElementById("statusBox");
-    statusBox.className = "status-box";
-
-    let warna = "green";
-
-    if(d.status == "AMAN") {
-      statusBox.classList.add("aman");
-      statusBox.innerText = "AMAN";
-    }
-    else if(d.status == "WASPADA") {
-      statusBox.classList.add("waspada");
-      statusBox.innerText = "WASPADA ⚠️";
-      warna = "orange";
-    }
-    else {
-      statusBox.classList.add("bahaya");
-      statusBox.innerText = "BAHAYA 🚨";
-      warna = "red";
-    }
-
-    if(marker) map.removeLayer(marker);
-
-    marker = L.circleMarker([d.latitude, d.longitude], {
-      color: warna,
-      radius: 12
-    }).addTo(map);
-
   });
-
 }
-
-loadData();
-setInterval(loadData, 5000);
 
 </script>
 
