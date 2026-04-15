@@ -10,75 +10,77 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
+      background: linear-gradient(135deg, #0d47a1, #42a5f5);
+      color: white;
     }
 
     .header {
-      background: #0d47a1;
-      color: white;
-      padding: 15px;
       text-align: center;
-      font-size: 20px;
+      padding: 15px;
+      font-size: 22px;
       font-weight: bold;
     }
+
+    .status-box {
+      text-align: center;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .aman { background: #2ecc71; }
+    .waspada { background: #f39c12; }
+    .bahaya { background: #e74c3c; }
 
     .dashboard {
       display: flex;
       gap: 10px;
       padding: 10px;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
     .card {
-      flex: 1;
-      min-width: 150px;
       background: white;
+      color: black;
       padding: 15px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 150px;
       text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .value {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .status {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: bold;
     }
 
     #map {
-      height: 450px;
+      height: 400px;
       margin: 10px;
-      border-radius: 10px;
+      border-radius: 15px;
+      overflow: hidden;
     }
-
-    .aman { color: green; }
-    .waspada { color: orange; }
-    .bahaya { color: red; }
   </style>
 </head>
 
 <body>
 
-<div class="header">🌊 FLOWS PRO - Smart Flood Monitoring</div>
+<div class="header">🌊 FLOWS PRO - Smart Flood System</div>
+
+<div id="statusBox" class="status-box">LOADING...</div>
 
 <div class="dashboard">
   <div class="card">
     <div>Tinggi Air</div>
-    <div class="value" id="tinggi">-</div>
-  </div>
-
-  <div class="card">
-    <div>Status</div>
-    <div class="status" id="status">-</div>
+    <div id="tinggi" class="value">-</div>
   </div>
 
   <div class="card">
     <div>Deteksi Air</div>
-    <div class="value" id="water">-</div>
+    <div id="water" class="value">-</div>
   </div>
 </div>
 
@@ -109,23 +111,26 @@ function loadData() {
     document.getElementById("tinggi").innerText = d.tinggi_air + " cm";
     document.getElementById("water").innerText = d.water_level;
 
-    let statusEl = document.getElementById("status");
-    statusEl.innerText = d.status;
+    let statusBox = document.getElementById("statusBox");
 
-    statusEl.className = "status";
+    statusBox.className = "status-box";
 
     let warna = "green";
 
-    if(d.status == "WASPADA") {
-      warna = "orange";
-      statusEl.classList.add("waspada");
+    if(d.status == "AMAN") {
+      statusBox.classList.add("aman");
+      statusBox.innerText = "AMAN";
+      warna = "green";
     }
-    else if(d.status == "BAHAYA") {
-      warna = "red";
-      statusEl.classList.add("bahaya");
+    else if(d.status == "WASPADA") {
+      statusBox.classList.add("waspada");
+      statusBox.innerText = "WASPADA ⚠️";
+      warna = "orange";
     }
     else {
-      statusEl.classList.add("aman");
+      statusBox.classList.add("bahaya");
+      statusBox.innerText = "BAHAYA 🚨";
+      warna = "red";
     }
 
     if(marker) map.removeLayer(marker);
@@ -134,12 +139,10 @@ function loadData() {
       color: warna,
       radius: 12
     }).addTo(map)
-    .bindPopup(
-      "<b>Status:</b> " + d.status + "<br>" +
-      "<b>Tinggi:</b> " + d.tinggi_air + " cm"
-    );
+    .bindPopup("Status: " + d.status);
 
   });
+
 }
 
 loadData();
