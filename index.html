@@ -1,47 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>FLOWS PRO MAP</title>
+  <title>FLOWS PRO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
   <style>
     body {
-      font-family: Arial;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+    }
+
+    .header {
+      background: #0d47a1;
+      color: white;
+      padding: 15px;
       text-align: center;
-      background: #f5f5f5;
+      font-size: 20px;
+      font-weight: bold;
     }
 
-    h2 {
-      color: #333;
-    }
-
-    #map {
-      height: 500px;
-      margin: 10px;
-      border-radius: 10px;
+    .dashboard {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      flex-wrap: wrap;
     }
 
     .card {
+      flex: 1;
+      min-width: 150px;
       background: white;
       padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .value {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .status {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #map {
+      height: 450px;
       margin: 10px;
       border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
+
+    .aman { color: green; }
+    .waspada { color: orange; }
+    .bahaya { color: red; }
   </style>
 </head>
 
 <body>
 
-<h2>🌊 FLOWS PRO - Monitoring Banjir</h2>
+<div class="header">🌊 FLOWS PRO - Smart Flood Monitoring</div>
 
-<div class="card">
-  <p id="tinggi">Tinggi: -</p>
-  <p id="status">Status: -</p>
-  <p id="water">Water: -</p>
+<div class="dashboard">
+  <div class="card">
+    <div>Tinggi Air</div>
+    <div class="value" id="tinggi">-</div>
+  </div>
+
+  <div class="card">
+    <div>Status</div>
+    <div class="status" id="status">-</div>
+  </div>
+
+  <div class="card">
+    <div>Deteksi Air</div>
+    <div class="value" id="water">-</div>
+  </div>
 </div>
 
 <div id="map"></div>
@@ -50,17 +88,17 @@
 
 <script>
 
-// ===== SET MAP =====
 var map = L.map('map').setView([1.666, 101.45], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-// ===== AMBIL DATA =====
+var marker;
+
 function loadData() {
 
   fetch("https://hceblnmngnnexxtkeiev.supabase.co/rest/v1/data_air?select=*&order=id.desc&limit=1", {
     headers: {
-      "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
+      "apikey": "ISI_API_KEY_KAMU"
     }
   })
   .then(res => res.json())
@@ -68,40 +106,43 @@ function loadData() {
 
     let d = data[0];
 
-    // tampilkan data teks
-    document.getElementById("tinggi").innerText = "Tinggi: " + d.tinggi_air + " cm";
-    document.getElementById("status").innerText = "Status: " + d.status;
-    document.getElementById("water").innerText = "Water: " + d.water_level;
+    document.getElementById("tinggi").innerText = d.tinggi_air + " cm";
+    document.getElementById("water").innerText = d.water_level;
 
-    // warna status
+    let statusEl = document.getElementById("status");
+    statusEl.innerText = d.status;
+
+    statusEl.className = "status";
+
     let warna = "green";
-    if(d.status == "WASPADA") warna = "orange";
-    if(d.status == "BAHAYA") warna = "red";
 
-    // hapus marker lama
-    if(window.marker) {
-      map.removeLayer(window.marker);
+    if(d.status == "WASPADA") {
+      warna = "orange";
+      statusEl.classList.add("waspada");
+    }
+    else if(d.status == "BAHAYA") {
+      warna = "red";
+      statusEl.classList.add("bahaya");
+    }
+    else {
+      statusEl.classList.add("aman");
     }
 
-    // buat marker baru
-    window.marker = L.circleMarker([d.latitude, d.longitude], {
+    if(marker) map.removeLayer(marker);
+
+    marker = L.circleMarker([d.latitude, d.longitude], {
       color: warna,
-      radius: 10
+      radius: 12
     }).addTo(map)
     .bindPopup(
       "<b>Status:</b> " + d.status + "<br>" +
       "<b>Tinggi:</b> " + d.tinggi_air + " cm"
-    )
-    .openPopup();
+    );
 
   });
-
 }
 
-// load pertama
 loadData();
-
-// auto refresh tiap 5 detik
 setInterval(loadData, 5000);
 
 </script>
