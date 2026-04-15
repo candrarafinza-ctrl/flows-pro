@@ -32,6 +32,7 @@
       background: #0d47a1;
       color: white;
       border: none;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -53,11 +54,17 @@
 
 function login() {
 
-  let user = document.getElementById("user").value;
-  let pass = document.getElementById("pass").value;
+  let user = document.getElementById("user").value.trim();
+  let pass = document.getElementById("pass").value.trim();
+
+  console.log(user, pass); // DEBUG
 
   if(user === "admin" && pass === "12345") {
+
+    localStorage.setItem("login", "true");
+
     window.location.href = "index.html";
+
   } else {
     document.getElementById("error").innerText = "Login gagal!";
   }
