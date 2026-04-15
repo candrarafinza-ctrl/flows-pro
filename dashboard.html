@@ -43,22 +43,6 @@
     .waspada { background: #f39c12; }
     .bahaya { background: #e74c3c; }
 
-    .dashboard {
-      display: flex;
-      gap: 10px;
-      padding: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      width: 150px;
-      text-align: center;
-    }
-
     #map {
       height: 400px;
       margin: 10px;
@@ -76,23 +60,6 @@
 
 <div id="statusBox" class="status-box">Loading...</div>
 
-<div class="dashboard">
-  <div class="card">
-    <div>Tinggi Air</div>
-    <div id="tinggi">-</div>
-  </div>
-
-  <div class="card">
-    <div>Status</div>
-    <div id="status">-</div>
-  </div>
-
-  <div class="card">
-    <div>Water</div>
-    <div id="water">-</div>
-  </div>
-</div>
-
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -104,21 +71,20 @@ const supabase = window.supabase.createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
 );
 
-// CEK LOGIN
+// PROTEKSI LOGIN
 async function checkUser() {
   const { data } = await supabase.auth.getUser();
 
   if (!data.user) {
-    window.location.href = "/";
+    window.location.href = "login.html";
   }
 }
-
 checkUser();
 
 // LOGOUT
 function logout() {
   supabase.auth.signOut();
-  window.location.href = "/";
+  window.location.href = "index.html";
 }
 
 // MAP
@@ -131,7 +97,7 @@ var marker;
 // LOAD DATA
 async function loadData() {
 
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('data_air')
     .select('*')
     .order('id', { ascending: false })
@@ -141,14 +107,8 @@ async function loadData() {
 
     let d = data[0];
 
-    document.getElementById("tinggi").innerText = d.tinggi_air + " cm";
-    document.getElementById("status").innerText = d.status;
-    document.getElementById("water").innerText = d.water_level;
-
     let box = document.getElementById("statusBox");
     box.className = "status-box";
-
-    let warna = "green";
 
     if(d.status === "AMAN") {
       box.classList.add("aman");
@@ -157,18 +117,16 @@ async function loadData() {
     else if(d.status === "WASPADA") {
       box.classList.add("waspada");
       box.innerText = "WASPADA ⚠️";
-      warna = "orange";
     }
     else {
       box.classList.add("bahaya");
       box.innerText = "BAHAYA 🚨";
-      warna = "red";
     }
 
     if(marker) map.removeLayer(marker);
 
     marker = L.circleMarker([d.latitude, d.longitude], {
-      color: warna,
+      color: "blue",
       radius: 12
     }).addTo(map);
 
