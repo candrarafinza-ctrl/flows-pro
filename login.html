@@ -3,7 +3,8 @@
 <head>
   <title>Login FLOWS PRO</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <!-- CDN FIX -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
   <style>
     body {
@@ -14,12 +15,10 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      color: white;
     }
 
     .box {
       background: white;
-      color: black;
       padding: 30px;
       border-radius: 12px;
       text-align: center;
@@ -27,13 +26,18 @@
     }
 
     button {
-      padding: 10px;
+      padding: 12px;
       width: 100%;
       background: #4285F4;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #3367d6;
     }
   </style>
 </head>
@@ -48,18 +52,29 @@
 
 <script>
 
-const supabase = window.supabase.createClient(
-  "https://hceblnmngnnexxtkeiev.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
-);
+// ⛔ PASTIKAN INI BENAR
+const SUPABASE_URL = "https://hceblnmngnnexxtkeiev.supabase.co";
+const SUPABASE_KEY = "ISI_ANON_KEY_KAMU";
 
+// INIT CLIENT
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// LOGIN FUNCTION
 async function loginGoogle() {
-  await supabase.auth.signInWithOAuth({
+
+  console.log("Klik login"); // DEBUG
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
       redirectTo: window.location.origin + "/dashboard.html"
     }
   });
+
+  if(error) {
+    console.error(error);
+    alert("Login error: " + error.message);
+  }
 }
 
 </script>
