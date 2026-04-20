@@ -10,8 +10,9 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #f4f6f9;
+  transition: 0.5s;
 }
 
 header {
@@ -25,6 +26,20 @@ header {
 .container {
   padding: 20px;
 }
+
+.card {
+  background: white;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  font-size: 18px;
+}
+
+.status {
+  font-size: 24px;
+  font-weight: bold;
+}
 </style>
 </head>
 
@@ -36,8 +51,9 @@ header {
 </header>
 
 <div class="container">
-  <h2>Dashboard Monitoring</h2>
-  <p>Selamat datang 👋</p>
+  <div class="card">Tinggi Air: <span id="tinggi">-</span></div>
+  <div class="card">Status: <span id="status" class="status">-</span></div>
+  <div class="card">Water Level: <span id="water">-</span></div>
 </div>
 
 <script>
@@ -47,20 +63,58 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const { createClient } = supabase;
 const client = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// CEK LOGIN
 async function checkUser() {
   const { data } = await client.auth.getSession();
-
   if (!data.session) {
     window.location.href = "login.html";
   }
 }
+checkUser();
 
+// LOGOUT
 async function logout() {
   await client.auth.signOut();
   window.location.href = "login.html";
 }
 
-checkUser();
+// LOAD DATA REALTIME
+async function loadData() {
+
+  const { data, error } = await client
+    .from("data_air")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (data && data.length > 0) {
+
+    let d = data[0];
+
+    document.getElementById("tinggi").innerText = d.tinggi_air + " cm";
+    document.getElementById("status").innerText = d.status;
+    document.getElementById("water").innerText = d.water_level;
+
+    // WARNA OTOMATIS
+    if (d.status === "AMAN") {
+      document.body.style.background = "#2ecc71";
+    }
+    else if (d.status === "WASPADA") {
+      document.body.style.background = "#f1c40f";
+    }
+    else {
+      document.body.style.background = "#e74c3c";
+    }
+
+  }
+}
+
+// LOAD AWAL
+loadData();
+
+// AUTO UPDATE 5 DETIK
+setInterval(loadData, 5000);
+
 </script>
 
 </body>
