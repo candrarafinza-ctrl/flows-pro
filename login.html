@@ -1,37 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+  <meta charset="UTF-8">
   <title>Login FLOWS PRO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CDN FIX -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
   <style>
     body {
       margin: 0;
       font-family: Arial;
-      background: #0d47a1;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
 
-    .box {
+    .card {
       background: white;
       padding: 30px;
       border-radius: 12px;
       text-align: center;
-      width: 260px;
+      width: 300px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     button {
-      padding: 12px;
-      width: 100%;
       background: #4285F4;
       color: white;
       border: none;
-      border-radius: 6px;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
     }
@@ -44,39 +47,29 @@
 
 <body>
 
-<div class="box">
+<div class="card">
   <h2>Login FLOWS PRO</h2>
-
   <button onclick="loginGoogle()">Login dengan Google</button>
 </div>
 
 <script>
+  const SUPABASE_URL = "https://hceblnmngnnexxtkeiev.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs";
 
-// ⛔ PASTIKAN INI BENAR
-const SUPABASE_URL = "https://hceblnmngnnexxtkeiev.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// INIT CLIENT
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  async function loginGoogle() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + "/dashboard.html"
+      }
+    });
 
-// LOGIN FUNCTION
-async function loginGoogle() {
-
-  console.log("Klik login"); // DEBUG
-
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: window.location.origin + "/dashboard.html"
+    if (error) {
+      alert("Login gagal: " + error.message);
     }
-  });
-
-  if(error) {
-    console.error(error);
-    alert("Login error: " + error.message);
   }
-}
-
 </script>
 
 </body>
