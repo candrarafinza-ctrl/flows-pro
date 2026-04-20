@@ -1,142 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Dashboard FLOWS PRO</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard FLOWS PRO</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI';
-      background: #f5f6fa;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f4f6f9;
+}
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      padding: 15px;
-      background: #0d47a1;
-      color: white;
-    }
+header {
+  background: #1e3c72;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
 
-    .logout {
-      background: red;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-    }
-
-    .status-box {
-      text-align: center;
-      margin: 10px;
-      padding: 20px;
-      border-radius: 15px;
-      font-size: 24px;
-      font-weight: bold;
-      color: white;
-    }
-
-    .aman { background: #2ecc71; }
-    .waspada { background: #f39c12; }
-    .bahaya { background: #e74c3c; }
-
-    #map {
-      height: 400px;
-      margin: 10px;
-      border-radius: 15px;
-    }
-  </style>
+.container {
+  padding: 20px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="header">
-  <div>🌊 FLOWS PRO Dashboard</div>
-  <button class="logout" onclick="logout()">Logout</button>
+<header>
+  <div>🌊 FLOWS PRO</div>
+  <button onclick="logout()">Logout</button>
+</header>
+
+<div class="container">
+  <h2>Dashboard Monitoring</h2>
+  <p>Selamat datang 👋</p>
 </div>
 
-<div id="statusBox" class="status-box">Loading...</div>
-
-<div id="map"></div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script>
+const SUPABASE_URL = "https://hceblnmngnnexxtkeiev.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs";
 
-const supabase = window.supabase.createClient(
-  "https://hceblnmngnnexxtkeiev.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
-);
+const { createClient } = supabase;
+const client = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// PROTEKSI LOGIN
 async function checkUser() {
-  const { data } = await supabase.auth.getUser();
+  const { data } = await client.auth.getSession();
 
-  if (!data.user) {
+  if (!data.session) {
     window.location.href = "login.html";
   }
 }
+
+async function logout() {
+  await client.auth.signOut();
+  window.location.href = "login.html";
+}
+
 checkUser();
-
-// LOGOUT
-function logout() {
-  supabase.auth.signOut();
-  window.location.href = "index.html";
-}
-
-// MAP
-var map = L.map('map').setView([1.666, 101.45], 13);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-var marker;
-
-// LOAD DATA
-async function loadData() {
-
-  const { data } = await supabase
-    .from('data_air')
-    .select('*')
-    .order('id', { ascending: false })
-    .limit(1);
-
-  if(data && data.length > 0) {
-
-    let d = data[0];
-
-    let box = document.getElementById("statusBox");
-    box.className = "status-box";
-
-    if(d.status === "AMAN") {
-      box.classList.add("aman");
-      box.innerText = "AMAN";
-    }
-    else if(d.status === "WASPADA") {
-      box.classList.add("waspada");
-      box.innerText = "WASPADA ⚠️";
-    }
-    else {
-      box.classList.add("bahaya");
-      box.innerText = "BAHAYA 🚨";
-    }
-
-    if(marker) map.removeLayer(marker);
-
-    marker = L.circleMarker([d.latitude, d.longitude], {
-      color: "blue",
-      radius: 12
-    }).addTo(map);
-
-  }
-
-}
-
-loadData();
-setInterval(loadData, 5000);
-
 </script>
 
 </body>
