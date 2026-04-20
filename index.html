@@ -1,90 +1,70 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>FLOWS PRO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOWS PRO</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      padding: 20px;
-      font-weight: bold;
-    }
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  font-weight: bold;
+}
 
-    .hero {
-      height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
+.hero {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-    h1 {
-      font-size: 40px;
-    }
+h1 {
+  font-size: 40px;
+}
 
-    p {
-      margin-top: 10px;
-      font-size: 18px;
-    }
+p {
+  font-size: 18px;
+}
 
-    button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background: white;
-      color: #2a5298;
-      cursor: pointer;
-    }
+button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  color: #2a5298;
+  cursor: pointer;
+}
 
-    button:hover {
-      background: #ddd;
-    }
-
-    /* RESPONSIVE */
-    @media(max-width: 600px) {
-      h1 {
-        font-size: 26px;
-      }
-
-      p {
-        font-size: 14px;
-      }
-    }
-  </style>
+@media(max-width:600px){
+  h1 { font-size: 26px; }
+  p { font-size: 14px; }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div>🌊 FLOWS PRO</div>
+  🌊 FLOWS PRO
 </header>
 
 <section class="hero">
   <h1>Monitoring Banjir Real-Time</h1>
   <p>Sistem IoT untuk deteksi banjir berbasis web</p>
-
-  <button onclick="goLogin()">Login</button>
+  <button onclick="window.location.href='login.html'">Login</button>
 </section>
-
-<script>
-  function goLogin() {
-    window.location.href = "login.html";
-  }
-</script>
 
 </body>
 </html>
