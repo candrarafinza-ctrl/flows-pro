@@ -41,6 +41,20 @@ header {
   font-size: 24px;
   font-weight: bold;
 }
+
+#alertBox {
+  display:none;
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:red;
+  color:white;
+  padding:15px 30px;
+  border-radius:10px;
+  font-weight:bold;
+  z-index:999;
+}
 </style>
 </head>
 
@@ -50,6 +64,8 @@ header {
   <div>🌊 FLOWS PRO</div>
   <button onclick="logout()">Logout</button>
 </header>
+
+<div id="alertBox">🚨 BAHAYA BANJIR!</div>
 
 <div class="container">
 
@@ -63,6 +79,11 @@ header {
 
 </div>
 
+<!-- SOUND -->
+<audio id="alarmSound">
+  <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+</audio>
+
 <script>
 const SUPABASE_URL = "https://hceblnmngnnexxtkeiev.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs";
@@ -71,6 +92,12 @@ const { createClient } = supabase;
 const client = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let chart;
+
+// UNLOCK AUDIO
+document.body.addEventListener("click", () => {
+  let a = document.getElementById("alarmSound");
+  a.play().then(() => a.pause());
+}, { once: true });
 
 // CEK LOGIN
 async function checkUser() {
@@ -87,7 +114,7 @@ async function logout() {
   window.location.href = "login.html";
 }
 
-// LOAD DATA TERBARU
+// LOAD DATA
 async function loadData() {
 
   const { data } = await client
@@ -104,16 +131,27 @@ async function loadData() {
     document.getElementById("status").innerText = d.status;
     document.getElementById("water").innerText = d.water_level;
 
-    // WARNA OTOMATIS
+    let alarm = document.getElementById("alarmSound");
+    let alertBox = document.getElementById("alertBox");
+
     if (d.status === "AMAN") {
       document.body.style.background = "#2ecc71";
+      alertBox.style.display = "none";
+      alarm.pause();
     }
     else if (d.status === "WASPADA") {
       document.body.style.background = "#f1c40f";
+      alertBox.innerText = "⚠️ WASPADA BANJIR";
+      alertBox.style.display = "block";
+      alarm.play();
     }
     else {
       document.body.style.background = "#e74c3c";
+      alertBox.innerText = "🚨 BAHAYA BANJIR!";
+      alertBox.style.display = "block";
+      alarm.play();
     }
+
   }
 }
 
