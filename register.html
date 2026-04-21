@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar - FLOWS-PRO</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #7b2ff7, #00c6ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* box */
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: fadeIn 1s ease;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* input */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* tombol */
+button {
+  width: 100%;
+  padding: 10px;
+  background: #7b2ff7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #5a1fd6;
+}
+
+/* link */
+.link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.link a {
+  text-decoration: none;
+  color: #7b2ff7;
+}
+
+/* animasi */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Daftar Akun</h2>
+
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="daftar()">Daftar</button>
+
+  <div class="link">
+    Sudah punya akun? <a href="login.html">Masuk</a>
+  </div>
+</div>
+
+<script>
+function daftar() {
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  if(user === "" || pass === ""){
+    alert("Harap isi semua data!");
+    return;
+  }
+
+  localStorage.setItem("user", user);
+  localStorage.setItem("pass", pass);
+
+  alert("Pendaftaran berhasil!");
+  window.location = "login.html";
+}
+</script>
+
+</body>
+</html>
