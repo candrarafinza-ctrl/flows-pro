@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monitoring Banjir</title>
+  <title>FLOWS-PRO</title>
 
   <style>
     * {
@@ -19,19 +19,28 @@
 
     /* ===== HEADER ===== */
     .header {
-      position: absolute;
+      position: fixed;
       top: 0;
-      right: 0;
+      left: 0;
       width: 100%;
       display: flex;
-      justify-content: flex-end;
-      padding: 20px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
       z-index: 10;
+      background: rgba(0, 0, 0, 0.7); /* latar jelas */
+      backdrop-filter: blur(5px);
+    }
+
+    .logo {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     .login-btn {
-      padding: 10px 20px;
-      background: rgba(0,0,0,0.6);
+      padding: 8px 18px;
+      background: #00bcd4;
       color: white;
       border-radius: 8px;
       text-decoration: none;
@@ -39,7 +48,7 @@
     }
 
     .login-btn:hover {
-      background: black;
+      background: #0097a7;
       transform: scale(1.05);
     }
 
@@ -47,37 +56,47 @@
     .hero {
       width: 100%;
       height: 100vh;
-      background-image: url('Desain tanpa judul (1).png'); /* GANTI SESUAI NAMA FILE */
-      background-size: cover; /* desktop */
-      background-position: center;
-      background-repeat: no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       position: relative;
+      overflow: hidden;
     }
 
-    /* overlay */
+    /* Background gambar blur */
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('Desain tanpa judul (1).png');
+      background-size: cover;
+      background-position: center;
+      filter: blur(6px); /* blur disini */
+      transform: scale(1.1); /* biar blur tidak nge-cut */
+      z-index: 1;
+    }
+
+    /* overlay gelap */
     .hero::after {
       content: "";
       position: absolute;
       width: 100%;
       height: 100%;
       background: rgba(0,0,0,0.4);
-      top: 0;
-      left: 0;
+      z-index: 2;
     }
 
+    /* konten */
     .overlay {
       position: relative;
+      z-index: 3;
       color: white;
       text-align: center;
-      z-index: 2;
+      top: 50%;
+      transform: translateY(-50%);
       animation: fadeIn 1.5s ease;
     }
 
     .overlay h1 {
-      font-size: 40px;
+      font-size: 42px;
       margin-bottom: 10px;
     }
 
@@ -89,29 +108,26 @@
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(-40%);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(-50%);
       }
     }
 
     /* ===== RESPONSIVE HP ===== */
     @media (max-width: 768px) {
-      .hero {
-        height: auto;
-        min-height: 100vh;
-        background-size: contain; /* biar tidak kepotong */
-        background-color: black;
-      }
-
       .overlay h1 {
         font-size: 24px;
       }
 
       .overlay p {
         font-size: 14px;
+      }
+
+      .header {
+        padding: 10px 15px;
       }
     }
 
@@ -121,6 +137,7 @@
 
   <!-- HEADER -->
   <div class="header">
+    <div class="logo">FLOWS-PRO</div>
     <a href="login.html" class="login-btn">Login</a>
   </div>
 
