@@ -8,18 +8,48 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #1e3c72, #2a5298);
   color: white;
+  overflow: hidden;
 }
 
+/* HEADER */
 header {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  align-items: center;
+  padding: 20px 30px;
+}
+
+.logo {
+  font-size: 20px;
   font-weight: bold;
 }
 
+/* LOGIN BUTTON */
+.login-btn {
+  padding: 10px 20px;
+  background: white;
+  color: #2a5298;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* HOVER ANIMATION */
+.login-btn:hover {
+  transform: scale(1.1);
+  background: #ddd;
+}
+
+/* CLICK ANIMATION */
+.login-btn:active {
+  transform: scale(0.95);
+}
+
+/* HERO */
 .hero {
   height: 80vh;
   display: flex;
@@ -27,26 +57,30 @@ header {
   justify-content: center;
   align-items: center;
   text-align: center;
+  animation: fadeIn 1s ease;
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 42px;
 }
 
 p {
   font-size: 18px;
 }
 
-button {
-  margin-top: 20px;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  background: white;
-  color: #2a5298;
-  cursor: pointer;
+/* ANIMATION MASUK */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* RESPONSIVE */
 @media(max-width:600px){
   h1 { font-size: 26px; }
   p { font-size: 14px; }
@@ -57,14 +91,26 @@ button {
 <body>
 
 <header>
-  🌊 FLOWS PRO
+  <div class="logo">🌊 FLOWS PRO</div>
+  <button class="login-btn" onclick="goLogin()">Login</button>
 </header>
 
 <section class="hero">
   <h1>Monitoring Banjir Real-Time</h1>
   <p>Sistem IoT untuk deteksi banjir berbasis web</p>
-  <button onclick="window.location.href='login.html'">Login</button>
 </section>
+
+<script>
+function goLogin() {
+  // animasi keluar sebelum pindah halaman
+  document.body.style.opacity = "0";
+  document.body.style.transition = "0.5s";
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 500);
+}
+</script>
 
 </body>
 </html>
