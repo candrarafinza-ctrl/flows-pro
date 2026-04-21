@@ -15,6 +15,7 @@
 
     body {
       overflow-x: hidden;
+      color: #333;
     }
 
     /* ===== HEADER ===== */
@@ -27,9 +28,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px 30px;
-      z-index: 10;
-      background: rgba(0, 0, 0, 0.7); /* latar jelas */
-      backdrop-filter: blur(5px);
+      z-index: 1000;
+      background: #0d47a1; /* warna jelas */
     }
 
     .logo {
@@ -60,7 +60,7 @@
       overflow: hidden;
     }
 
-    /* Background gambar blur */
+    /* Background blur ringan */
     .hero::before {
       content: "";
       position: absolute;
@@ -69,39 +69,55 @@
       background-image: url('Desain tanpa judul (1).png');
       background-size: cover;
       background-position: center;
-      filter: blur(6px); /* blur disini */
-      transform: scale(1.1); /* biar blur tidak nge-cut */
+      filter: blur(2px); /* sekitar 20% */
+      transform: scale(1.05);
       z-index: 1;
     }
 
-    /* overlay gelap */
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      z-index: 2;
-    }
-
-    /* konten */
+    /* Konten utama */
     .overlay {
       position: relative;
-      z-index: 3;
+      z-index: 2;
       color: white;
       text-align: center;
       top: 50%;
       transform: translateY(-50%);
+      padding: 20px;
       animation: fadeIn 1.5s ease;
     }
 
     .overlay h1 {
       font-size: 42px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     .overlay p {
       font-size: 18px;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    /* ===== SECTION ===== */
+    .section {
+      padding: 80px 30px;
+      background: #f5f5f5;
+    }
+
+    .section h2 {
+      margin-bottom: 15px;
+      color: #0d47a1;
+    }
+
+    .section p {
+      max-width: 800px;
+      line-height: 1.7;
+    }
+
+    ul {
+      max-width: 800px;
+      padding-left: 20px;
+      line-height: 1.8;
     }
 
     /* animasi */
@@ -116,7 +132,7 @@
       }
     }
 
-    /* ===== RESPONSIVE HP ===== */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .overlay h1 {
         font-size: 24px;
@@ -144,9 +160,35 @@
   <!-- HERO -->
   <section class="hero">
     <div class="overlay">
-      <h1>Monitoring Banjir</h1>
-      <p>Realtime & Terintegrasi</p>
+      <h1>Sistem Monitoring Banjir</h1>
+      <p>
+        FLOWS-PRO adalah sistem berbasis IoT yang dirancang untuk memantau kondisi banjir secara real-time 
+        menggunakan berbagai sensor seperti ketinggian air, arus, dan kondisi lingkungan. 
+        Sistem ini membantu memberikan informasi cepat dan akurat kepada masyarakat serta pihak terkait 
+        untuk mengurangi risiko dan dampak bencana banjir.
+      </p>
     </div>
+  </section>
+
+  <!-- PENJELASAN WEB -->
+  <section class="section">
+    <h2>Tentang Web FLOWS-PRO</h2>
+    <p>
+      Web ini berfungsi sebagai pusat monitoring data banjir yang terintegrasi dengan perangkat sensor di lapangan. 
+      Data yang dikumpulkan akan ditampilkan secara visual sehingga mudah dipahami oleh pengguna. 
+      Selain itu, sistem ini juga dapat digunakan sebagai dasar pengambilan keputusan dalam penanggulangan bencana.
+    </p>
+  </section>
+
+  <!-- RUMUSAN MASALAH -->
+  <section class="section">
+    <h2>Rumusan Masalah</h2>
+    <ul>
+      <li>Bagaimana memantau kondisi banjir secara real-time dan akurat?</li>
+      <li>Bagaimana memberikan informasi dini kepada masyarakat?</li>
+      <li>Bagaimana mengintegrasikan data sensor ke dalam satu sistem monitoring?</li>
+      <li>Bagaimana membantu pengambilan keputusan saat terjadi bencana?</li>
+    </ul>
   </section>
 
 </body>
