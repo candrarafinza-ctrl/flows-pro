@@ -1,214 +1,224 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard FLOWS PRO</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard FLOWS-PRO</title>
 
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  transition: 0.5s;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-header {
-  background: #1e3c72;
-  color: white;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-}
+    body {
+      display: flex;
+      background: #f4f6f9;
+    }
 
-.container {
-  padding: 20px;
-}
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 220px;
+      height: 100vh;
+      background: #0d47a1;
+      color: white;
+      padding: 20px;
+      position: fixed;
+    }
 
-.card {
-  background: white;
-  padding: 20px;
-  margin: 10px 0;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  font-size: 18px;
-}
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
 
-.status {
-  font-size: 24px;
-  font-weight: bold;
-}
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 15px 0;
+      transition: 0.3s;
+    }
 
-#alertBox {
-  display:none;
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:red;
-  color:white;
-  padding:15px 30px;
-  border-radius:10px;
-  font-weight:bold;
-  z-index:999;
-}
-</style>
+    .sidebar a:hover {
+      padding-left: 10px;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      margin-left: 220px;
+      width: 100%;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      background: white;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ===== CARDS ===== */
+    .cards {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      flex: 1;
+      min-width: 200px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    .value {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* ===== STATUS ===== */
+    .status {
+      margin: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .aman { background: green; }
+    .waspada { background: orange; }
+    .bahaya { background: red; }
+
+    /* ===== CHART ===== */
+    .chart-container {
+      margin: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .cards {
+        flex-direction: column;
+      }
+    }
+
+  </style>
 </head>
-
 <body>
 
-<header>
-  <div>🌊 FLOWS PRO</div>
-  <button onclick="logout()">Logout</button>
-</header>
-
-<div id="alertBox">🚨 BAHAYA BANJIR!</div>
-
-<div class="container">
-
-  <div class="card">Tinggi Air: <span id="tinggi">-</span></div>
-  <div class="card">Status: <span id="status" class="status">-</span></div>
-  <div class="card">Water Level: <span id="water">-</span></div>
-
-  <div class="card">
-    <canvas id="chartAir"></canvas>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>FLOWS-PRO</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Data Sensor</a>
+    <a href="#">Riwayat</a>
+    <a href="#">Logout</a>
   </div>
 
-</div>
+  <!-- MAIN -->
+  <div class="main">
 
-<!-- SOUND -->
-<audio id="alarmSound">
-  <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
-</audio>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <h3>Dashboard Monitoring</h3>
+      <span id="time"></span>
+    </div>
 
-<script>
-const SUPABASE_URL = "https://hceblnmngnnexxtkeiev.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs";
+    <!-- STATUS -->
+    <div id="statusBox" class="status aman">
+      Status: AMAN
+    </div>
 
-const { createClient } = supabase;
-const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+    <!-- CARDS -->
+    <div class="cards">
+      <div class="card">
+        <h3>Ketinggian Air</h3>
+        <div class="value" id="water">20 cm</div>
+      </div>
 
-let chart;
+      <div class="card">
+        <h3>Arus Air</h3>
+        <div class="value" id="flow">1.2 m/s</div>
+      </div>
 
-// UNLOCK AUDIO
-document.body.addEventListener("click", () => {
-  let a = document.getElementById("alarmSound");
-  a.play().then(() => a.pause());
-}, { once: true });
+      <div class="card">
+        <h3>Cuaca</h3>
+        <div class="value" id="weather">Cerah</div>
+      </div>
+    </div>
 
-// CEK LOGIN
-async function checkUser() {
-  const { data } = await client.auth.getSession();
-  if (!data.session) {
-    window.location.href = "login.html";
-  }
-}
-checkUser();
+    <!-- CHART -->
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
 
-// LOGOUT
-async function logout() {
-  await client.auth.signOut();
-  window.location.href = "login.html";
-}
+  </div>
 
-// LOAD DATA
-async function loadData() {
+  <script>
+    // ===== JAM REALTIME =====
+    setInterval(() => {
+      document.getElementById("time").innerText =
+        new Date().toLocaleTimeString();
+    }, 1000);
 
-  const { data } = await client
-    .from("data_air")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(1);
+    // ===== SIMULASI DATA =====
+    function updateData() {
+      let water = Math.floor(Math.random() * 100);
+      document.getElementById("water").innerText = water + " cm";
 
-  if (data && data.length > 0) {
+      let statusBox = document.getElementById("statusBox");
 
-    let d = data[0];
-
-    document.getElementById("tinggi").innerText = d.tinggi_air + " cm";
-    document.getElementById("status").innerText = d.status;
-    document.getElementById("water").innerText = d.water_level;
-
-    let alarm = document.getElementById("alarmSound");
-    let alertBox = document.getElementById("alertBox");
-
-    if (d.status === "AMAN") {
-      document.body.style.background = "#2ecc71";
-      alertBox.style.display = "none";
-      alarm.pause();
-    }
-    else if (d.status === "WASPADA") {
-      document.body.style.background = "#f1c40f";
-      alertBox.innerText = "⚠️ WASPADA BANJIR";
-      alertBox.style.display = "block";
-      alarm.play();
-    }
-    else {
-      document.body.style.background = "#e74c3c";
-      alertBox.innerText = "🚨 BAHAYA BANJIR!";
-      alertBox.style.display = "block";
-      alarm.play();
+      if (water < 30) {
+        statusBox.className = "status aman";
+        statusBox.innerText = "Status: AMAN";
+      } else if (water < 70) {
+        statusBox.className = "status waspada";
+        statusBox.innerText = "Status: WASPADA";
+      } else {
+        statusBox.className = "status bahaya";
+        statusBox.innerText = "Status: BAHAYA";
+      }
     }
 
-  }
-}
+    setInterval(updateData, 3000);
 
-// LOAD GRAFIK
-async function loadChart() {
+    // ===== CHART =====
+    const ctx = document.getElementById('myChart');
 
-  const { data } = await client
-    .from("data_air")
-    .select("*")
-    .order("created_at", { ascending: true })
-    .limit(10);
-
-  if (data && data.length > 0) {
-
-    let labels = data.map((d, i) => "Data " + (i+1));
-    let tinggi = data.map(d => d.tinggi_air);
-
-    if (chart) chart.destroy();
-
-    const ctx = document.getElementById("chartAir").getContext("2d");
-
-    chart = new Chart(ctx, {
-      type: "line",
+    new Chart(ctx, {
+      type: 'line',
       data: {
-        labels: labels,
+        labels: ['1', '2', '3', '4', '5'],
         datasets: [{
-          label: "Tinggi Air (cm)",
-          data: tinggi,
-          borderWidth: 3,
-          fill: false,
-          tension: 0.3
+          label: 'Ketinggian Air',
+          data: [10, 20, 30, 25, 40],
+          borderWidth: 2
         }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
       }
     });
-
-  }
-}
-
-// LOAD AWAL
-loadData();
-loadChart();
-
-// AUTO UPDATE
-setInterval(() => {
-  loadData();
-  loadChart();
-}, 5000);
-
-</script>
+  </script>
 
 </body>
 </html>
