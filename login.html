@@ -16,7 +16,7 @@ body {
   height: 100vh;
 }
 
-/* BOX LOGIN (TETAP ADA) */
+/* BOX LOGIN */
 .container {
   background: white;
   padding: 30px;
@@ -56,6 +56,16 @@ button:hover {
   background: #0095cc;
 }
 
+/* GOOGLE BUTTON */
+.google-btn {
+  background: #db4437;
+  margin-top: 10px;
+}
+
+.google-btn:hover {
+  background: #c23321;
+}
+
 /* LINK */
 .link {
   text-align: center;
@@ -67,7 +77,7 @@ button:hover {
   color: #7b2ff7;
 }
 
-/* ANIMASI (TETAP ADA) */
+/* ANIMASI */
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(20px);}
   to {opacity: 1; transform: translateY(0);}
@@ -80,20 +90,32 @@ button:hover {
 <div class="container">
   <h2>Masuk ke FLOWS-PRO</h2>
 
+  <!-- EMAIL LOGIN -->
   <input type="email" id="username" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
 
   <button onclick="login()">Masuk</button>
+
+  <!-- GOOGLE LOGIN -->
+  <button class="google-btn" onclick="loginGoogle()">
+    Login dengan Google
+  </button>
 
   <div class="link">
     Belum punya akun? <a href="register.html">Daftar</a>
   </div>
 </div>
 
-<!-- 🔥 FIREBASE + FITUR TAMBAHAN (TIDAK MENGHAPUS YANG LAMA) -->
+<!-- 🔥 FIREBASE FULL -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
@@ -107,7 +129,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* LOGIN FUNCTION (DITAMBAH, BUKAN DIGANTI) */
+/* ✅ AUTO LOGIN */
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location = "dashboard.html";
+  }
+});
+
+/* ✅ LOGIN EMAIL */
 window.login = function(){
   let email = document.getElementById("username").value;
   let password = document.getElementById("password").value;
@@ -120,6 +149,20 @@ window.login = function(){
   signInWithEmailAndPassword(auth, email, password)
     .then(() => {
       alert("Login berhasil!");
+      window.location = "dashboard.html";
+    })
+    .catch(error => {
+      alert(error.message);
+    });
+}
+
+/* ✅ LOGIN GOOGLE */
+const provider = new GoogleAuthProvider();
+
+window.loginGoogle = function(){
+  signInWithPopup(auth, provider)
+    .then(() => {
+      alert("Login Google berhasil!");
       window.location = "dashboard.html";
     })
     .catch(error => {
