@@ -16,60 +16,42 @@ body {
   height: 100vh;
 }
 
-/* box */
 .container {
   background: white;
   padding: 30px;
   border-radius: 15px;
   width: 320px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  animation: fadeIn 1s ease;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* input */
 input {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
 }
 
-/* tombol */
 button {
   width: 100%;
   padding: 10px;
-  background: #7b2ff7;
-  color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #5a1fd6;
+.email-btn {
+  background: #7b2ff7;
+  color: white;
 }
 
-/* link */
-.link {
-  text-align: center;
+.google-btn {
+  background: #db4437;
+  color: white;
   margin-top: 10px;
 }
 
-.link a {
-  text-decoration: none;
-  color: #7b2ff7;
-}
-
-/* animasi */
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
+.link {
+  text-align: center;
+  margin-top: 10px;
 }
 </style>
 </head>
@@ -79,45 +61,63 @@ button:hover {
 <div class="container">
   <h2>Daftar Akun</h2>
 
-  <input type="email" id="username" placeholder="Email">
+  <!-- EMAIL -->
+  <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
 
-  <button onclick="daftar()">Daftar</button>
+  <button class="email-btn" onclick="registerEmail()">Daftar dengan Email</button>
+
+  <!-- GOOGLE -->
+  <button class="google-btn" onclick="loginGoogle()">
+    Daftar / Masuk dengan Google
+  </button>
 
   <div class="link">
     Sudah punya akun? <a href="login.html">Masuk</a>
   </div>
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
+  apiKey: "AIzaSyAfx...",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
-  projectId: "flows-pro-dc80e",
-  storageBucket: "flows-pro-dc80e.firebasestorage.app",
-  messagingSenderId: "1013010002522",
-  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
+  projectId: "flows-pro-dc80e"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.daftar = function(){
-  let email = document.getElementById("username").value;
+// EMAIL REGISTER
+window.registerEmail = function(){
+  let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
 
   createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
-      alert("Akun berhasil dibuat!");
-      window.location = "login.html";
+      alert("Berhasil daftar!");
+      window.location = "dashboard.html";
     })
-    .catch(error => {
-      alert(error.message);
-    });
+    .catch(err => alert(err.message));
+}
+
+// GOOGLE (DAFTAR ATAU LOGIN)
+const provider = new GoogleAuthProvider();
+
+window.loginGoogle = function(){
+  signInWithPopup(auth, provider)
+    .then(() => {
+      alert("Berhasil masuk dengan Google!");
+      window.location = "dashboard.html";
+    })
+    .catch(err => alert(err.message));
 }
 </script>
 
