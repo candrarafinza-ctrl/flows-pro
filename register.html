@@ -2,78 +2,69 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar - FLOWS-PRO</title>
+<title>Daftar</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #7b2ff7, #00c6ff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:Arial;
+  background:linear-gradient(135deg,#7b2ff7,#00c6ff);
 }
 
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 320px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+.box {
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  width:320px;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+input,button {
+  width:100%;
+  padding:10px;
+  margin:10px 0;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.hidden {
+  display:none;
 }
 
-.email-btn {
-  background: #7b2ff7;
-  color: white;
+.google {
+  background:red;
+  color:white;
 }
 
-.google-btn {
-  background: #db4437;
-  color: white;
-  margin-top: 10px;
-}
-
-.link {
-  text-align: center;
-  margin-top: 10px;
+.email {
+  background:#7b2ff7;
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="box">
   <h2>Daftar Akun</h2>
 
-  <!-- EMAIL -->
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
+  <!-- INPUT NAMA -->
+  <input type="text" id="nama" placeholder="Nama Anda">
 
-  <button class="email-btn" onclick="registerEmail()">Daftar dengan Email</button>
+  <!-- PILIH METODE -->
+  <button onclick="showEmail()" class="email">
+    Daftar dengan Email
+  </button>
 
-  <!-- GOOGLE -->
-  <button class="google-btn" onclick="loginGoogle()">
+  <button onclick="loginGoogle()" class="google">
     Daftar / Masuk dengan Google
   </button>
 
-  <div class="link">
-    Sudah punya akun? <a href="login.html">Masuk</a>
+  <!-- FORM EMAIL (MUNCUL SAAT DIKLIK) -->
+  <div id="emailForm" class="hidden">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="registerEmail()">Submit Email</button>
   </div>
 </div>
 
@@ -83,24 +74,39 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAfx...",
+  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
-  projectId: "flows-pro-dc80e"
+  projectId: "flows-pro-dc80e",
+  storageBucket: "flows-pro-dc80e.firebasestorage.app",
+  messagingSenderId: "1013010002522",
+  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// EMAIL REGISTER
+// tampilkan form email
+window.showEmail = function(){
+  document.getElementById("emailForm").classList.remove("hidden");
+}
+
+// daftar email
 window.registerEmail = function(){
+  let nama = document.getElementById("nama").value;
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
 
   createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      return updateProfile(userCredential.user, {
+        displayName: nama
+      });
+    })
     .then(() => {
       alert("Berhasil daftar!");
       window.location = "dashboard.html";
@@ -108,13 +114,13 @@ window.registerEmail = function(){
     .catch(err => alert(err.message));
 }
 
-// GOOGLE (DAFTAR ATAU LOGIN)
+// google login
 const provider = new GoogleAuthProvider();
 
 window.loginGoogle = function(){
   signInWithPopup(auth, provider)
     .then(() => {
-      alert("Berhasil masuk dengan Google!");
+      alert("Berhasil login Google!");
       window.location = "dashboard.html";
     })
     .catch(err => alert(err.message));
