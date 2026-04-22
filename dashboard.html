@@ -58,7 +58,21 @@ body {
   padding: 15px 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* USER */
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-box img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
 /* ===== STATUS ===== */
@@ -75,7 +89,7 @@ body {
 .waspada { background: orange; }
 .bahaya { background: red; }
 
-/* ===== CARDS (BALIKIN SEMUA) ===== */
+/* ===== CARDS ===== */
 .cards {
   display: flex;
   gap: 20px;
@@ -107,17 +121,9 @@ body {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
-
-  .main {
-    margin-left: 0;
-  }
-
-  .cards {
-    flex-direction: column;
-  }
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .cards { flex-direction: column; }
 }
 </style>
 </head>
@@ -139,7 +145,12 @@ body {
   <!-- NAVBAR -->
   <div class="navbar">
     <h3>Dashboard Monitoring</h3>
-    <span id="user"></span>
+
+    <!-- USER (DITAMBAH, TIDAK MENGHAPUS) -->
+    <div class="user-box">
+      <span id="user">Loading...</span>
+      <img id="foto">
+    </div>
   </div>
 
   <!-- STATUS -->
@@ -147,7 +158,7 @@ body {
     Status: AMAN
   </div>
 
-  <!-- CARDS (TIDAK DIHAPUS) -->
+  <!-- CARDS -->
   <div class="cards">
     <div class="card">
       <h3>Ketinggian Air</h3>
@@ -172,10 +183,14 @@ body {
 
 </div>
 
-<!-- 🔥 FIREBASE (DITAMBAH, TIDAK MENGHAPUS) -->
+<!-- 🔥 FIREBASE (DITAMBAH SAJA) -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
@@ -189,30 +204,35 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* CEK LOGIN (DITAMBAH) */
+/* 🔥 CEK LOGIN */
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    alert("Harus login dulu!");
     window.location = "login.html";
   } else {
-    document.getElementById("user").innerText = user.email;
+    document.getElementById("user").innerText =
+      user.displayName || user.email;
+
+    document.getElementById("foto").src =
+      user.photoURL || "https://i.imgur.com/6VBx3io.png";
   }
 });
 
-/* LOGOUT (DITAMBAH) */
+/* 🔥 LOGOUT */
 window.logout = function(){
-  signOut(auth).then(() => {
+  signOut(auth).then(()=>{
     window.location = "index.html";
   });
 }
 </script>
 
-<!-- 🔥 SCRIPT LAMA (TETAP ADA) -->
+<!-- 🔥 SCRIPT LAMA (TETAP) -->
 <script>
-// DATA SIMULASI
 function updateData() {
   let water = Math.floor(Math.random() * 100);
+  let flow = (Math.random() * 3).toFixed(2);
+
   document.getElementById("water").innerText = water + " cm";
+  document.getElementById("flow").innerText = flow + " m/s";
 
   let statusBox = document.getElementById("statusBox");
 
@@ -230,7 +250,7 @@ function updateData() {
 
 setInterval(updateData, 3000);
 
-// CHART
+/* CHART */
 new Chart(document.getElementById('myChart'), {
   type: 'line',
   data: {
