@@ -79,7 +79,7 @@ button:hover {
 <div class="container">
   <h2>Daftar Akun</h2>
 
-  <input type="text" id="username" placeholder="Username">
+  <input type="email" id="username" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
 
   <button onclick="daftar()">Daftar</button>
@@ -89,21 +89,35 @@ button:hover {
   </div>
 </div>
 
-<script>
-function daftar() {
-  let user = document.getElementById("username").value;
-  let pass = document.getElementById("password").value;
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  if(user === "" || pass === ""){
-    alert("Harap isi semua data!");
-    return;
-  }
+const firebaseConfig = {
+  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
+  authDomain: "flows-pro-dc80e.firebaseapp.com",
+  projectId: "flows-pro-dc80e",
+  storageBucket: "flows-pro-dc80e.firebasestorage.app",
+  messagingSenderId: "1013010002522",
+  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
+};
 
-  localStorage.setItem("user", user);
-  localStorage.setItem("pass", pass);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  alert("Pendaftaran berhasil!");
-  window.location = "login.html";
+window.daftar = function(){
+  let email = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Akun berhasil dibuat!");
+      window.location = "login.html";
+    })
+    .catch(error => {
+      alert(error.message);
+    });
 }
 </script>
 
