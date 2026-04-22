@@ -2,172 +2,87 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - FLOWS-PRO</title>
-
+<title>Login</title>
 <style>
 body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #00c6ff, #7b2ff7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background:linear-gradient(135deg,#00c6ff,#7b2ff7);
+  font-family:Arial;
 }
 
-/* BOX LOGIN */
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 320px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  animation: fadeIn 1s ease;
+.box {
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  width:300px;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+input,button {
+  width:100%;
+  padding:10px;
+  margin:10px 0;
 }
 
-/* INPUT */
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-/* BUTTON */
-button {
-  width: 100%;
-  padding: 10px;
-  background: #00c6ff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #0095cc;
-}
-
-/* GOOGLE BUTTON */
-.google-btn {
-  background: #db4437;
-  margin-top: 10px;
-}
-
-.google-btn:hover {
-  background: #c23321;
-}
-
-/* LINK */
-.link {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.link a {
-  text-decoration: none;
-  color: #7b2ff7;
-}
-
-/* ANIMASI */
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
+.google {
+  background:red;
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h2>Masuk ke FLOWS-PRO</h2>
+<div class="box">
+  <h2>Masuk</h2>
 
-  <!-- EMAIL LOGIN -->
-  <input type="email" id="username" placeholder="Email">
+  <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
 
-  <button onclick="login()">Masuk</button>
+  <button onclick="loginEmail()">Masuk dengan Email</button>
 
-  <!-- GOOGLE LOGIN -->
-  <button class="google-btn" onclick="loginGoogle()">
-    Login dengan Google
+  <button class="google" onclick="loginGoogle()">
+    Masuk dengan Google
   </button>
-
-  <div class="link">
-    Belum punya akun? <a href="register.html">Daftar</a>
-  </div>
 </div>
 
-<!-- 🔥 FIREBASE FULL -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
+  apiKey: "AIzaSyAfx...",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
-  projectId: "flows-pro-dc80e",
-  storageBucket: "flows-pro-dc80e.firebasestorage.app",
-  messagingSenderId: "1013010002522",
-  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
+  projectId: "flows-pro-dc80e"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* ✅ AUTO LOGIN */
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    window.location = "dashboard.html";
-  }
-});
-
-/* ✅ LOGIN EMAIL */
-window.login = function(){
-  let email = document.getElementById("username").value;
+// EMAIL LOGIN
+window.loginEmail = function(){
+  let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
 
-  if(email === "" || password === ""){
-    alert("Harap isi email dan password!");
-    return;
-  }
-
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      alert("Login berhasil!");
-      window.location = "dashboard.html";
-    })
-    .catch(error => {
-      alert(error.message);
-    });
+    .then(()=> window.location="dashboard.html")
+    .catch(err=>alert(err.message));
 }
 
-/* ✅ LOGIN GOOGLE */
+// GOOGLE LOGIN
 const provider = new GoogleAuthProvider();
 
 window.loginGoogle = function(){
   signInWithPopup(auth, provider)
-    .then(() => {
-      alert("Login Google berhasil!");
-      window.location = "dashboard.html";
-    })
-    .catch(error => {
-      alert(error.message);
-    });
+    .then(()=> window.location="dashboard.html")
+    .catch(err=>alert(err.message));
 }
 </script>
 
