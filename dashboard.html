@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLOWS PRO Dashboard</title>
+<title>FLOWS-PRO Dashboard</title>
 
-<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
-<!-- CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- MAP -->
@@ -17,152 +14,100 @@
 
 <style>
 
-/* RESET */
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: 'Segoe UI', sans-serif;
+/* ===== SAMA DENGAN INDEX ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #7b2ff7, #00c6ff);
+  z-index: 1000;
 }
 
-/* BODY */
-body {
-  background:#f1f5f9;
-  display:flex;
+.logo {
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
 }
 
-/* SIDEBAR */
-.sidebar {
-  width:220px;
-  height:100vh;
-  background:linear-gradient(180deg,#1e3c72,#2a5298);
-  color:white;
-  padding:20px;
+.menu {
+  display: flex;
+  gap: 25px;
 }
 
-.sidebar h2 {
-  margin-bottom:30px;
+.menu a {
+  color: white;
+  text-decoration: none;
 }
 
-.sidebar a {
-  display:block;
-  margin:10px 0;
-  color:white;
-  text-decoration:none;
-  font-size:14px;
-  opacity:0.8;
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.sidebar a:hover {
-  opacity:1;
-}
-
-/* MAIN */
-.main {
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-/* HEADER */
-.header {
-  background:white;
-  padding:15px 25px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
-
-/* USER */
-.user {
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.user img {
-  width:40px;
-  height:40px;
-  border-radius:50%;
+.auth img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
 .logout {
-  background:#e74c3c;
-  color:white;
-  border:none;
-  padding:6px 12px;
-  border-radius:6px;
-  cursor:pointer;
+  background: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-/* CONTENT */
-.content {
-  padding:20px;
+/* ===== CONTENT ===== */
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f5f7fa;
 }
 
-/* GRID */
+.container {
+  padding: 100px 20px 20px;
+}
+
 .grid {
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
+  gap: 15px;
 }
 
-/* CARD */
 .card {
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
-}
-
-.card h3 {
-  font-size:14px;
-  color:#888;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .value {
-  font-size:26px;
-  font-weight:bold;
-  margin-top:5px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-/* STATUS COLORS */
-.aman { color:#2ecc71; }
-.waspada { color:#f39c12; }
-.bahaya { color:#e74c3c; }
-
-/* LAYOUT BAWAH */
-.row {
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:15px;
-  margin-top:20px;
-}
-
-/* MAP */
+/* ===== MAP ===== */
 #map {
-  height:350px;
-  border-radius:12px;
+  height: 350px;
+  margin-top: 20px;
+  border-radius: 12px;
 }
 
-/* ALERT */
-#alertBox {
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:red;
-  color:white;
-  padding:10px 20px;
-  border-radius:8px;
-  display:none;
-}
-
-/* RESPONSIVE */
-@media(max-width:800px){
-  .sidebar { display:none; }
-  .row { grid-template-columns:1fr; }
+/* ===== EVAKUASI BUTTON ===== */
+.evakuasi-btn {
+  margin-top: 10px;
+  padding: 10px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 </style>
@@ -170,29 +115,24 @@ body {
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <h2>🌊 FLOWS</h2>
-  <a href="#">Dashboard</a>
-  <a href="#">Monitoring</a>
-  <a href="#">Map</a>
-  <a href="#">Settings</a>
-</div>
+<!-- NAVBAR (SAMA PERSIS) -->
+<div class="navbar">
+  <div class="logo">FLOWS-PRO</div>
 
-<!-- MAIN -->
-<div class="main">
+  <div class="menu">
+    <a href="#">Dashboard</a>
+    <a href="#">Monitoring</a>
+    <a href="#">Map</a>
+  </div>
 
-<div class="header">
-  <h3>Dashboard Monitoring</h3>
-
-  <div class="user">
+  <div class="auth">
     <img id="userPhoto">
-    <span id="userName"></span>
+    <span id="userName" style="color:white;"></span>
     <button class="logout" onclick="logout()">Logout</button>
   </div>
 </div>
 
-<div class="content">
+<div class="container">
 
 <div class="grid">
   <div class="card">
@@ -206,33 +146,21 @@ body {
   </div>
 
   <div class="card">
-    <h3>Water Level</h3>
+    <h3>Water</h3>
     <div id="water" class="value">-</div>
   </div>
 </div>
 
-<div class="row">
+<div class="card">
+  <h3>Map Monitoring</h3>
+  <div id="map"></div>
 
-  <div class="card">
-    <h3>Grafik Ketinggian</h3>
-    <canvas id="chart"></canvas>
-  </div>
-
-  <div class="card">
-    <h3>Lokasi Sensor</h3>
-    <div id="map"></div>
-  </div>
-
+  <button class="evakuasi-btn" onclick="evakuasi()">
+    Cari Rute Evakuasi
+  </button>
 </div>
 
 </div>
-</div>
-
-<div id="alertBox"></div>
-
-<audio id="alarm">
-  <source src="https://www.soundjay.com/button/beep-07.wav">
-</audio>
 
 <script>
 
@@ -246,7 +174,6 @@ const client = createClient(
 /* USER */
 async function loadUser(){
   const { data } = await client.auth.getUser();
-  if(!data.user) location="login.html";
 
   userName.innerText = data.user.user_metadata.full_name;
   userPhoto.src = data.user.user_metadata.avatar_url;
@@ -261,79 +188,61 @@ function logout(){
 
 /* MAP */
 let map = L.map('map').setView([1.666,101.45], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+.addTo(map);
+
 let marker;
 
 /* DATA */
 async function loadData(){
+
   let { data } = await client.from("data_air")
-    .select("*").order("created_at",{ascending:false}).limit(1);
+    .select("*")
+    .order("created_at",{ascending:false})
+    .limit(1);
 
   if(data.length){
+
     let d=data[0];
 
     tinggi.innerText=d.tinggi_air+" cm";
-    water.innerText=d.water_level;
-
     status.innerText=d.status;
-    status.className="value";
-
-    if(d.status=="AMAN") status.classList.add("aman");
-    else if(d.status=="WASPADA") status.classList.add("waspada");
-    else status.classList.add("bahaya");
+    water.innerText=d.water_level;
 
     if(marker) map.removeLayer(marker);
 
-    marker = L.marker([d.latitude,d.longitude]).addTo(map);
-    map.setView([d.latitude,d.longitude],14);
+    marker = L.marker([d.latitude,d.longitude])
+      .addTo(map)
+      .bindPopup("Lokasi Sensor")
+      .openPopup();
 
-    let alertBox=document.getElementById("alertBox");
-    let alarm=document.getElementById("alarm");
-
-    if(d.status!="AMAN"){
-      alertBox.innerText=d.status;
-      alertBox.style.display="block";
-      alarm.play();
-    } else {
-      alertBox.style.display="none";
-      alarm.pause();
-    }
+    map.setView([d.latitude,d.longitude], 14);
   }
 }
 
-/* CHART */
-let chart;
+/* EVAKUASI (SIMULASI RUTE) */
+function evakuasi(){
 
-async function loadChart(){
-  let { data } = await client.from("data_air").select("*").limit(10);
+  navigator.geolocation.getCurrentPosition(pos => {
 
-  let labels=data.map((_,i)=>i+1);
-  let val=data.map(d=>d.tinggi_air);
+    let lat = pos.coords.latitude;
+    let lon = pos.coords.longitude;
 
-  if(chart) chart.destroy();
+    L.marker([lat,lon]).addTo(map)
+      .bindPopup("Lokasi Anda");
 
-  chart=new Chart(chartCanvas,{
-    type:"line",
-    data:{
-      labels:labels,
-      datasets:[{
-        label:"Tinggi Air",
-        data:val,
-        borderColor:"#3498db",
-        borderWidth:3,
-        tension:0.4
-      }]
-    }
+    L.polyline([
+      [lat,lon],
+      [1.670,101.455] /* titik aman contoh */
+    ], {color:'red'}).addTo(map);
+
   });
 }
 
-setInterval(()=>{
-  loadData();
-  loadChart();
-},5000);
-
+/* LOOP */
+setInterval(loadData,5000);
 loadData();
-loadChart();
 
 </script>
 
