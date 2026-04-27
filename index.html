@@ -19,7 +19,7 @@ body {
   overflow:hidden;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .navbar {
   position:fixed;
   width:100%;
@@ -29,6 +29,9 @@ body {
   align-items:center;
   background: linear-gradient(90deg,#6a11cb,#2575fc);
   z-index:1000;
+
+  /* animasi masuk */
+  animation: slideDown 0.8s ease;
 }
 
 .logo {
@@ -50,7 +53,7 @@ body {
   transition:0.3s;
 }
 
-/* efek aktif */
+/* aktif */
 .menu a.active {
   background: rgba(255,255,255,0.25);
   backdrop-filter: blur(6px);
@@ -69,7 +72,7 @@ body {
   color:black;
 }
 
-/* HERO */
+/* ===== HERO ===== */
 .hero {
   height:100vh;
   position:relative;
@@ -82,6 +85,9 @@ body {
   height:100%;
   background:url('Desain tanpa judul (1).png') center/cover;
   filter:brightness(0.6);
+
+  /* animasi background */
+  animation: fadeBg 1.5s ease;
 }
 
 .hero-content {
@@ -94,18 +100,29 @@ body {
   max-width:700px;
 }
 
+/* animasi teks */
 .hero h1 {
   font-size:42px;
   margin-bottom:10px;
+  opacity:0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay:0.6s;
 }
 
 .hero p {
   font-size:17px;
   line-height:1.6;
+  opacity:0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay:0.8s;
 }
 
+/* tombol */
 .cta {
   margin-top:20px;
+  opacity:0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay:1s;
 }
 
 .cta a {
@@ -122,7 +139,7 @@ body {
   background:#009ec3;
 }
 
-/* PANEL (LEMBARAN) */
+/* ===== PANEL ===== */
 .overlay {
   position:fixed;
   top:-80%;
@@ -134,7 +151,7 @@ body {
   transition:0.5s ease;
   z-index:999;
 
-  padding-top:90px; /* biar gak ketutup navbar */
+  padding-top:90px;
   display:flex;
   justify-content:center;
   align-items:flex-start;
@@ -148,7 +165,7 @@ body {
   top:-80%;
 }
 
-/* BOX DALAM PANEL */
+/* BOX PANEL */
 .panel-box {
   width:90%;
   max-width:800px;
@@ -162,7 +179,7 @@ body {
   color:white;
 }
 
-/* TYPOGRAPHY */
+/* teks */
 .panel-box h2 {
   font-size:26px;
   margin-bottom:15px;
@@ -173,7 +190,7 @@ body {
   line-height:1.8;
 }
 
-/* CLOSE AREA */
+/* close */
 .close-area {
   position:fixed;
   top:70%;
@@ -186,7 +203,22 @@ body {
   display:block;
 }
 
-/* ANIMASI */
+/* ===== ANIMASI ===== */
+@keyframes slideDown {
+  from {transform: translateY(-100%);}
+  to {transform: translateY(0);}
+}
+
+@keyframes fadeUp {
+  from {opacity:0; transform:translateY(40px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeBg {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
 @keyframes fadeIn {
   from {opacity:0; transform:translateY(-20px);}
   to {opacity:1; transform:translateY(0);}
@@ -246,28 +278,25 @@ const data = {
   tentang: `
     <h2>Tentang Sistem</h2>
     <p>
-    FLOWS-PRO adalah sistem monitoring banjir berbasis Internet of Things (IoT)
-    yang dirancang untuk memberikan informasi kondisi air secara real-time.
-    Sistem ini membantu masyarakat dalam mengambil tindakan cepat untuk
-    mengurangi risiko dan dampak bencana banjir.
+    FLOWS-PRO adalah sistem monitoring banjir berbasis IoT yang memberikan
+    informasi kondisi air secara real-time untuk membantu masyarakat
+    mengambil tindakan cepat.
     </p>
   `,
 
   fitur: `
     <h2>Cara Kerja Sistem</h2>
     <p>
-    Sensor membaca ketinggian air di lapangan, kemudian data dikirim ke server
-    dan ditampilkan melalui website dalam bentuk monitoring real-time,
-    grafik, serta peta lokasi yang mudah dipahami.
+    Sensor membaca ketinggian air, data dikirim ke server,
+    lalu ditampilkan secara real-time dalam bentuk grafik dan peta.
     </p>
   `,
 
   kontak: `
     <h2>Manfaat & Tujuan</h2>
     <p>
-    Sistem ini bertujuan memberikan peringatan dini terhadap potensi banjir,
-    meningkatkan keselamatan masyarakat, serta membantu mitigasi bencana
-    agar kerugian dapat diminimalisir.
+    Memberikan peringatan dini, meningkatkan keselamatan masyarakat,
+    serta membantu mitigasi bencana banjir.
     </p>
   `
 
@@ -275,12 +304,10 @@ const data = {
 
 let current = null;
 
-/* reset menu */
 function resetMenu(){
   document.querySelectorAll(".menu a").forEach(el=>el.classList.remove("active"));
 }
 
-/* ganti panel */
 function changePanel(type){
 
   const panel = document.getElementById("panel");
@@ -312,7 +339,6 @@ function changePanel(type){
   current = type;
 }
 
-/* close */
 function closePanel(){
   const panel = document.getElementById("panel");
   panel.classList.remove("show");
