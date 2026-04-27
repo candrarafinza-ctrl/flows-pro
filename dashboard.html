@@ -13,12 +13,19 @@
 
 <style>
 
-/* ===== NAVBAR (TETAP STYLE KAMU) ===== */
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6f9;
+}
+
+/* ===== NAVBAR ===== */
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 15px 40px;
+  padding: 16px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,51 +39,37 @@
   font-weight: bold;
 }
 
-/* KIRI (USER + LOGOUT) */
-.left {
+.user-box {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   color: white;
 }
 
-.left img {
-  width: 35px;
-  height: 35px;
+.user-box img {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
 }
 
-.logout {
-  background: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* MENU */
-.menu {
-  display: flex;
-  gap: 25px;
-}
-
-.menu a {
-  color: white;
-  text-decoration: none;
-}
-
-/* ===== BODY ===== */
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #f4f6f9;
-}
-
-/* ===== CONTENT ===== */
+/* ===== CONTAINER ===== */
 .container {
   padding: 110px 30px 30px;
   max-width: 1200px;
   margin: auto;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
 }
 
 /* ===== GRID ===== */
@@ -86,20 +79,9 @@ body {
   gap: 20px;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.card h3 {
-  color: #666;
-  margin-bottom: 8px;
-}
-
+/* ===== VALUE ===== */
 .value {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: bold;
 }
 
@@ -108,7 +90,23 @@ body {
 .waspada { color: #f39c12; }
 .bahaya { color: #e74c3c; }
 
-/* ===== BOTTOM ===== */
+/* ===== PROGRESS ===== */
+.progress {
+  height: 8px;
+  background: #eee;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 8px;
+  border-radius: 10px;
+  width: 0%;
+  background: #3498db;
+  transition: 0.5s;
+}
+
+/* ===== ROW ===== */
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -116,14 +114,14 @@ body {
   margin-top: 25px;
 }
 
-/* MAP */
+/* ===== MAP ===== */
 #map {
   height: 350px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
-/* RESPONSIVE */
-@media(max-width:800px){
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
   .grid {
     grid-template-columns: 1fr;
   }
@@ -139,30 +137,26 @@ body {
 
 <!-- NAVBAR -->
 <div class="navbar">
-
-  <div class="left">
-    <img id="userPhoto">
-    <span id="userName"></span>
-    <button class="logout" onclick="logout()">Logout</button>
-  </div>
-
   <div class="logo">FLOWS-PRO</div>
 
-  <div class="menu">
-    <a href="#">Dashboard</a>
-    <a href="#">Monitoring</a>
-    <a href="#">Map</a>
+  <div class="user-box">
+    <img id="userPhoto">
+    <span id="userName"></span>
   </div>
-
 </div>
 
 <div class="container">
 
-<!-- DATA -->
+<!-- TOP CARDS -->
 <div class="grid">
+
   <div class="card">
     <h3>Tinggi Air</h3>
     <div id="tinggi" class="value">-</div>
+
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
   </div>
 
   <div class="card">
@@ -171,16 +165,17 @@ body {
   </div>
 
   <div class="card">
-    <h3>Water</h3>
+    <h3>Kondisi</h3>
     <div id="water" class="value">-</div>
   </div>
+
 </div>
 
 <!-- BOTTOM -->
 <div class="row">
 
   <div class="card">
-    <h3>Grafik Ketinggian</h3>
+    <h3>Grafik Ketinggian Air</h3>
     <canvas id="chart"></canvas>
   </div>
 
@@ -211,12 +206,6 @@ async function loadUser(){
 }
 loadUser();
 
-/* LOGOUT */
-function logout(){
-  client.auth.signOut();
-  location="login.html";
-}
-
 /* MAP */
 let map = L.map('map').setView([1.666,101.45], 13);
 
@@ -240,6 +229,7 @@ async function loadData(){
     tinggi.innerText=d.tinggi_air+" cm";
     water.innerText=d.water_level;
 
+    /* STATUS */
     status.innerText=d.status;
     status.className="value";
 
@@ -247,11 +237,14 @@ async function loadData(){
     else if(d.status=="WASPADA") status.classList.add("waspada");
     else status.classList.add("bahaya");
 
+    /* PROGRESS */
+    let persen = (d.tinggi_air / 100) * 100;
+    progressBar.style.width = persen + "%";
+
+    /* MAP */
     if(marker) map.removeLayer(marker);
 
-    marker = L.marker([d.latitude,d.longitude])
-      .addTo(map)
-      .bindPopup("Lokasi Sensor");
+    marker = L.marker([d.latitude,d.longitude]).addTo(map);
 
     map.setView([d.latitude,d.longitude],14);
   }
@@ -262,7 +255,10 @@ let chart;
 
 async function loadChart(){
 
-  let { data } = await client.from("data_air").select("*").limit(10);
+  let { data } = await client.from("data_air")
+    .select("*")
+    .order("created_at",{ascending:false})
+    .limit(10);
 
   let labels=data.map((_,i)=>i+1);
   let val=data.map(d=>d.tinggi_air);
@@ -272,13 +268,18 @@ async function loadChart(){
   chart=new Chart(document.getElementById("chart"),{
     type:"line",
     data:{
-      labels:labels,
+      labels:labels.reverse(),
       datasets:[{
-        data:val,
-        borderColor:"#3498db",
+        data:val.reverse(),
+        borderColor:"#00c6ff",
         borderWidth:3,
-        tension:0.4
+        tension:0.4,
+        fill:true,
+        backgroundColor:"rgba(0,198,255,0.1)"
       }]
+    },
+    options:{
+      plugins:{legend:{display:false}}
     }
   });
 }
