@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLOWS-PRO Dashboard</title>
+<title>FLOWS-PRO</title>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,7 +13,7 @@
 
 <style>
 
-/* ===== NAVBAR (PUNYA KAMU - TIDAK DIUBAH) ===== */
+/* ===== NAVBAR (TETAP STYLE KAMU) ===== */
 .navbar {
   position: fixed;
   top: 0;
@@ -28,10 +28,33 @@
 
 .logo {
   color: white;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
 }
 
+/* KIRI (USER + LOGOUT) */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.left img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.logout {
+  background: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* MENU */
 .menu {
   display: flex;
   gap: 25px;
@@ -42,87 +65,68 @@
   text-decoration: none;
 }
 
-.auth {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.auth img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-}
-
 /* ===== BODY ===== */
 body {
   margin: 0;
   font-family: Arial;
-  background: #f5f7fa;
+  background: #f4f6f9;
 }
 
 /* ===== CONTENT ===== */
 .container {
-  padding: 110px 20px 20px;
+  padding: 110px 30px 30px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 /* ===== GRID ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap: 15px;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
 }
 
-/* ===== CARD ===== */
 .card {
   background: white;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .card h3 {
-  margin-bottom: 10px;
-  color: #555;
+  color: #666;
+  margin-bottom: 8px;
 }
 
 .value {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
 }
 
-/* ===== STATUS WARNA ===== */
+/* ===== STATUS COLOR ===== */
 .aman { color: #2ecc71; }
 .waspada { color: #f39c12; }
 .bahaya { color: #e74c3c; }
 
-/* ===== CHART + MAP GRID ===== */
+/* ===== BOTTOM ===== */
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-top: 20px;
+  gap: 20px;
+  margin-top: 25px;
 }
 
-/* ===== MAP ===== */
+/* MAP */
 #map {
   height: 350px;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
-/* ===== BUTTON ===== */
-.evakuasi-btn {
-  margin-top: 10px;
-  padding: 10px;
-  background: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* ===== RESPONSIVE ===== */
+/* RESPONSIVE */
 @media(max-width:800px){
+  .grid {
+    grid-template-columns: 1fr;
+  }
   .row {
     grid-template-columns: 1fr;
   }
@@ -135,6 +139,13 @@ body {
 
 <!-- NAVBAR -->
 <div class="navbar">
+
+  <div class="left">
+    <img id="userPhoto">
+    <span id="userName"></span>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
   <div class="logo">FLOWS-PRO</div>
 
   <div class="menu">
@@ -143,10 +154,6 @@ body {
     <a href="#">Map</a>
   </div>
 
-  <div class="auth">
-    <img id="userPhoto">
-    <span id="userName" style="color:white;"></span>
-  </div>
 </div>
 
 <div class="container">
@@ -169,7 +176,7 @@ body {
   </div>
 </div>
 
-<!-- CHART + MAP -->
+<!-- BOTTOM -->
 <div class="row">
 
   <div class="card">
@@ -180,10 +187,6 @@ body {
   <div class="card">
     <h3>Lokasi Sensor</h3>
     <div id="map"></div>
-
-    <button class="evakuasi-btn" onclick="evakuasi()">
-      Rute Evakuasi
-    </button>
   </div>
 
 </div>
@@ -207,6 +210,12 @@ async function loadUser(){
   userPhoto.src = data.user.user_metadata.avatar_url;
 }
 loadUser();
+
+/* LOGOUT */
+function logout(){
+  client.auth.signOut();
+  location="login.html";
+}
 
 /* MAP */
 let map = L.map('map').setView([1.666,101.45], 13);
@@ -240,32 +249,48 @@ async function loadData(){
 
     if(marker) map.removeLayer(marker);
 
-    marker = L.marker([d.latitude,d.longitude]).addTo(map);
+    marker = L.marker([d.latitude,d.longitude])
+      .addTo(map)
+      .bindPopup("Lokasi Sensor");
 
     map.setView([d.latitude,d.longitude],14);
   }
 }
 
-/* EVAKUASI */
-function evakuasi(){
-  navigator.geolocation.getCurrentPosition(pos => {
+/* CHART */
+let chart;
 
-    let lat = pos.coords.latitude;
-    let lon = pos.coords.longitude;
+async function loadChart(){
 
-    L.marker([lat,lon]).addTo(map);
+  let { data } = await client.from("data_air").select("*").limit(10);
 
-    L.polyline([
-      [lat,lon],
-      [1.670,101.455]
-    ], {color:'red'}).addTo(map);
+  let labels=data.map((_,i)=>i+1);
+  let val=data.map(d=>d.tinggi_air);
 
+  if(chart) chart.destroy();
+
+  chart=new Chart(document.getElementById("chart"),{
+    type:"line",
+    data:{
+      labels:labels,
+      datasets:[{
+        data:val,
+        borderColor:"#3498db",
+        borderWidth:3,
+        tension:0.4
+      }]
+    }
   });
 }
 
 /* LOOP */
-setInterval(loadData,5000);
+setInterval(()=>{
+  loadData();
+  loadChart();
+},5000);
+
 loadData();
+loadChart();
 
 </script>
 
