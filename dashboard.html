@@ -3,30 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard FLOWS PRO</title>
+<title>FLOWS PRO Dashboard</title>
 
+<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<!-- CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- LEAFLET -->
+<!-- MAP -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
-body {
-  margin: 0;
+
+/* RESET */
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
   font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f9;
+}
+
+/* BODY */
+body {
+  background:#f1f5f9;
+  display:flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width:220px;
+  height:100vh;
+  background:linear-gradient(180deg,#1e3c72,#2a5298);
+  color:white;
+  padding:20px;
+}
+
+.sidebar h2 {
+  margin-bottom:30px;
+}
+
+.sidebar a {
+  display:block;
+  margin:10px 0;
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  opacity:0.8;
+}
+
+.sidebar a:hover {
+  opacity:1;
+}
+
+/* MAIN */
+.main {
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
 
 /* HEADER */
-header {
-  background: linear-gradient(90deg,#1e3c72,#2a5298);
-  color: white;
-  padding: 15px 20px;
+.header {
+  background:white;
+  padding:15px 25px;
   display:flex;
-  justify-content: space-between;
+  justify-content:space-between;
   align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
 /* USER */
@@ -42,48 +87,82 @@ header {
   border-radius:50%;
 }
 
-/* GRID */
-.container {
+.logout {
+  background:#e74c3c;
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* CONTENT */
+.content {
   padding:20px;
 }
 
+/* GRID */
 .grid {
   display:grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
   gap:15px;
 }
 
+/* CARD */
 .card {
   background:white;
   padding:20px;
   border-radius:15px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
-  text-align:center;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  font-size:14px;
+  color:#888;
 }
 
 .value {
-  font-size:24px;
+  font-size:26px;
   font-weight:bold;
+  margin-top:5px;
+}
+
+/* STATUS COLORS */
+.aman { color:#2ecc71; }
+.waspada { color:#f39c12; }
+.bahaya { color:#e74c3c; }
+
+/* LAYOUT BAWAH */
+.row {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:15px;
+  margin-top:20px;
 }
 
 /* MAP */
 #map {
   height:350px;
-  border-radius:15px;
-  margin-top:20px;
+  border-radius:12px;
 }
 
 /* ALERT */
 #alertBox {
-  display:none;
   position:fixed;
   top:20px;
   left:50%;
   transform:translateX(-50%);
-  padding:10px 20px;
-  border-radius:10px;
+  background:red;
   color:white;
-  z-index:999;
+  padding:10px 20px;
+  border-radius:8px;
+  display:none;
+}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+  .sidebar { display:none; }
+  .row { grid-template-columns:1fr; }
 }
 
 </style>
@@ -91,19 +170,29 @@ header {
 
 <body>
 
-<header>
-  <div>🌊 FLOWS PRO</div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>🌊 FLOWS</h2>
+  <a href="#">Dashboard</a>
+  <a href="#">Monitoring</a>
+  <a href="#">Map</a>
+  <a href="#">Settings</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="header">
+  <h3>Dashboard Monitoring</h3>
 
   <div class="user">
-    <img id="userPhoto" src="">
+    <img id="userPhoto">
     <span id="userName"></span>
-    <button onclick="logout()">Logout</button>
+    <button class="logout" onclick="logout()">Logout</button>
   </div>
-</header>
+</div>
 
-<div id="alertBox"></div>
-
-<div class="container">
+<div class="content">
 
 <div class="grid">
   <div class="card">
@@ -122,14 +211,24 @@ header {
   </div>
 </div>
 
-<div class="card">
-  <h3>Grafik</h3>
-  <canvas id="chart"></canvas>
+<div class="row">
+
+  <div class="card">
+    <h3>Grafik Ketinggian</h3>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>Lokasi Sensor</h3>
+    <div id="map"></div>
+  </div>
+
 </div>
 
-<div id="map"></div>
-
 </div>
+</div>
+
+<div id="alertBox"></div>
 
 <audio id="alarm">
   <source src="https://www.soundjay.com/button/beep-07.wav">
@@ -147,13 +246,10 @@ const client = createClient(
 /* USER */
 async function loadUser(){
   const { data } = await client.auth.getUser();
+  if(!data.user) location="login.html";
 
-  if(!data.user){
-    location="login.html";
-  }
-
-  document.getElementById("userName").innerText = data.user.user_metadata.full_name;
-  document.getElementById("userPhoto").src = data.user.user_metadata.avatar_url;
+  userName.innerText = data.user.user_metadata.full_name;
+  userPhoto.src = data.user.user_metadata.avatar_url;
 }
 loadUser();
 
@@ -165,51 +261,42 @@ function logout(){
 
 /* MAP */
 let map = L.map('map').setView([1.666,101.45], 13);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-.addTo(map);
-
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 let marker;
 
 /* DATA */
 async function loadData(){
-
   let { data } = await client.from("data_air")
-    .select("*")
-    .order("created_at",{ascending:false})
-    .limit(1);
+    .select("*").order("created_at",{ascending:false}).limit(1);
 
   if(data.length){
-
     let d=data[0];
 
     tinggi.innerText=d.tinggi_air+" cm";
-    status.innerText=d.status;
     water.innerText=d.water_level;
 
-    /* MAP UPDATE */
+    status.innerText=d.status;
+    status.className="value";
+
+    if(d.status=="AMAN") status.classList.add("aman");
+    else if(d.status=="WASPADA") status.classList.add("waspada");
+    else status.classList.add("bahaya");
+
     if(marker) map.removeLayer(marker);
 
-    marker = L.marker([d.latitude, d.longitude])
-      .addTo(map)
-      .bindPopup("Lokasi Sensor")
-      .openPopup();
+    marker = L.marker([d.latitude,d.longitude]).addTo(map);
+    map.setView([d.latitude,d.longitude],14);
 
-    map.setView([d.latitude, d.longitude], 14);
+    let alertBox=document.getElementById("alertBox");
+    let alarm=document.getElementById("alarm");
 
-    /* NOTIF */
-    let alertBox = document.getElementById("alertBox");
-    let alarm = document.getElementById("alarm");
-
-    if(d.status=="AMAN"){
+    if(d.status!="AMAN"){
+      alertBox.innerText=d.status;
+      alertBox.style.display="block";
+      alarm.play();
+    } else {
       alertBox.style.display="none";
       alarm.pause();
-    }
-    else{
-      alertBox.innerText = d.status;
-      alertBox.style.display="block";
-      alertBox.style.background="red";
-      alarm.play();
     }
   }
 }
@@ -218,30 +305,28 @@ async function loadData(){
 let chart;
 
 async function loadChart(){
-
-  let { data } = await client.from("data_air")
-    .select("*")
-    .limit(10);
+  let { data } = await client.from("data_air").select("*").limit(10);
 
   let labels=data.map((_,i)=>i+1);
   let val=data.map(d=>d.tinggi_air);
 
   if(chart) chart.destroy();
 
-  chart=new Chart(document.getElementById("chart"),{
+  chart=new Chart(chartCanvas,{
     type:"line",
     data:{
       labels:labels,
       datasets:[{
         label:"Tinggi Air",
         data:val,
-        borderWidth:3
+        borderColor:"#3498db",
+        borderWidth:3,
+        tension:0.4
       }]
     }
   });
 }
 
-/* LOOP */
 setInterval(()=>{
   loadData();
   loadChart();
