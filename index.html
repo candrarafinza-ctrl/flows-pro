@@ -6,17 +6,18 @@
 <title>FLOWS-PRO</title>
 
 <style>
+
+/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* ===== TRANSISI HALAMAN ===== */
 body {
   overflow-x: hidden;
-  transition: opacity 0.4s ease;
+  background: #f5f7fa;
 }
 
 /* ===== NAVBAR ===== */
@@ -24,118 +25,108 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 15px 40px;
+  padding: 18px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(90deg, #7b2ff7, #00c6ff);
   z-index: 1000;
-  transition: 0.3s;
-}
-
-.navbar.scrolled {
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
 
 .logo {
   color: white;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
 }
 
-/* ===== MENU ===== */
-.menu {
-  display: flex;
-  gap: 25px;
-}
-
-.menu a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-/* ===== AUTH BUTTON ===== */
-.auth {
-  display: flex;
-  gap: 10px;
-}
-
-.btn {
-  padding: 8px 18px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-/* hover & klik */
-.btn:hover {
-  transform: scale(1.1);
-}
-
-.btn:active {
-  transform: scale(0.95);
-}
-
-/* tombol */
-.daftar {
-  border: 1px solid white;
-  color: white;
-}
-
-.masuk {
+.btn-login {
   background: white;
   color: black;
+  padding: 8px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-login:hover {
+  transform: scale(1.05);
 }
 
 /* ===== HERO ===== */
 .hero {
-  width: 100%;
   height: 100vh;
   position: relative;
-  overflow: hidden;
 }
 
-/* background blur */
+/* background */
 .hero::before {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url('Desain tanpa judul (1).png');
+  background-image: url('banjir.jpg'); /* ganti pakai gambar kamu */
   background-size: cover;
   background-position: center;
-  filter: blur(2px);
-  transform: scale(1.05);
-  z-index: 1;
+  filter: brightness(0.6);
 }
 
-/* overlay konten */
-.overlay {
+/* overlay */
+.hero-content {
   position: relative;
   z-index: 2;
   color: white;
-  text-align: center;
+  text-align: left;
   top: 50%;
   transform: translateY(-50%);
-  padding: 20px;
+  padding: 0 40px;
+  max-width: 700px;
   animation: fadeIn 1.5s ease;
 }
 
-.overlay h1 {
+.hero h1 {
   font-size: 42px;
   margin-bottom: 15px;
 }
 
-.overlay p {
+.hero p {
   font-size: 18px;
-  max-width: 700px;
-  margin: auto;
   line-height: 1.6;
 }
 
-/* animasi masuk */
+/* CTA */
+.cta {
+  margin-top: 20px;
+}
+
+.cta a {
+  display: inline-block;
+  padding: 12px 25px;
+  background: #00c6ff;
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.cta a:hover {
+  background: #009ec3;
+}
+
+/* ===== SECTION ===== */
+.section {
+  padding: 80px 40px;
+}
+
+.section h2 {
+  margin-bottom: 10px;
+}
+
+.section p {
+  max-width: 700px;
+  line-height: 1.7;
+}
+
+/* ===== ANIMASI ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -147,46 +138,21 @@ body {
   }
 }
 
-/* ===== SECTION ===== */
-.section {
-  padding: 80px 30px;
-  background: #f5f5f5;
-}
+/* ===== MOBILE ===== */
+@media(max-width:768px){
 
-.section h2 {
-  margin-bottom: 15px;
-  color: #0d47a1;
-}
-
-.section p {
-  max-width: 800px;
-  line-height: 1.7;
-}
-
-ul {
-  max-width: 800px;
-  padding-left: 20px;
-  line-height: 1.8;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-
-  .overlay h1 {
-    font-size: 24px;
+  .hero h1 {
+    font-size: 26px;
   }
 
-  .overlay p {
+  .hero p {
     font-size: 14px;
   }
 
-  .menu {
-    display: none;
+  .hero-content {
+    padding: 0 20px;
   }
 
-  .navbar {
-    padding: 15px 20px;
-  }
 }
 
 </style>
@@ -197,87 +163,32 @@ ul {
 <!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">FLOWS-PRO</div>
-
-  <div class="menu">
-    <a href="#">Proyek</a>
-    <a href="#">Produk</a>
-    <a href="#">Edukasi</a>
-    <a href="#">Bantuan</a>
-  </div>
-
-  <div class="auth">
-    <!-- ❗ REGISTER DIGANTI JADI MULAI -->
-    <a href="login.html" class="btn daftar">Mulai</a>
-    <a href="login.html" class="btn masuk">Masuk</a>
-  </div>
+  <a href="login.html" class="btn-login">Login</a>
 </div>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="overlay">
-    <h1>Sistem Monitoring Banjir</h1>
+  <div class="hero-content">
+    <h1>Monitoring Banjir Real-Time</h1>
     <p>
-      FLOWS-PRO adalah sistem berbasis IoT yang dirancang untuk memantau kondisi banjir secara real-time 
-      menggunakan sensor ketinggian air, arus, dan lingkungan. Sistem ini membantu memberikan informasi cepat 
-      dan akurat untuk mengurangi risiko bencana.
+      Sistem berbasis IoT untuk mendeteksi dan memantau kondisi banjir secara akurat 
+      dan cepat demi keselamatan masyarakat.
     </p>
+
+    <div class="cta">
+      <a href="login.html">Masuk ke Dashboard</a>
+    </div>
   </div>
 </section>
 
-<!-- PENJELASAN -->
+<!-- INFO -->
 <section class="section">
-  <h2>Tentang Web FLOWS-PRO</h2>
+  <h2>Tentang Sistem</h2>
   <p>
-    Web ini berfungsi sebagai pusat monitoring data banjir berbasis IoT yang terintegrasi dengan sensor lapangan. 
-    Data ditampilkan secara visual dan real-time untuk membantu masyarakat dan pihak terkait dalam mengambil keputusan cepat.
+    FLOWS-PRO membantu memonitor kondisi air secara real-time dan memberikan 
+    informasi penting untuk mitigasi bencana banjir.
   </p>
 </section>
-
-<!-- RUMUSAN MASALAH -->
-<section class="section">
-  <h2>Rumusan Masalah</h2>
-  <ul>
-    <li>Bagaimana memantau banjir secara real-time?</li>
-    <li>Bagaimana memberikan peringatan dini?</li>
-    <li>Bagaimana integrasi data sensor?</li>
-    <li>Bagaimana membantu mitigasi bencana?</li>
-  </ul>
-</section>
-
-<!-- SCRIPT -->
-<script>
-
-/* ===== TRANSISI PINDAH HALAMAN ===== */
-document.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", function(e) {
-
-    let href = this.getAttribute("href");
-
-    if(href && href !== "#") {
-      e.preventDefault();
-
-      document.body.style.opacity = "0";
-
-      setTimeout(() => {
-        window.location.href = href;
-      }, 300);
-    }
-
-  });
-});
-
-/* ===== NAVBAR SCROLL EFFECT ===== */
-window.addEventListener("scroll", function() {
-  const navbar = document.querySelector(".navbar");
-
-  if(window.scrollY > 50) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
-});
-
-</script>
 
 </body>
 </html>
