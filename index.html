@@ -13,10 +13,10 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
-  overflow-x: hidden;
   background: #f5f7fa;
 }
 
@@ -29,7 +29,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(90deg, #7b2ff7, #00c6ff);
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
   z-index: 1000;
 }
 
@@ -39,7 +39,36 @@ body {
   font-weight: bold;
 }
 
-.btn-login {
+.menu {
+  display: flex;
+  gap: 30px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  position: relative;
+}
+
+/* underline animasi */
+.menu a::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: white;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  transition: 0.3s;
+}
+
+.menu a:hover::after {
+  width: 100%;
+}
+
+/* login */
+.login-btn {
   background: white;
   color: black;
   padding: 8px 18px;
@@ -48,7 +77,7 @@ body {
   transition: 0.3s;
 }
 
-.btn-login:hover {
+.login-btn:hover {
   transform: scale(1.05);
 }
 
@@ -58,24 +87,21 @@ body {
   position: relative;
 }
 
-/* background */
 .hero::before {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url('Desain tana judul(1).png'); /* ganti pakai gambar kamu */
+  background-image: url('Desain tanpa judul (1).png');
   background-size: cover;
   background-position: center;
   filter: brightness(0.6);
 }
 
-/* overlay */
 .hero-content {
   position: relative;
   z-index: 2;
   color: white;
-  text-align: left;
   top: 50%;
   transform: translateY(-50%);
   padding: 0 40px;
@@ -93,13 +119,11 @@ body {
   line-height: 1.6;
 }
 
-/* CTA */
 .cta {
   margin-top: 20px;
 }
 
 .cta a {
-  display: inline-block;
   padding: 12px 25px;
   background: #00c6ff;
   color: white;
@@ -114,14 +138,27 @@ body {
 
 /* ===== SECTION ===== */
 .section {
-  padding: 80px 40px;
+  padding: 90px 40px;
 }
 
 .section h2 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.section p {
+.section-content {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+/* icon */
+.icon-box {
+  font-size: 40px;
+}
+
+/* text */
+.text-box {
   max-width: 700px;
   line-height: 1.7;
 }
@@ -138,8 +175,12 @@ body {
   }
 }
 
-/* ===== MOBILE ===== */
+/* ===== RESPONSIVE ===== */
 @media(max-width:768px){
+
+  .menu {
+    display: none;
+  }
 
   .hero h1 {
     font-size: 26px;
@@ -149,8 +190,9 @@ body {
     font-size: 14px;
   }
 
-  .hero-content {
-    padding: 0 20px;
+  .section-content {
+    flex-direction: column;
+    text-align: center;
   }
 
 }
@@ -163,7 +205,14 @@ body {
 <!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">FLOWS-PRO</div>
-  <a href="login.html" class="btn-login">Login</a>
+
+  <div class="menu">
+    <a href="#tentang">Tentang</a>
+    <a href="#fitur">Fitur</a>
+    <a href="#kontak">Kontak</a>
+  </div>
+
+  <a href="login.html" class="login-btn">Login</a>
 </div>
 
 <!-- HERO -->
@@ -171,23 +220,52 @@ body {
   <div class="hero-content">
     <h1>Monitoring Banjir Real-Time</h1>
     <p>
-      Sistem berbasis IoT untuk mendeteksi dan memantau kondisi banjir secara akurat 
-      dan cepat demi keselamatan masyarakat.
+      Sistem berbasis IoT untuk mendeteksi dan memantau kondisi banjir secara cepat,
+      akurat, dan membantu keselamatan masyarakat.
     </p>
 
     <div class="cta">
-      <a href="login.html">Masuk ke Dashboard</a>
+      <a href="login.html">Masuk Dashboard</a>
     </div>
   </div>
 </section>
 
-<!-- INFO -->
-<section class="section">
-  <h2>Tentang Sistem</h2>
-  <p>
-    FLOWS-PRO membantu memonitor kondisi air secara real-time dan memberikan 
-    informasi penting untuk mitigasi bencana banjir.
-  </p>
+<!-- TENTANG -->
+<section id="tentang" class="section">
+  <h2>Tentang Alat</h2>
+  <div class="section-content">
+    <div class="icon-box">🌊</div>
+    <div class="text-box">
+      FLOWS-PRO merupakan sistem monitoring banjir berbasis IoT yang mampu mendeteksi
+      ketinggian air secara real-time dan memberikan informasi yang cepat serta akurat
+      kepada masyarakat.
+    </div>
+  </div>
+</section>
+
+<!-- FITUR -->
+<section id="fitur" class="section">
+  <h2>Cara Kerja</h2>
+  <div class="section-content">
+    <div class="icon-box">⚙️</div>
+    <div class="text-box">
+      Sensor membaca ketinggian air dan kondisi lingkungan, kemudian data dikirim
+      ke server dan ditampilkan melalui website dalam bentuk monitoring real-time,
+      grafik, dan peta lokasi.
+    </div>
+  </div>
+</section>
+
+<!-- MANFAAT -->
+<section id="kontak" class="section">
+  <h2>Manfaat & Tujuan</h2>
+  <div class="section-content">
+    <div class="icon-box">🎯</div>
+    <div class="text-box">
+      Sistem ini bertujuan untuk memberikan peringatan dini terhadap potensi banjir,
+      membantu pengambilan keputusan, serta meningkatkan keselamatan masyarakat.
+    </div>
+  </div>
 </section>
 
 </body>
