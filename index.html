@@ -45,15 +45,15 @@ body {
 .menu a {
   color:white;
   cursor:pointer;
-  padding:6px 12px;
+  padding:6px 14px;
   border-radius:8px;
   transition:0.3s;
 }
 
-/* efek timbul */
+/* efek aktif */
 .menu a.active {
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(5px);
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(6px);
   transform: translateY(-2px);
 }
 
@@ -96,10 +96,11 @@ body {
 
 .hero h1 {
   font-size:42px;
+  margin-bottom:10px;
 }
 
 .hero p {
-  margin-top:10px;
+  font-size:17px;
   line-height:1.6;
 }
 
@@ -109,10 +110,11 @@ body {
 
 .cta a {
   background:#00c6ff;
-  padding:12px 24px;
+  padding:12px 26px;
   border-radius:10px;
   text-decoration:none;
   color:white;
+  font-weight:500;
   transition:0.3s;
 }
 
@@ -120,19 +122,22 @@ body {
   background:#009ec3;
 }
 
-/* PANEL */
+/* PANEL (LEMBARAN) */
 .overlay {
   position:fixed;
   top:-80%;
   left:0;
   width:100%;
   height:70%;
-  backdrop-filter: blur(18px);
-  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+  background: rgba(0,0,0,0.35);
   transition:0.5s ease;
   z-index:999;
-  padding:50px;
-  color:white;
+
+  padding-top:90px; /* biar gak ketutup navbar */
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
 }
 
 .overlay.show {
@@ -143,18 +148,28 @@ body {
   top:-80%;
 }
 
-/* PANEL CONTENT */
-.panel-content {
-  max-width:900px;
-  margin:auto;
+/* BOX DALAM PANEL */
+.panel-box {
+  width:90%;
+  max-width:800px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(15px);
+  padding:30px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   animation: fadeIn 0.5s;
+  color:white;
 }
 
-.panel-content h2 {
+/* TYPOGRAPHY */
+.panel-box h2 {
+  font-size:26px;
   margin-bottom:15px;
 }
 
-.panel-content p {
+.panel-box p {
+  font-size:16px;
   line-height:1.8;
 }
 
@@ -181,6 +196,7 @@ body {
 @media(max-width:768px){
   .menu {display:none;}
   .hero h1 {font-size:26px;}
+  .hero p {font-size:14px;}
 }
 
 </style>
@@ -207,7 +223,7 @@ body {
     <h1>Monitoring Banjir Real-Time</h1>
     <p>
       Sistem berbasis IoT untuk mendeteksi kondisi air secara cepat dan akurat
-      guna meningkatkan keselamatan masyarakat.
+      guna meningkatkan keselamatan masyarakat dari risiko banjir.
     </p>
 
     <div class="cta">
@@ -218,47 +234,53 @@ body {
 
 <!-- PANEL -->
 <div id="panel" class="overlay">
-  <div id="panelContent" class="panel-content"></div>
+  <div class="panel-box" id="panelContent"></div>
 </div>
 
 <div id="closeArea" class="close-area" onclick="closePanel()"></div>
 
 <script>
 
-/* DATA */
 const data = {
+
   tentang: `
     <h2>Tentang Sistem</h2>
     <p>
-    FLOWS-PRO merupakan sistem monitoring banjir berbasis IoT yang mampu
-    memberikan informasi kondisi air secara real-time untuk membantu
-    masyarakat dalam menghadapi potensi banjir.
+    FLOWS-PRO adalah sistem monitoring banjir berbasis Internet of Things (IoT)
+    yang dirancang untuk memberikan informasi kondisi air secara real-time.
+    Sistem ini membantu masyarakat dalam mengambil tindakan cepat untuk
+    mengurangi risiko dan dampak bencana banjir.
     </p>
   `,
+
   fitur: `
-    <h2>Cara Kerja</h2>
+    <h2>Cara Kerja Sistem</h2>
     <p>
-    Sensor membaca ketinggian air, data dikirim ke server, lalu ditampilkan
-    melalui website secara real-time dalam bentuk monitoring dan peta.
+    Sensor membaca ketinggian air di lapangan, kemudian data dikirim ke server
+    dan ditampilkan melalui website dalam bentuk monitoring real-time,
+    grafik, serta peta lokasi yang mudah dipahami.
     </p>
   `,
+
   kontak: `
     <h2>Manfaat & Tujuan</h2>
     <p>
-    Memberikan peringatan dini, meningkatkan keselamatan masyarakat,
-    serta membantu pengambilan keputusan saat kondisi darurat banjir.
+    Sistem ini bertujuan memberikan peringatan dini terhadap potensi banjir,
+    meningkatkan keselamatan masyarakat, serta membantu mitigasi bencana
+    agar kerugian dapat diminimalisir.
     </p>
   `
+
 };
 
 let current = null;
 
-/* RESET ACTIVE MENU */
+/* reset menu */
 function resetMenu(){
   document.querySelectorAll(".menu a").forEach(el=>el.classList.remove("active"));
 }
 
-/* GANTI PANEL */
+/* ganti panel */
 function changePanel(type){
 
   const panel = document.getElementById("panel");
@@ -290,7 +312,7 @@ function changePanel(type){
   current = type;
 }
 
-/* CLOSE */
+/* close */
 function closePanel(){
   const panel = document.getElementById("panel");
   panel.classList.remove("show");
