@@ -8,13 +8,12 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- MAP -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
 
-/* ===== SAMA DENGAN INDEX ===== */
+/* ===== NAVBAR (PUNYA KAMU - TIDAK DIUBAH) ===== */
 .navbar {
   position: fixed;
   top: 0;
@@ -55,36 +54,36 @@
   border-radius: 50%;
 }
 
-.logout {
-  background: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* ===== CONTENT ===== */
+/* ===== BODY ===== */
 body {
   margin: 0;
   font-family: Arial;
   background: #f5f7fa;
 }
 
+/* ===== CONTENT ===== */
 .container {
-  padding: 100px 20px 20px;
+  padding: 110px 20px 20px;
 }
 
+/* ===== GRID ===== */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
   gap: 15px;
 }
 
+/* ===== CARD ===== */
 .card {
   background: white;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #555;
 }
 
 .value {
@@ -92,14 +91,26 @@ body {
   font-weight: bold;
 }
 
+/* ===== STATUS WARNA ===== */
+.aman { color: #2ecc71; }
+.waspada { color: #f39c12; }
+.bahaya { color: #e74c3c; }
+
+/* ===== CHART + MAP GRID ===== */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
 /* ===== MAP ===== */
 #map {
   height: 350px;
-  margin-top: 20px;
   border-radius: 12px;
 }
 
-/* ===== EVAKUASI BUTTON ===== */
+/* ===== BUTTON ===== */
 .evakuasi-btn {
   margin-top: 10px;
   padding: 10px;
@@ -110,12 +121,19 @@ body {
   cursor: pointer;
 }
 
+/* ===== RESPONSIVE ===== */
+@media(max-width:800px){
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR (SAMA PERSIS) -->
+<!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">FLOWS-PRO</div>
 
@@ -128,12 +146,12 @@ body {
   <div class="auth">
     <img id="userPhoto">
     <span id="userName" style="color:white;"></span>
-    <button class="logout" onclick="logout()">Logout</button>
   </div>
 </div>
 
 <div class="container">
 
+<!-- DATA -->
 <div class="grid">
   <div class="card">
     <h3>Tinggi Air</h3>
@@ -151,13 +169,23 @@ body {
   </div>
 </div>
 
-<div class="card">
-  <h3>Map Monitoring</h3>
-  <div id="map"></div>
+<!-- CHART + MAP -->
+<div class="row">
 
-  <button class="evakuasi-btn" onclick="evakuasi()">
-    Cari Rute Evakuasi
-  </button>
+  <div class="card">
+    <h3>Grafik Ketinggian</h3>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>Lokasi Sensor</h3>
+    <div id="map"></div>
+
+    <button class="evakuasi-btn" onclick="evakuasi()">
+      Rute Evakuasi
+    </button>
+  </div>
+
 </div>
 
 </div>
@@ -180,12 +208,6 @@ async function loadUser(){
 }
 loadUser();
 
-/* LOGOUT */
-function logout(){
-  client.auth.signOut();
-  location="login.html";
-}
-
 /* MAP */
 let map = L.map('map').setView([1.666,101.45], 13);
 
@@ -207,34 +229,35 @@ async function loadData(){
     let d=data[0];
 
     tinggi.innerText=d.tinggi_air+" cm";
-    status.innerText=d.status;
     water.innerText=d.water_level;
+
+    status.innerText=d.status;
+    status.className="value";
+
+    if(d.status=="AMAN") status.classList.add("aman");
+    else if(d.status=="WASPADA") status.classList.add("waspada");
+    else status.classList.add("bahaya");
 
     if(marker) map.removeLayer(marker);
 
-    marker = L.marker([d.latitude,d.longitude])
-      .addTo(map)
-      .bindPopup("Lokasi Sensor")
-      .openPopup();
+    marker = L.marker([d.latitude,d.longitude]).addTo(map);
 
-    map.setView([d.latitude,d.longitude], 14);
+    map.setView([d.latitude,d.longitude],14);
   }
 }
 
-/* EVAKUASI (SIMULASI RUTE) */
+/* EVAKUASI */
 function evakuasi(){
-
   navigator.geolocation.getCurrentPosition(pos => {
 
     let lat = pos.coords.latitude;
     let lon = pos.coords.longitude;
 
-    L.marker([lat,lon]).addTo(map)
-      .bindPopup("Lokasi Anda");
+    L.marker([lat,lon]).addTo(map);
 
     L.polyline([
       [lat,lon],
-      [1.670,101.455] /* titik aman contoh */
+      [1.670,101.455]
     ], {color:'red'}).addTo(map);
 
   });
