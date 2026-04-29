@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOWS-PRO - Akses</title>
+
+<style>
+
+/* RESET */
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body {
+  height:100vh;
+  overflow:hidden;
+}
+
+/* BACKGROUND */
+body::before {
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:url('Desain tanpa judul (1).png') center/cover;
+  filter:brightness(0.6);
+}
+
+/* CONTAINER */
+.container {
+  position:relative;
+  z-index:2;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* BOX */
+.box {
+  width:90%;
+  max-width:400px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(15px);
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  color:white;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+
+  animation: fadeUp 1s ease;
+}
+
+/* TEXT */
+.box h2 {
+  margin-bottom:20px;
+  font-size:22px;
+}
+
+/* BUTTON */
+.btn {
+  display:block;
+  margin:10px 0;
+  padding:12px;
+  border-radius:10px;
+  text-decoration:none;
+  color:white;
+  transition:0.3s;
+}
+
+/* BELUM */
+.belum {
+  background:#00c6ff;
+}
+
+.belum:hover {
+  background:#009ec3;
+}
+
+/* SUDAH */
+.sudah {
+  background:#6a11cb;
+}
+
+.sudah:hover {
+  background:#4e0aa8;
+}
+
+/* ANIMASI */
+@keyframes fadeUp {
+  from {opacity:0; transform:translateY(40px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="box">
+    <h2>Apakah Anda sudah memiliki akun<br>yang tertaut dengan FLOWS-PRO?</h2>
+
+    <a href="register.html" class="btn belum">Belum</a>
+    <a href="auth.html" class="btn sudah">Sudah</a>
+  </div>
+</div>
+
+</body>
+</html>
