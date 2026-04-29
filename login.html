@@ -3,133 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login FLOWS PRO</title>
+<title>Login - FLOWS PRO</title>
 
-<!-- SUPABASE -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
 /* RESET */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
 }
 
-/* BODY */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  animation: pageFade 1s ease;
-}
-
-/* ANIMASI MASUK HALAMAN */
-@keyframes pageFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  height:100vh;
+  overflow:hidden;
 }
 
 /* BACKGROUND */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: url('banjir.jpg') no-repeat center center/cover;
-  filter: brightness(0.5) blur(3px);
-  z-index: -2;
-  animation: zoomBg 2s ease;
+body::before {
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:url('Desain tanpa judul (1).png') center/cover;
+  filter:brightness(0.6);
 }
 
-/* ANIMASI BACKGROUND */
-@keyframes zoomBg {
-  from {
-    transform: scale(1.2);
-  }
-  to {
-    transform: scale(1);
-  }
+/* CONTAINER */
+.container {
+  position:relative;
+  z-index:2;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-/* OVERLAY */
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.3);
-  z-index: -1;
+/* BOX */
+.box {
+  width:90%;
+  max-width:400px;
+
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.3);
+
+  border-radius:20px;
+  padding:40px;
+  color:white;
+
+  animation:fadeUp 0.8s ease;
 }
 
-/* CARD LOGIN */
-.card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  background: rgba(255,255,255,0.95);
-  padding: 35px;
-  border-radius: 20px;
-  text-align: center;
-  width: 320px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  animation: cardIn 1s ease forwards;
+.box h2 {
+  text-align:center;
+  margin-bottom:20px;
 }
 
-/* ANIMASI CARD */
-@keyframes cardIn {
-  to {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
+/* INPUT */
+.input-group {
+  margin-bottom:15px;
 }
 
-/* TITLE */
-.card h2 {
-  margin-bottom: 20px;
+.input-group input {
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:none;
 }
 
 /* BUTTON */
-.login-btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #4285F4;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.btn {
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  margin-top:10px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-/* HOVER */
-.login-btn:hover {
-  transform: scale(1.05);
-  background: #3367d6;
+.primary {
+  background:#00c6ff;
+  color:white;
 }
 
-/* CLICK */
-.login-btn:active {
-  transform: scale(0.95);
+.google {
+  background:white;
+  color:black;
 }
 
-/* FOOTER TEXT */
-.small {
-  margin-top: 15px;
-  font-size: 12px;
-  color: #555;
+/* LINK */
+.link {
+  text-align:center;
+  margin-top:15px;
 }
 
-/* RESPONSIVE */
-@media(max-width:500px){
-  .card {
-    width: 90%;
-    padding: 25px;
-  }
+.link a {
+  color:white;
+}
+
+/* ANIMASI */
+@keyframes fadeUp {
+  from {opacity:0; transform:translateY(40px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 </style>
@@ -137,48 +117,67 @@ body {
 
 <body>
 
-<div class="bg"></div>
-<div class="overlay"></div>
+<div class="container">
+  <div class="box">
 
-<div class="card">
-  <h2>Login FLOWS PRO</h2>
+    <h2>Masuk ke FLOWS-PRO</h2>
 
-  <button class="login-btn" onclick="loginGoogle()">
-    Login dengan Google
-  </button>
+    <!-- EMAIL LOGIN -->
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Email">
+    </div>
 
-  <div class="small">
-    Sistem Monitoring Banjir Real-Time
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <button class="btn primary" onclick="loginEmail()">Masuk</button>
+
+    <hr style="margin:20px 0; opacity:0.3;">
+
+    <!-- GOOGLE LOGIN -->
+    <button class="btn google" onclick="loginGoogle()">Masuk dengan Google</button>
+
+    <div class="link">
+      <p>Belum punya akun? <a href="register.html">Daftar</a></p>
+    </div>
+
   </div>
 </div>
 
 <script>
 
-/* ================= SUPABASE ================= */
-const SUPABASE_URL = "https://hceblnmngnnexxtkeiev.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs";
+/* ===== SUPABASE CONFIG ===== */
+const supabase = window.supabase.createClient(
+  "YOUR_SUPABASE_URL",
+  "YOUR_ANON_KEY"
+);
 
-const { createClient } = supabase;
-const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+/* ===== LOGIN EMAIL ===== */
+async function loginEmail(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-/* ================= LOGIN ================= */
-async function loginGoogle() {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
 
-  document.body.style.opacity = "0";
-  document.body.style.transition = "0.4s";
+  if(error){
+    alert("Login gagal!");
+  } else {
+    window.location.href = "dashboard.html";
+  }
+}
 
-  setTimeout(async () => {
-    const { error } = await client.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin + "/dashboard.html"
-      }
-    });
-
-    if (error) {
-      alert("Login gagal: " + error.message);
+/* ===== LOGIN GOOGLE ===== */
+async function loginGoogle(){
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin + "/dashboard.html"
     }
-  }, 400);
+  });
 }
 
 </script>
