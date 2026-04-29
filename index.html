@@ -7,7 +7,7 @@
 
 <style>
 
-/* RESET */
+/* ===== RESET ===== */
 * {
   margin:0;
   padding:0;
@@ -19,7 +19,7 @@ body {
   overflow:hidden;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .navbar {
   position:fixed;
   width:100%;
@@ -63,7 +63,7 @@ body {
   cursor:pointer;
 }
 
-/* HERO */
+/* ===== HERO ===== */
 .hero {
   height:100vh;
   position:relative;
@@ -119,7 +119,7 @@ body {
   color:white;
 }
 
-/* PANEL */
+/* ===== PANEL LAMA (TETAP ADA) ===== */
 .overlay {
   position:fixed;
   top:-80%;
@@ -154,7 +154,35 @@ body {
 
 .close-area.show { display:block; }
 
-/* ===== LOGIN MODAL (GLASS PREMIUM) ===== */
+/* ===== PANEL BARU (HOVER) ===== */
+.menu-panel {
+  position:fixed;
+  top:90px;
+  left:50%;
+  transform:translateX(-50%) translateY(-10px);
+
+  background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.3);
+
+  padding:20px 25px;
+  border-radius:16px;
+  color:white;
+  max-width:450px;
+  text-align:center;
+
+  opacity:0;
+  pointer-events:none;
+  transition:0.25s;
+}
+
+.menu-panel.show {
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+  pointer-events:auto;
+}
+
+/* ===== LOGIN MODAL ===== */
 .auth-modal {
   position:fixed;
   width:100%;
@@ -166,7 +194,6 @@ body {
   align-items:center;
   background: rgba(0,0,0,0.4);
   z-index:2000;
-
   opacity:0;
   visibility:hidden;
   transition:0.4s;
@@ -177,87 +204,52 @@ body {
   visibility:visible;
 }
 
-/* BOX */
 .auth-box {
   width:80%;
   max-width:900px;
-
-  /* GLASS EFFECT */
   background: rgba(255,255,255,0.2);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.3);
-
   border-radius:20px;
   padding:50px;
   text-align:center;
-
-  box-shadow:0 20px 50px rgba(0,0,0,0.4);
-  animation: fadeUp 0.5s ease;
 }
 
-/* TITLE */
 .auth-box h1 {
   font-size:32px;
   color:white;
   margin-bottom:20px;
 }
 
-/* DESC */
 .auth-box p {
   color:rgba(255,255,255,0.8);
   margin-bottom:40px;
 }
 
-/* OPTIONS */
 .auth-options {
   display:flex;
   justify-content:center;
   gap:40px;
-  flex-wrap:wrap;
 }
 
-.opt {
-  width:250px;
-}
-
-.opt span {
-  display:block;
-  margin-bottom:15px;
-  color:rgba(255,255,255,0.9);
-}
-
-/* BUTTON */
 .btn {
-  display:block;
-  padding:14px;
+  padding:12px;
   border-radius:10px;
   text-decoration:none;
-  font-weight:600;
 }
 
-/* PUTIH */
-.putih {
-  background:#f0f0f0;
-  color:black;
-}
+.putih { background:#eee; color:black; }
+.hitam { background:black; color:white; }
 
-/* HITAM */
-.hitam {
-  background:black;
-  color:white;
-}
-
-/* CLOSE */
 .close-btn {
   position:absolute;
   top:20px;
   right:30px;
-  font-size:24px;
   cursor:pointer;
   color:white;
 }
 
-/* ANIMASI */
+/* ===== ANIMASI ===== */
 @keyframes slideDown {
   from {transform: translateY(-100%);}
   to {transform: translateY(0);}
@@ -273,11 +265,6 @@ body {
   to {opacity:1;}
 }
 
-@media(max-width:768px){
-  .menu {display:none;}
-  .hero h1 {font-size:26px;}
-}
-
 </style>
 </head>
 
@@ -288,9 +275,9 @@ body {
   <div class="logo">FLOWS-PRO</div>
 
   <div class="menu">
-    <a onclick="changePanel('tentang')">Tentang</a>
-    <a onclick="changePanel('fitur')">Fitur</a>
-    <a onclick="changePanel('kontak')">Kontak</a>
+    <a onmouseenter="hoverMenu('tentang')" onclick="lockMenu('tentang')">Tentang</a>
+    <a onmouseenter="hoverMenu('fitur')" onclick="lockMenu('fitur')">Fitur</a>
+    <a onmouseenter="hoverMenu('kontak')" onclick="lockMenu('kontak')">Kontak</a>
   </div>
 
   <button class="login" onclick="openAuth()">Login</button>
@@ -308,7 +295,10 @@ body {
   </div>
 </div>
 
-<!-- PANEL -->
+<!-- PANEL BARU -->
+<div id="menuPanel" class="menu-panel"></div>
+
+<!-- PANEL LAMA (TIDAK DIHAPUS) -->
 <div id="panel" class="overlay">
   <div id="panelContent" class="panel-box"></div>
 </div>
@@ -318,26 +308,15 @@ body {
 <!-- LOGIN MODAL -->
 <div id="authModal" class="auth-modal">
   <div class="auth-box">
-
     <div class="close-btn" onclick="closeAuth()">✕</div>
 
     <h1>Akses Akun FLOWS-PRO</h1>
     <p>Silakan pilih metode akses untuk melanjutkan ke sistem monitoring</p>
 
     <div class="auth-options">
-
-      <div class="opt">
-        <span>Belum memiliki akun?</span>
-        <a href="register.html" class="btn putih">Buat Akun</a>
-      </div>
-
-      <div class="opt">
-        <span>Sudah memiliki akun?</span>
-        <a href="login.html" class="btn hitam">Masuk</a>
-      </div>
-
+      <a href="register.html" class="btn putih">Buat Akun</a>
+      <a href="login.html" class="btn hitam">Masuk</a>
     </div>
-
   </div>
 </div>
 
@@ -347,18 +326,60 @@ body {
 function openAuth(){
   document.getElementById("authModal").classList.add("show");
 }
-
 function closeAuth(){
   document.getElementById("authModal").classList.remove("show");
 }
 
-/* PANEL */
+/* DATA */
 const data = {
-  tentang: "<h2>Tentang</h2><p>Sistem monitoring banjir berbasis IoT.</p>",
-  fitur: "<h2>Cara Kerja</h2><p>Sensor kirim data real-time ke web.</p>",
-  kontak: "<h2>Manfaat</h2><p>Meningkatkan keselamatan masyarakat.</p>"
+  tentang: "<h3>Tentang</h3><p>FLOWS-PRO adalah sistem monitoring banjir berbasis IoT.</p>",
+  fitur: "<h3>Fitur</h3><p>Monitoring real-time, sensor air, dan visualisasi data.</p>",
+  kontak: "<h3>Manfaat</h3><p>Meningkatkan keselamatan dan mitigasi bencana.</p>"
 };
 
+let locked = false;
+
+/* HOVER */
+function hoverMenu(type){
+  if(locked) return;
+  let panel = document.getElementById("menuPanel");
+  panel.innerHTML = data[type];
+  panel.classList.add("show");
+}
+
+/* CLICK LOCK */
+function lockMenu(type){
+  let panel = document.getElementById("menuPanel");
+
+  if(locked){
+    panel.classList.remove("show");
+    locked = false;
+  } else {
+    panel.innerHTML = data[type];
+    panel.classList.add("show");
+    locked = true;
+  }
+}
+
+/* AUTO HIDE */
+document.addEventListener("mousemove", function(e){
+  if(locked) return;
+  let menu = document.querySelector(".menu");
+  if(!menu.contains(e.target)){
+    document.getElementById("menuPanel").classList.remove("show");
+  }
+});
+
+/* CLICK OUTSIDE */
+document.addEventListener("click", function(e){
+  let menu = document.querySelector(".menu");
+  if(!menu.contains(e.target)){
+    document.getElementById("menuPanel").classList.remove("show");
+    locked = false;
+  }
+});
+
+/* PANEL LAMA (tetap ada) */
 function changePanel(type){
   document.getElementById("panelContent").innerHTML = data[type];
   document.getElementById("panel").classList.add("show");
