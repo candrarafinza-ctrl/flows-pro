@@ -19,7 +19,7 @@ body {
   overflow:hidden;
 }
 
-/* ===== NAVBAR ===== */
+/* NAVBAR */
 .navbar {
   position:fixed;
   width:100%;
@@ -29,8 +29,6 @@ body {
   align-items:center;
   background: linear-gradient(90deg,#6a11cb,#2575fc);
   z-index:1000;
-
-  /* animasi masuk */
   animation: slideDown 0.8s ease;
 }
 
@@ -53,10 +51,8 @@ body {
   transition:0.3s;
 }
 
-/* aktif */
 .menu a.active {
   background: rgba(255,255,255,0.25);
-  backdrop-filter: blur(6px);
   transform: translateY(-2px);
 }
 
@@ -64,15 +60,52 @@ body {
   background: rgba(255,255,255,0.15);
 }
 
+/* LOGIN WRAPPER */
+.login-wrapper {
+  position:relative;
+}
+
 .login {
   background:white;
   padding:8px 18px;
   border-radius:8px;
-  text-decoration:none;
-  color:black;
+  border:none;
+  cursor:pointer;
 }
 
-/* ===== HERO ===== */
+/* LOGIN BOX */
+.login-box {
+  position:absolute;
+  top:45px;
+  right:0;
+  width:230px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(15px);
+  padding:15px;
+  border-radius:12px;
+  display:none;
+  flex-direction:column;
+  gap:10px;
+  color:white;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  animation: fadeUp 0.3s ease;
+}
+
+.login-box a {
+  text-decoration:none;
+  color:white;
+  padding:8px;
+  border-radius:8px;
+  background: rgba(255,255,255,0.1);
+  text-align:center;
+  transition:0.3s;
+}
+
+.login-box a:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* HERO */
 .hero {
   height:100vh;
   position:relative;
@@ -85,8 +118,6 @@ body {
   height:100%;
   background:url('Desain tanpa judul (1).png') center/cover;
   filter:brightness(0.6);
-
-  /* animasi background */
   animation: fadeBg 1.5s ease;
 }
 
@@ -100,24 +131,20 @@ body {
   max-width:700px;
 }
 
-/* animasi teks */
 .hero h1 {
   font-size:42px;
-  margin-bottom:10px;
   opacity:0;
   animation: fadeUp 1s ease forwards;
   animation-delay:0.6s;
 }
 
 .hero p {
-  font-size:17px;
-  line-height:1.6;
+  margin-top:10px;
   opacity:0;
   animation: fadeUp 1s ease forwards;
   animation-delay:0.8s;
 }
 
-/* tombol */
 .cta {
   margin-top:20px;
   opacity:0;
@@ -131,66 +158,33 @@ body {
   border-radius:10px;
   text-decoration:none;
   color:white;
-  font-weight:500;
-  transition:0.3s;
 }
 
-.cta a:hover {
-  background:#009ec3;
-}
-
-/* ===== PANEL ===== */
+/* PANEL */
 .overlay {
   position:fixed;
   top:-80%;
-  left:0;
   width:100%;
   height:70%;
   backdrop-filter: blur(20px);
   background: rgba(0,0,0,0.35);
-  transition:0.5s ease;
-  z-index:999;
-
+  transition:0.5s;
   padding-top:90px;
   display:flex;
   justify-content:center;
-  align-items:flex-start;
 }
 
-.overlay.show {
-  top:0;
-}
+.overlay.show { top:0; }
 
-.overlay.hide {
-  top:-80%;
-}
-
-/* BOX PANEL */
 .panel-box {
   width:90%;
   max-width:800px;
   background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
   padding:30px;
   border-radius:20px;
-  border:1px solid rgba(255,255,255,0.2);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  animation: fadeIn 0.5s;
   color:white;
 }
 
-/* teks */
-.panel-box h2 {
-  font-size:26px;
-  margin-bottom:15px;
-}
-
-.panel-box p {
-  font-size:16px;
-  line-height:1.8;
-}
-
-/* close */
 .close-area {
   position:fixed;
   top:70%;
@@ -199,11 +193,9 @@ body {
   display:none;
 }
 
-.close-area.show {
-  display:block;
-}
+.close-area.show { display:block; }
 
-/* ===== ANIMASI ===== */
+/* ANIMASI */
 @keyframes slideDown {
   from {transform: translateY(-100%);}
   to {transform: translateY(0);}
@@ -219,18 +211,6 @@ body {
   to {opacity:1;}
 }
 
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(-20px);}
-  to {opacity:1; transform:translateY(0);}
-}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .menu {display:none;}
-  .hero h1 {font-size:26px;}
-  .hero p {font-size:14px;}
-}
-
 </style>
 </head>
 
@@ -241,23 +221,27 @@ body {
   <div class="logo">FLOWS-PRO</div>
 
   <div class="menu">
-    <a id="tentangBtn" onclick="changePanel('tentang')">Tentang</a>
-    <a id="fiturBtn" onclick="changePanel('fitur')">Fitur</a>
-    <a id="kontakBtn" onclick="changePanel('kontak')">Kontak</a>
+    <a onclick="changePanel('tentang')" id="tentangBtn">Tentang</a>
+    <a onclick="changePanel('fitur')" id="fiturBtn">Fitur</a>
+    <a onclick="changePanel('kontak')" id="kontakBtn">Kontak</a>
   </div>
 
-  <a href="auth.html" class="login">Login</a>
+  <div class="login-wrapper">
+    <button class="login" onclick="toggleLogin()">Login</button>
+
+    <div id="loginBox" class="login-box">
+      <p>Sudah punya akun?</p>
+      <a href="login.html">Sudah</a>
+      <a href="register.html">Belum</a>
+    </div>
+  </div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-content">
     <h1>Monitoring Banjir Real-Time</h1>
-    <p>
-      Sistem berbasis IoT untuk mendeteksi kondisi air secara cepat dan akurat
-      guna meningkatkan keselamatan masyarakat dari risiko banjir.
-    </p>
-
+    <p>Sistem IoT untuk mendeteksi kondisi air secara cepat dan akurat.</p>
     <div class="cta">
       <a href="login.html">Masuk Dashboard</a>
     </div>
@@ -266,86 +250,57 @@ body {
 
 <!-- PANEL -->
 <div id="panel" class="overlay">
-  <div class="panel-box" id="panelContent"></div>
+  <div id="panelContent" class="panel-box"></div>
 </div>
 
 <div id="closeArea" class="close-area" onclick="closePanel()"></div>
 
 <script>
 
-const data = {
-
-  tentang: `
-    <h2>Tentang Sistem</h2>
-    <p>
-    FLOWS-PRO adalah sistem monitoring banjir berbasis IoT yang memberikan
-    informasi kondisi air secara real-time untuk membantu masyarakat
-    mengambil tindakan cepat.
-    </p>
-  `,
-
-  fitur: `
-    <h2>Cara Kerja Sistem</h2>
-    <p>
-    Sensor membaca ketinggian air, data dikirim ke server,
-    lalu ditampilkan secara real-time dalam bentuk grafik dan peta.
-    </p>
-  `,
-
-  kontak: `
-    <h2>Manfaat & Tujuan</h2>
-    <p>
-    Memberikan peringatan dini, meningkatkan keselamatan masyarakat,
-    serta membantu mitigasi bencana banjir.
-    </p>
-  `
-
-};
-
-let current = null;
-
-function resetMenu(){
-  document.querySelectorAll(".menu a").forEach(el=>el.classList.remove("active"));
+/* LOGIN DROPDOWN */
+function toggleLogin(){
+  let box = document.getElementById("loginBox");
+  box.style.display = box.style.display === "flex" ? "none" : "flex";
 }
 
+/* CLOSE LOGIN KETIKA KLIK LUAR */
+document.addEventListener("click", function(e){
+  let box = document.getElementById("loginBox");
+  let btn = document.querySelector(".login");
+
+  if(!btn.contains(e.target) && !box.contains(e.target)){
+    box.style.display = "none";
+  }
+});
+
+/* PANEL DATA */
+const data = {
+  tentang: "<h2>Tentang</h2><p>Sistem monitoring banjir berbasis IoT.</p>",
+  fitur: "<h2>Cara Kerja</h2><p>Sensor kirim data real-time ke web.</p>",
+  kontak: "<h2>Manfaat</h2><p>Meningkatkan keselamatan masyarakat.</p>"
+};
+
+let current=null;
+
 function changePanel(type){
+  let panel=document.getElementById("panel");
 
-  const panel = document.getElementById("panel");
-
-  if(current === type){
+  if(current===type){
     closePanel();
     return;
   }
 
-  resetMenu();
-  document.getElementById(type+"Btn").classList.add("active");
+  document.getElementById("panelContent").innerHTML=data[type];
+  panel.classList.add("show");
+  document.getElementById("closeArea").classList.add("show");
 
-  if(panel.classList.contains("show")){
-    panel.classList.remove("show");
-    panel.classList.add("hide");
-
-    setTimeout(()=>{
-      document.getElementById("panelContent").innerHTML = data[type];
-      panel.classList.remove("hide");
-      panel.classList.add("show");
-    },400);
-
-  } else {
-    document.getElementById("panelContent").innerHTML = data[type];
-    panel.classList.add("show");
-    document.getElementById("closeArea").classList.add("show");
-  }
-
-  current = type;
+  current=type;
 }
 
 function closePanel(){
-  const panel = document.getElementById("panel");
-  panel.classList.remove("show");
-  panel.classList.add("hide");
+  document.getElementById("panel").classList.remove("show");
   document.getElementById("closeArea").classList.remove("show");
-  resetMenu();
-  current = null;
+  current=null;
 }
 
 </script>
