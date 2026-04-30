@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLOWS-PRO - Akses</title>
+<title>Login - FLOWS PRO</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -44,50 +46,64 @@ body::before {
 .box {
   width:90%;
   max-width:400px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
-  padding:30px;
-  border-radius:20px;
-  text-align:center;
-  color:white;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
 
-  animation: fadeUp 1s ease;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.3);
+
+  border-radius:20px;
+  padding:40px;
+  color:white;
+
+  animation:fadeUp 0.8s ease;
 }
 
-/* TEXT */
 .box h2 {
+  text-align:center;
   margin-bottom:20px;
-  font-size:22px;
+}
+
+/* INPUT */
+.input-group {
+  margin-bottom:15px;
+}
+
+.input-group input {
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:none;
 }
 
 /* BUTTON */
 .btn {
-  display:block;
-  margin:10px 0;
+  width:100%;
   padding:12px;
+  border:none;
   border-radius:10px;
-  text-decoration:none;
-  color:white;
-  transition:0.3s;
+  margin-top:10px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-/* BELUM */
-.belum {
+.primary {
   background:#00c6ff;
+  color:white;
 }
 
-.belum:hover {
-  background:#009ec3;
+.google {
+  background:white;
+  color:black;
 }
 
-/* SUDAH */
-.sudah {
-  background:#6a11cb;
+/* LINK */
+.link {
+  text-align:center;
+  margin-top:15px;
 }
 
-.sudah:hover {
-  background:#4e0aa8;
+.link a {
+  color:white;
 }
 
 /* ANIMASI */
@@ -103,12 +119,68 @@ body::before {
 
 <div class="container">
   <div class="box">
-    <h2>Apakah Anda sudah memiliki akun<br>yang tertaut dengan FLOWS-PRO?</h2>
 
-    <a href="register.html" class="btn belum">Belum</a>
-    <a href="auth.html" class="btn sudah">Sudah</a>
+    <h2>Masuk ke FLOWS-PRO</h2>
+
+    <!-- EMAIL LOGIN -->
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Email">
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <button class="btn primary" onclick="loginEmail()">Masuk</button>
+
+    <hr style="margin:20px 0; opacity:0.3;">
+
+    <!-- GOOGLE LOGIN -->
+    <button class="btn google" onclick="loginGoogle()">Masuk dengan Google</button>
+
+    <div class="link">
+      <p>Belum punya akun? <a href="register.html">Daftar</a></p>
+    </div>
+
   </div>
 </div>
+
+<script>
+
+/* ===== SUPABASE CONFIG ===== */
+const supabase = window.supabase.createClient(
+  "https://flows-pro.vercel.app",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
+);
+
+/* ===== LOGIN EMAIL ===== */
+async function loginEmail(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if(error){
+    alert("Login gagal!");
+  } else {
+    window.location.href = "dashboard.html";
+  }
+}
+
+/* ===== LOGIN GOOGLE ===== */
+async function loginGoogle(){
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin + "/dashboard.html"
+    }
+  });
+}
+
+</script>
 
 </body>
 </html>
