@@ -73,8 +73,7 @@ body::before {
   margin-bottom:5px;
 }
 
-.input-group input,
-.input-group select {
+.input-group input {
   width:100%;
   padding:10px;
   border-radius:8px;
@@ -154,19 +153,44 @@ body::before {
     <!-- FORM -->
     <form id="registerForm">
 
-      <div class="input-group">
-        <label>Nama Lengkap</label>
-        <input type="text" id="nama" required placeholder="Masukkan nama lengkap">
+      <!-- DEFAULT FORM -->
+      <div id="defaultForm">
+
+        <div class="input-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="nama" required>
+        </div>
+
+        <div class="input-group">
+          <label>Tanggal Lahir</label>
+          <input type="date" id="tgl">
+        </div>
+
+        <div class="input-group">
+          <label>Lokasi Tempat Tinggal</label>
+          <input type="text" id="lokasi">
+        </div>
+
       </div>
 
-      <div class="input-group">
-        <label>Email</label>
-        <input type="email" id="email" required placeholder="Masukkan email">
-      </div>
+      <!-- EMAIL FORM -->
+      <div id="emailForm" style="display:none;">
 
-      <div class="input-group">
-        <label>Password</label>
-        <input type="password" id="password" required placeholder="Masukkan password">
+        <div class="input-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="namaEmail">
+        </div>
+
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="email">
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="password">
+        </div>
+
       </div>
 
       <button type="submit" class="btn primary">Daftar Sekarang</button>
@@ -178,7 +202,7 @@ body::before {
       <p>Atau daftar menggunakan</p>
 
       <button class="google" onclick="loginGoogle()">Google</button>
-      <button class="email" onclick="focusForm()">Email</button>
+      <button class="email" onclick="switchEmail()">Email</button>
     </div>
 
     <!-- LINK -->
@@ -205,44 +229,61 @@ import {
 const firebaseConfig = {
   apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
-  projectId: "flows-pro-dc80e",
-  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
+  projectId: "flows-pro-dc80e"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-/* AUTO LOGIN */
-if(localStorage.getItem("user")){
-  window.location.href = "dashboard.html";
-}
+/* MODE */
+let mode = "default";
 
-/* REGISTER EMAIL */
+/* SWITCH EMAIL */
+window.switchEmail = function(){
+  mode = "email";
+  document.getElementById("defaultForm").style.display = "none";
+  document.getElementById("emailForm").style.display = "block";
+};
+
+/* REGISTER */
 document.getElementById("registerForm").addEventListener("submit", async function(e){
 
   e.preventDefault();
 
-  const nama = document.getElementById("nama").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  if(mode === "default"){
 
-  try{
-
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    localStorage.setItem("user", JSON.stringify({
-      name: nama,
-      email: user.email,
+    const user = {
+      name: document.getElementById("nama").value,
+      tgl: document.getElementById("tgl").value,
+      lokasi: document.getElementById("lokasi").value,
       photo: "https://i.pravatar.cc/150"
-    }));
+    };
 
-    alert("Berhasil daftar!");
+    localStorage.setItem("user", JSON.stringify(user));
     window.location.href = "dashboard.html";
 
-  } catch(error){
-    alert("Gagal: " + error.message);
+  } else {
+
+    try{
+      const cred = await createUserWithEmailAndPassword(
+        auth,
+        document.getElementById("email").value,
+        document.getElementById("password").value
+      );
+
+      localStorage.setItem("user", JSON.stringify({
+        name: document.getElementById("namaEmail").value,
+        email: cred.user.email,
+        photo: "https://i.pravatar.cc/150"
+      }));
+
+      window.location.href = "dashboard.html";
+
+    } catch(err){
+      alert(err.message);
+    }
+
   }
 
 });
@@ -251,7 +292,6 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 window.loginGoogle = async function(){
 
   try{
-
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
@@ -263,15 +303,10 @@ window.loginGoogle = async function(){
 
     window.location.href = "dashboard.html";
 
-  } catch(error){
-    alert("Google error: " + error.message);
+  } catch(err){
+    alert(err.message);
   }
 
-};
-
-/* EMAIL BUTTON */
-window.focusForm = function(){
-  document.getElementById("email").focus();
 };
 
 </script>
