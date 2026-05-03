@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar - FLOWS PRO</title>
+<title>Login - FLOWS PRO</title>
 
 <style>
 
@@ -40,10 +40,10 @@ body::before {
   align-items:center;
 }
 
-/* FORM BOX */
-.form-box {
+/* BOX */
+.box {
   width:90%;
-  max-width:500px;
+  max-width:400px;
 
   background:rgba(255,255,255,0.2);
   backdrop-filter:blur(20px);
@@ -56,10 +56,9 @@ body::before {
   animation:fadeUp 0.8s ease;
 }
 
-/* TITLE */
-.form-box h2 {
+.box h2 {
   text-align:center;
-  margin-bottom:25px;
+  margin-bottom:20px;
 }
 
 /* INPUT */
@@ -67,27 +66,19 @@ body::before {
   margin-bottom:15px;
 }
 
-.input-group label {
-  font-size:14px;
-  display:block;
-  margin-bottom:5px;
-}
-
-.input-group input,
-.input-group select {
+.input-group input {
   width:100%;
   padding:10px;
   border-radius:8px;
   border:none;
-  outline:none;
 }
 
 /* BUTTON */
 .btn {
   width:100%;
   padding:12px;
-  border-radius:10px;
   border:none;
+  border-radius:10px;
   margin-top:10px;
   cursor:pointer;
   font-weight:bold;
@@ -98,27 +89,10 @@ body::before {
   color:white;
 }
 
-/* METHOD */
-.method {
-  margin-top:20px;
-  text-align:center;
+.google {
+  background:white;
+  color:black;
 }
-
-.method p {
-  margin-bottom:10px;
-}
-
-.method button {
-  margin:5px;
-  padding:10px 15px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-.google { background:white; }
-.email { background:#eee; }
-.hp { background:#ddd; }
 
 /* LINK */
 .link {
@@ -142,79 +116,113 @@ body::before {
 <body>
 
 <div class="container">
+  <div class="box">
 
-  <div class="form-box">
+    <h2>Masuk ke FLOWS-PRO</h2>
 
-    <h2>Daftar Akun FLOWS-PRO</h2>
-
-    <form id="registerForm">
-
-      <div class="input-group">
-        <label>Nama Lengkap</label>
-        <input type="text" id="nama" required placeholder="Masukkan nama lengkap">
-      </div>
-
-      <div class="input-group">
-        <label>Tanggal Lahir</label>
-        <input type="date" id="tgl" required>
-      </div>
-
-      <div class="input-group">
-        <label>Lokasi Tempat Tinggal</label>
-        <input type="text" id="lokasi" required placeholder="Contoh: Medan, Sumatera Utara">
-      </div>
-
-      <button type="submit" class="btn primary">Daftar Sekarang</button>
-
-    </form>
-
-    <div class="method">
-      <p>Atau daftar menggunakan</p>
-      <button class="google">Google</button>
-      <button class="email">Email</button>
-      <button class="hp">No HP</button>
+    <!-- EMAIL LOGIN -->
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Email">
     </div>
 
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <button class="btn primary" onclick="loginEmail()">Masuk</button>
+
+    <hr style="margin:20px 0; opacity:0.3;">
+
+    <!-- GOOGLE LOGIN -->
+    <button class="btn google" onclick="loginGoogle()">Masuk dengan Google</button>
+
     <div class="link">
-      <p>Sudah punya akun? <a href="login.html">Masuk</a></p>
+      <p>Belum punya akun? <a href="register.html">Daftar</a></p>
     </div>
 
   </div>
-
 </div>
 
-<script>
+<!-- FIREBASE -->
+<script type="module">
 
-/* CEK SUDAH LOGIN */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* CONFIG KAMU */
+const firebaseConfig = {
+  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
+  authDomain: "flows-pro-dc80e.firebaseapp.com",
+  projectId: "flows-pro-dc80e",
+  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+/* ============================= */
+/* 🔥 AUTO LOGIN JIKA SUDAH ADA */
+/* ============================= */
 if(localStorage.getItem("user")){
   window.location.href = "dashboard.html";
 }
 
-/* REGISTER + AUTO LOGIN */
-document.getElementById("registerForm").addEventListener("submit", function(e){
+/* ===== LOGIN EMAIL ===== */
+window.loginEmail = async function(){
 
-  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  const nama = document.getElementById("nama").value;
-  const tgl = document.getElementById("tgl").value;
-  const lokasi = document.getElementById("lokasi").value;
+  // 🔥 CEK LOCAL USER (HASIL REGISTER)
+  const localUser = JSON.parse(localStorage.getItem("user"));
 
-  const user = {
-    name: nama,
-    tgl: tgl,
-    lokasi: lokasi,
-    photo: "https://i.pravatar.cc/150"
-  };
+  if(localUser){
+    window.location.href = "dashboard.html";
+    return;
+  }
 
-  // simpan sebagai user login
-  localStorage.setItem("user", JSON.stringify(user));
+  try{
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-  alert("Akun berhasil dibuat & langsung masuk dashboard!");
+    localStorage.setItem("user", JSON.stringify({
+      name: user.displayName || "User",
+      email: user.email,
+      photo: user.photoURL || "https://i.pravatar.cc/150"
+    }));
 
-  // langsung ke dashboard
-  window.location.href = "dashboard.html";
+    window.location.href = "dashboard.html";
 
-});
+  }catch(error){
+    alert("Login gagal: " + error.message);
+  }
+};
+
+/* ===== LOGIN GOOGLE ===== */
+window.loginGoogle = async function(){
+
+  try{
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    localStorage.setItem("user", JSON.stringify({
+      name: user.displayName,
+      email: user.email,
+      photo: user.photoURL
+    }));
+
+    window.location.href = "dashboard.html";
+
+  }catch(error){
+    alert("Login gagal: " + error.message);
+  }
+};
 
 </script>
 
