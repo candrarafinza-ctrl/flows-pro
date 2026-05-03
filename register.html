@@ -18,6 +18,7 @@
 body {
   height:100vh;
   overflow:hidden;
+  transition:0.4s;
 }
 
 /* BACKGROUND */
@@ -44,15 +45,12 @@ body::before {
 .form-box {
   width:90%;
   max-width:500px;
-
   background:rgba(255,255,255,0.2);
   backdrop-filter:blur(20px);
   border:1px solid rgba(255,255,255,0.3);
-
   border-radius:20px;
   padding:40px;
   color:white;
-
   animation:fadeUp 0.8s ease;
 }
 
@@ -111,7 +109,7 @@ body::before {
   margin:5px;
   padding:10px 15px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   cursor:pointer;
   transition:0.3s;
 }
@@ -120,8 +118,15 @@ body::before {
   transform:scale(1.05);
 }
 
-.google { background:white; }
-.email { background:#eee; }
+/* ACTIVE BUTTON */
+.method button.active {
+  background:#00c6ff;
+  color:white;
+  transform:scale(1.1);
+}
+
+.google { background:white; color:black; }
+.email { background:#eee; color:black; }
 
 /* LINK */
 .link {
@@ -131,6 +136,24 @@ body::before {
 
 .link a {
   color:white;
+}
+
+/* FORM ANIMATION */
+.form-slide {
+  transition:0.4s;
+}
+
+.hide {
+  opacity:0;
+  transform:translateX(-40px);
+  pointer-events:none;
+  position:absolute;
+}
+
+.show {
+  opacity:1;
+  transform:translateX(0);
+  position:relative;
 }
 
 /* ANIMASI */
@@ -145,16 +168,14 @@ body::before {
 <body>
 
 <div class="container">
-
   <div class="form-box">
 
     <h2>Daftar Akun FLOWS-PRO</h2>
 
-    <!-- FORM -->
     <form id="registerForm">
 
-      <!-- DEFAULT FORM -->
-      <div id="defaultForm">
+      <!-- DEFAULT -->
+      <div id="defaultForm" class="form-slide show">
 
         <div class="input-group">
           <label>Nama Lengkap</label>
@@ -173,8 +194,8 @@ body::before {
 
       </div>
 
-      <!-- EMAIL FORM -->
-      <div id="emailForm" style="display:none;">
+      <!-- EMAIL -->
+      <div id="emailForm" class="form-slide hide">
 
         <div class="input-group">
           <label>Nama Lengkap</label>
@@ -197,21 +218,19 @@ body::before {
 
     </form>
 
-    <!-- METHOD -->
     <div class="method">
       <p>Atau daftar menggunakan</p>
 
+      <button id="btnDefault" class="active" onclick="switchDefault()">Form</button>
+      <button id="btnEmail" class="email" onclick="switchEmail()">Email</button>
       <button class="google" onclick="loginGoogle()">Google</button>
-      <button class="email" onclick="switchEmail()">Email</button>
     </div>
 
-    <!-- LINK -->
     <div class="link">
       <p>Sudah punya akun? <a href="login.html">Masuk</a></p>
     </div>
 
   </div>
-
 </div>
 
 <!-- FIREBASE -->
@@ -241,44 +260,69 @@ let mode = "default";
 
 /* SWITCH EMAIL */
 window.switchEmail = function(){
+
   mode = "email";
-  document.getElementById("defaultForm").style.display = "none";
-  document.getElementById("emailForm").style.display = "block";
+
+  defaultForm.classList.remove("show");
+  defaultForm.classList.add("hide");
+
+  emailForm.classList.remove("hide");
+  emailForm.classList.add("show");
+
+  btnEmail.classList.add("active");
+  btnDefault.classList.remove("active");
+
+  namaEmail.value = nama.value;
+};
+
+/* SWITCH DEFAULT */
+window.switchDefault = function(){
+
+  mode = "default";
+
+  emailForm.classList.remove("show");
+  emailForm.classList.add("hide");
+
+  defaultForm.classList.remove("hide");
+  defaultForm.classList.add("show");
+
+  btnDefault.classList.add("active");
+  btnEmail.classList.remove("active");
 };
 
 /* REGISTER */
-document.getElementById("registerForm").addEventListener("submit", async function(e){
+registerForm.addEventListener("submit", async function(e){
 
   e.preventDefault();
 
   if(mode === "default"){
 
-    const user = {
-      name: document.getElementById("nama").value,
-      tgl: document.getElementById("tgl").value,
-      lokasi: document.getElementById("lokasi").value,
-      photo: "https://i.pravatar.cc/150"
-    };
+    localStorage.setItem("user", JSON.stringify({
+      name: nama.value,
+      tgl: tgl.value,
+      lokasi: lokasi.value,
+      photo:"https://i.pravatar.cc/150"
+    }));
 
-    localStorage.setItem("user", JSON.stringify(user));
-    window.location.href = "dashboard.html";
+    smoothGo();
 
   } else {
 
     try{
+
       const cred = await createUserWithEmailAndPassword(
         auth,
-        document.getElementById("email").value,
-        document.getElementById("password").value
+        email.value,
+        password.value
       );
 
       localStorage.setItem("user", JSON.stringify({
-        name: document.getElementById("namaEmail").value,
+        name: namaEmail.value,
         email: cred.user.email,
-        photo: "https://i.pravatar.cc/150"
+        photo:"https://i.pravatar.cc/150"
       }));
 
-      window.location.href = "dashboard.html";
+      smoothGo();
 
     } catch(err){
       alert(err.message);
@@ -288,7 +332,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
 });
 
-/* GOOGLE LOGIN */
+/* GOOGLE */
 window.loginGoogle = async function(){
 
   try{
@@ -296,18 +340,26 @@ window.loginGoogle = async function(){
     const user = result.user;
 
     localStorage.setItem("user", JSON.stringify({
-      name: user.displayName,
-      email: user.email,
-      photo: user.photoURL
+      name:user.displayName,
+      email:user.email,
+      photo:user.photoURL
     }));
 
-    window.location.href = "dashboard.html";
+    smoothGo();
 
   } catch(err){
     alert(err.message);
   }
 
 };
+
+/* TRANSISI */
+function smoothGo(){
+  document.body.style.opacity = "0";
+  setTimeout(()=>{
+    window.location.href = "dashboard.html";
+  },400);
+}
 
 </script>
 
