@@ -73,13 +73,11 @@ body::before {
   margin-bottom:5px;
 }
 
-.input-group input,
-.input-group select {
+.input-group input {
   width:100%;
   padding:10px;
   border-radius:8px;
   border:none;
-  outline:none;
 }
 
 /* BUTTON */
@@ -104,16 +102,17 @@ body::before {
   text-align:center;
 }
 
-.method p {
-  margin-bottom:10px;
-}
-
 .method button {
   margin:5px;
   padding:10px 15px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   cursor:pointer;
+  transition:0.3s;
+}
+
+.method button:hover {
+  transform:scale(1.05);
 }
 
 .google { background:white; }
@@ -151,7 +150,7 @@ body::before {
 
       <div class="input-group">
         <label>Nama Lengkap</label>
-        <input type="text" id="nama" required placeholder="Masukkan nama lengkap">
+        <input type="text" id="nama" required>
       </div>
 
       <div class="input-group">
@@ -160,8 +159,8 @@ body::before {
       </div>
 
       <div class="input-group">
-        <label>Lokasi Tempat Tinggal</label>
-        <input type="text" id="lokasi" required placeholder="Contoh: Medan, Sumatera Utara">
+        <label>Lokasi</label>
+        <input type="text" id="lokasi" required>
       </div>
 
       <button type="submit" class="btn primary">Daftar Sekarang</button>
@@ -170,9 +169,10 @@ body::before {
 
     <div class="method">
       <p>Atau daftar menggunakan</p>
-      <button class="google">Google</button>
-      <button class="email">Email</button>
-      <button class="hp">No HP</button>
+
+      <button class="google" onclick="loginGoogle()">Google</button>
+      <button class="email" onclick="focusForm()">Email</button>
+      <button class="hp" onclick="loginHP()">No HP</button>
     </div>
 
     <div class="link">
@@ -185,36 +185,61 @@ body::before {
 
 <script>
 
-/* CEK SUDAH LOGIN */
+/* AUTO LOGIN */
 if(localStorage.getItem("user")){
   window.location.href = "dashboard.html";
 }
 
-/* REGISTER + AUTO LOGIN */
+/* FORM REGISTER */
 document.getElementById("registerForm").addEventListener("submit", function(e){
 
   e.preventDefault();
 
-  const nama = document.getElementById("nama").value;
-  const tgl = document.getElementById("tgl").value;
-  const lokasi = document.getElementById("lokasi").value;
-
   const user = {
-    name: nama,
-    tgl: tgl,
-    lokasi: lokasi,
+    name: document.getElementById("nama").value,
+    tgl: document.getElementById("tgl").value,
+    lokasi: document.getElementById("lokasi").value,
     photo: "https://i.pravatar.cc/150"
   };
 
-  // simpan sebagai user login
   localStorage.setItem("user", JSON.stringify(user));
 
-  alert("Akun berhasil dibuat & langsung masuk dashboard!");
-
-  // langsung ke dashboard
+  alert("Berhasil daftar!");
   window.location.href = "dashboard.html";
-
 });
+
+/* GOOGLE LOGIN (SIMULASI CEPAT) */
+function loginGoogle(){
+
+  const user = {
+    name: "User Google",
+    email: "google@gmail.com",
+    photo: "https://i.pravatar.cc/150?img=3"
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+
+  window.location.href = "dashboard.html";
+}
+
+/* EMAIL BUTTON → FOKUS KE FORM */
+function focusForm(){
+  document.getElementById("nama").focus();
+}
+
+/* NO HP LOGIN (SIMULASI) */
+function loginHP(){
+
+  const user = {
+    name: "User HP",
+    phone: "08123456789",
+    photo: "https://i.pravatar.cc/150?img=5"
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+
+  window.location.href = "dashboard.html";
+}
 
 </script>
 
