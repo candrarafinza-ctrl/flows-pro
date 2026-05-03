@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - FLOWS PRO</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 
 /* RESET */
@@ -145,40 +143,71 @@ body::before {
   </div>
 </div>
 
-<script>
+<!-- FIREBASE -->
+<script type="module">
 
-/* ===== SUPABASE CONFIG ===== */
-const supabase = window.supabase.createClient(
-  "YOUR_SUPABASE_URL",
-  "YOUR_ANON_KEY"
-);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* CONFIG KAMU */
+const firebaseConfig = {
+  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
+  authDomain: "flows-pro-dc80e.firebaseapp.com",
+  projectId: "flows-pro-dc80e",
+  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 /* ===== LOGIN EMAIL ===== */
-async function loginEmail(){
+window.loginEmail = async function(){
+
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
+  try{
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-  if(error){
-    alert("Login gagal!");
-  } else {
+    localStorage.setItem("user", JSON.stringify({
+      name: user.displayName || "User",
+      email: user.email,
+      photo: user.photoURL || "https://i.pravatar.cc/150"
+    }));
+
     window.location.href = "dashboard.html";
+
+  }catch(error){
+    alert("Login gagal: " + error.message);
   }
-}
+};
 
 /* ===== LOGIN GOOGLE ===== */
-async function loginGoogle(){
-  await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: window.location.origin + "/dashboard.html"
-    }
-  });
-}
+window.loginGoogle = async function(){
+
+  try{
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    localStorage.setItem("user", JSON.stringify({
+      name: user.displayName,
+      email: user.email,
+      photo: user.photoURL
+    }));
+
+    window.location.href = "dashboard.html";
+
+  }catch(error){
+    alert("Login gagal: " + error.message);
+  }
+};
 
 </script>
 
