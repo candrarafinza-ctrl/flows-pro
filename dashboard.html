@@ -18,7 +18,7 @@
 
 <style>
 
-/* RESET */
+/* ===== RESET ===== */
 *{
   margin:0;
   padding:0;
@@ -38,7 +38,6 @@ body{
   z-index:1000;
 }
 
-/* CONTAINER FIX */
 .navbar-inner{
   max-width:1200px;
   margin:auto;
@@ -48,7 +47,6 @@ body{
   align-items:center;
 }
 
-/* LOGO */
 .logo{
   color:white;
   font-size:24px;
@@ -60,8 +58,8 @@ body{
   display:flex;
   align-items:center;
   gap:10px;
-  cursor:pointer;
   color:white;
+  cursor:pointer;
   position:relative;
   max-width:220px;
 }
@@ -72,7 +70,6 @@ body{
   border-radius:50%;
 }
 
-/* FIX TEKS */
 .user-box span{
   max-width:150px;
   overflow:hidden;
@@ -93,26 +90,19 @@ body{
   box-shadow:0 6px 15px rgba(0,0,0,0.2);
 }
 
-.dropdown div{
-  padding:8px;
-  cursor:pointer;
-}
-
-/* ===== MAIN ===== */
+/* ===== CONTENT ===== */
 .container{
   max-width:1200px;
   margin:auto;
   padding:110px 25px 30px;
 }
 
-/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:20px;
 }
 
-/* CARD */
 .card{
   background:white;
   padding:20px;
@@ -120,18 +110,15 @@ body{
   box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* VALUE */
 .value{
   font-size:28px;
   font-weight:bold;
 }
 
-/* STATUS */
 .aman{color:#2ecc71;}
 .waspada{color:#f39c12;}
 .bahaya{color:#e74c3c;}
 
-/* PROGRESS */
 .progress{
   height:8px;
   background:#eee;
@@ -146,7 +133,6 @@ body{
   border-radius:10px;
 }
 
-/* ROW */
 .row{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -154,15 +140,9 @@ body{
   margin-top:25px;
 }
 
-/* MAP */
 #map{
   height:350px;
   border-radius:12px;
-}
-
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr;}
-  .row{grid-template-columns:1fr;}
 }
 
 </style>
@@ -173,6 +153,7 @@ body{
 <!-- NAVBAR -->
 <div class="navbar">
   <div class="navbar-inner">
+
     <div class="logo">FLOWS-PRO</div>
 
     <div class="user-box" onclick="toggleMenu()">
@@ -183,6 +164,7 @@ body{
         <div onclick="logout()">Logout</div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -214,12 +196,12 @@ body{
 <div class="row">
 
   <div class="card">
-    <h3>Grafik Ketinggian</h3>
+    <h3>Grafik Realtime</h3>
     <canvas id="chart"></canvas>
   </div>
 
   <div class="card">
-    <h3>Lokasi Sensor & Evakuasi</h3>
+    <h3>Map & Evakuasi</h3>
     <div id="map"></div>
   </div>
 
@@ -227,7 +209,21 @@ body{
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, onSnapshot }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "ISI_API_KEY",
+  authDomain: "flows-pro-dc80e.firebaseapp.com",
+  projectId: "flows-pro-dc80e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 /* USER */
 const user = JSON.parse(localStorage.getItem("user"));
@@ -236,20 +232,19 @@ if(!user){
   window.location.href="login.html";
 }
 
-document.getElementById("userName").innerText = user.name;
-document.getElementById("userPhoto").src = user.photo;
+userName.innerText = user.name;
+userPhoto.src = user.photo;
 
 /* DROPDOWN */
-function toggleMenu(){
-  let d = document.getElementById("dropdown");
-  d.style.display = d.style.display === "block" ? "none" : "block";
-}
+window.toggleMenu = () => {
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+};
 
-/* LOGOUT */
-function logout(){
+window.logout = () => {
   localStorage.removeItem("user");
   window.location.href="index.html";
-}
+};
 
 /* MAP */
 let map = L.map('map').setView([1.666,101.45],13);
@@ -257,52 +252,20 @@ let map = L.map('map').setView([1.666,101.45],13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
 .addTo(map);
 
+let markers = [];
 let routingControl;
 
-/* DATA SIMULASI REAL (STOP LOOP) */
-function loadData(){
-
-  let tinggiAir = 60;
-  let statusAir = "WASPADA";
-  let lat = 1.666;
-  let lng = 101.45;
-
-  document.getElementById("tinggi").innerText = tinggiAir + " cm";
-  document.getElementById("water").innerText = statusAir;
-
-  let statusEl = document.getElementById("status");
-  statusEl.innerText = statusAir;
-  statusEl.className = "value waspada";
-
-  document.getElementById("progressBar").style.width = tinggiAir + "%";
-
-  /* ROUTE */
-  let start = L.latLng(lat,lng);
-  let safe = L.latLng(1.67,101.46);
-
-  if(routingControl) map.removeControl(routingControl);
-
-  routingControl = L.Routing.control({
-    waypoints:[start,safe],
-    addWaypoints:false
-  }).addTo(map);
-
-  map.setView(start,14);
-
-  loadChart(tinggiAir);
-}
-
-/* CHART (TIDAK LOOP) */
+/* CHART */
 let chart;
 
-function loadChart(value){
+function updateChart(value){
 
   if(chart) chart.destroy();
 
   chart = new Chart(document.getElementById("chart"),{
     type:"line",
     data:{
-      labels:["Sekarang"],
+      labels:["Realtime"],
       datasets:[{
         data:[value],
         borderColor:"#00c6ff",
@@ -315,8 +278,69 @@ function loadChart(value){
   });
 }
 
-/* LOAD SEKALI */
-loadData();
+/* ALERT */
+function showAlert(status){
+  if(status === "BAHAYA"){
+    alert("🚨 BAHAYA BANJIR! Segera evakuasi!");
+  }
+}
+
+/* REALTIME */
+onSnapshot(collection(db,"data_air"), (snapshot)=>{
+
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  snapshot.forEach(doc => {
+
+    let d = doc.data();
+
+    tinggi.innerText = d.tinggi_air + " cm";
+    water.innerText = d.status;
+
+    status.innerText = d.status;
+    status.className = "value";
+
+    if(d.status=="AMAN") status.classList.add("aman");
+    else if(d.status=="WASPADA") status.classList.add("waspada");
+    else status.classList.add("bahaya");
+
+    progressBar.style.width = d.tinggi_air + "%";
+
+    updateChart(d.tinggi_air);
+    showAlert(d.status);
+
+    let marker = L.marker([d.latitude,d.longitude])
+      .addTo(map)
+      .bindPopup(`
+        <b>${d.nama}</b><br>
+        Status: ${d.status}<br>
+        ${d.tinggi_air} cm<br><br>
+        <button onclick="routeTo(${d.latitude},${d.longitude})">
+        Evakuasi
+        </button>
+      `);
+
+    markers.push(marker);
+  });
+
+});
+
+/* ROUTE */
+window.routeTo = function(lat,lng){
+
+  let safe = [1.67,101.46];
+
+  if(routingControl) map.removeControl(routingControl);
+
+  routingControl = L.Routing.control({
+    waypoints:[
+      L.latLng(lat,lng),
+      L.latLng(safe[0],safe[1])
+    ],
+    addWaypoints:false
+  }).addTo(map);
+};
 
 </script>
 
