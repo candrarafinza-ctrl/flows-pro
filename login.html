@@ -166,11 +166,26 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+/* ============================= */
+/* 🔥 AUTO LOGIN JIKA SUDAH ADA */
+/* ============================= */
+if(localStorage.getItem("user")){
+  window.location.href = "dashboard.html";
+}
+
 /* ===== LOGIN EMAIL ===== */
 window.loginEmail = async function(){
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+
+  // 🔥 CEK LOCAL USER (HASIL REGISTER)
+  const localUser = JSON.parse(localStorage.getItem("user"));
+
+  if(localUser){
+    window.location.href = "dashboard.html";
+    return;
+  }
 
   try{
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
