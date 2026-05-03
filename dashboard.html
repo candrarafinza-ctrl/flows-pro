@@ -5,10 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FLOWS-PRO</title>
 
+<!-- CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- MAP -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- ROUTING -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
 <style>
 
@@ -38,11 +44,14 @@ body {
   font-weight: bold;
 }
 
+/* USER */
 .user-box {
   display: flex;
   align-items: center;
   gap: 10px;
   color: white;
+  cursor: pointer;
+  position: relative;
 }
 
 .user-box img {
@@ -51,12 +60,26 @@ body {
   border-radius: 50%;
 }
 
-.logout {
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
   background: white;
   color: black;
-  padding: 6px 10px;
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 10px;
+  display: none;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.dropdown div {
+  padding: 8px;
   cursor: pointer;
+}
+
+.dropdown div:hover {
+  background: #eee;
 }
 
 /* ===== CONTAINER ===== */
@@ -92,12 +115,12 @@ body {
   font-weight: bold;
 }
 
-/* ===== STATUS COLOR ===== */
+/* STATUS */
 .aman { color: #2ecc71; }
 .waspada { color: #f39c12; }
 .bahaya { color: #e74c3c; }
 
-/* ===== PROGRESS ===== */
+/* PROGRESS */
 .progress {
   height: 8px;
   background: #eee;
@@ -110,10 +133,9 @@ body {
   border-radius: 10px;
   width: 0%;
   background: #3498db;
-  transition: 0.5s;
 }
 
-/* ===== ROW ===== */
+/* ROW */
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -121,20 +143,16 @@ body {
   margin-top: 25px;
 }
 
-/* ===== MAP ===== */
+/* MAP */
 #map {
   height: 350px;
   border-radius: 12px;
 }
 
-/* ===== RESPONSIVE ===== */
+/* RESPONSIVE */
 @media(max-width:900px){
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  .row {
-    grid-template-columns: 1fr;
-  }
+  .grid { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; }
 }
 
 </style>
@@ -146,16 +164,19 @@ body {
 <div class="navbar">
   <div class="logo">FLOWS-PRO</div>
 
-  <div class="user-box">
+  <div class="user-box" onclick="toggleMenu()">
     <img id="userPhoto">
     <span id="userName"></span>
-    <div class="logout" onclick="logout()">Logout</div>
+
+    <div id="dropdown" class="dropdown">
+      <div onclick="logout()">Logout</div>
+    </div>
   </div>
 </div>
 
 <div class="container">
 
-<!-- TOP CARDS -->
+<!-- TOP -->
 <div class="grid">
 
   <div class="card">
@@ -188,7 +209,7 @@ body {
   </div>
 
   <div class="card">
-    <h3>Lokasi Sensor</h3>
+    <h3>Lokasi Sensor & Evakuasi</h3>
     <div id="map"></div>
   </div>
 
@@ -196,53 +217,104 @@ body {
 
 </div>
 
-<script>
+<!-- FIREBASE -->
+<script type="module">
 
-/* ===== USER DARI FIREBASE ===== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* CONFIG */
+const firebaseConfig = {
+  apiKey: "ISI_API_KEY_KAMU",
+  authDomain: "flows-pro-dc80e.firebaseapp.com",
+  projectId: "flows-pro-dc80e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* USER */
 const user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
   window.location.href = "login.html";
 }
 
-document.getElementById("userName").innerText = user.name;
-document.getElementById("userPhoto").src = user.photo;
+userName.innerText = user.name;
+userPhoto.src = user.photo;
 
-/* ===== LOGOUT ===== */
-function logout(){
+/* DROPDOWN */
+window.toggleMenu = function(){
+  let d = document.getElementById("dropdown");
+  d.style.display = d.style.display === "block" ? "none" : "block";
+}
+
+/* LOGOUT */
+window.logout = function(){
   localStorage.removeItem("user");
   window.location.href = "index.html";
 }
 
-/* ===== MAP ===== */
+/* MAP */
 let map = L.map('map').setView([1.666,101.45], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
 .addTo(map);
 
-let marker = L.marker([1.666,101.45]).addTo(map);
+let marker;
+let routingControl;
 
-/* ===== DATA ===== */
-function loadData(){
+/* LOAD DATA */
+async function loadData(){
 
-  let tinggiAir = Math.floor(Math.random()*100);
-  let kondisi = tinggiAir < 30 ? "AMAN" : tinggiAir < 70 ? "WASPADA" : "BAHAYA";
+  const snapshot = await getDocs(collection(db, "data_air"));
 
-  document.getElementById("tinggi").innerText = tinggiAir + " cm";
-  document.getElementById("water").innerText = kondisi;
+  snapshot.forEach(doc => {
+    let d = doc.data();
 
-  let statusEl = document.getElementById("status");
-  statusEl.innerText = kondisi;
-  statusEl.className="value";
+    tinggi.innerText = d.tinggi_air + " cm";
+    water.innerText = d.status;
 
-  if(kondisi=="AMAN") statusEl.classList.add("aman");
-  else if(kondisi=="WASPADA") statusEl.classList.add("waspada");
-  else statusEl.classList.add("bahaya");
+    status.innerText = d.status;
+    status.className="value";
 
-  document.getElementById("progressBar").style.width = tinggiAir + "%";
+    if(d.status=="AMAN") status.classList.add("aman");
+    else if(d.status=="WASPADA") status.classList.add("waspada");
+    else status.classList.add("bahaya");
+
+    progressBar.style.width = d.tinggi_air + "%";
+
+    /* MAP */
+    if(marker) map.removeLayer(marker);
+
+    marker = L.marker([d.latitude,d.longitude]).addTo(map);
+    map.setView([d.latitude,d.longitude],14);
+
+    /* EVAKUASI */
+    showRoute(d.latitude, d.longitude);
+  });
 }
 
-/* ===== CHART ===== */
+/* ROUTE */
+function showRoute(lat, lng){
+
+  let safePoint = [1.67,101.46];
+
+  if(routingControl){
+    map.removeControl(routingControl);
+  }
+
+  routingControl = L.Routing.control({
+    waypoints: [
+      L.latLng(lat,lng),
+      L.latLng(safePoint[0],safePoint[1])
+    ],
+    routeWhileDragging:false
+  }).addTo(map);
+}
+
+/* CHART */
 let chart;
 
 function loadChart(){
@@ -270,7 +342,7 @@ function loadChart(){
   });
 }
 
-/* ===== LOOP ===== */
+/* LOOP */
 setInterval(()=>{
   loadData();
   loadChart();
