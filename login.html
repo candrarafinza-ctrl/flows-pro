@@ -58,46 +58,25 @@ body::before {
 
 .box h2 {
   text-align:center;
-  margin-bottom:20px;
-}
-
-/* INPUT */
-.input-group {
-  margin-bottom:15px;
-}
-
-.input-group input {
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:none;
+  margin-bottom:25px;
 }
 
 /* BUTTON */
 .btn {
   width:100%;
-  padding:12px;
+  padding:14px;
   border:none;
   border-radius:10px;
-  margin-top:10px;
   cursor:pointer;
   font-weight:bold;
-}
-
-.primary {
   background:#00c6ff;
   color:white;
-}
-
-.google {
-  background:white;
-  color:black;
 }
 
 /* LINK */
 .link {
   text-align:center;
-  margin-top:15px;
+  margin-top:20px;
 }
 
 .link a {
@@ -120,21 +99,7 @@ body::before {
 
     <h2>Masuk ke FLOWS-PRO</h2>
 
-    <!-- EMAIL LOGIN -->
-    <div class="input-group">
-      <input type="email" id="email" placeholder="Email">
-    </div>
-
-    <div class="input-group">
-      <input type="password" id="password" placeholder="Password">
-    </div>
-
-    <button class="btn primary" onclick="loginEmail()">Masuk</button>
-
-    <hr style="margin:20px 0; opacity:0.3;">
-
-    <!-- GOOGLE LOGIN -->
-    <button class="btn google" onclick="loginGoogle()">Masuk dengan Google</button>
+    <button class="btn" onclick="masuk()">Masuk</button>
 
     <div class="link">
       <p>Belum punya akun? <a href="register.html">Daftar</a></p>
@@ -143,86 +108,26 @@ body::before {
   </div>
 </div>
 
-<!-- FIREBASE -->
-<script type="module">
+<script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-/* CONFIG KAMU */
-const firebaseConfig = {
-  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
-  authDomain: "flows-pro-dc80e.firebaseapp.com",
-  projectId: "flows-pro-dc80e",
-  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-/* ============================= */
-/* 🔥 AUTO LOGIN JIKA SUDAH ADA */
-/* ============================= */
+/* AUTO MASUK JIKA SUDAH DAFTAR */
 if(localStorage.getItem("user")){
   window.location.href = "dashboard.html";
 }
 
-/* ===== LOGIN EMAIL ===== */
-window.loginEmail = async function(){
+/* TOMBOL MASUK */
+function masuk(){
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  // 🔥 CEK LOCAL USER (HASIL REGISTER)
-  const localUser = JSON.parse(localStorage.getItem("user"));
-
-  if(localUser){
+  if(localStorage.getItem("user")){
+    // sudah punya akun
     window.location.href = "dashboard.html";
-    return;
+  } else {
+    // belum punya akun
+    alert("Silakan daftar terlebih dahulu!");
+    window.location.href = "register.html";
   }
 
-  try{
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    localStorage.setItem("user", JSON.stringify({
-      name: user.displayName || "User",
-      email: user.email,
-      photo: user.photoURL || "https://i.pravatar.cc/150"
-    }));
-
-    window.location.href = "dashboard.html";
-
-  }catch(error){
-    alert("Login gagal: " + error.message);
-  }
-};
-
-/* ===== LOGIN GOOGLE ===== */
-window.loginGoogle = async function(){
-
-  try{
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    localStorage.setItem("user", JSON.stringify({
-      name: user.displayName,
-      email: user.email,
-      photo: user.photoURL
-    }));
-
-    window.location.href = "dashboard.html";
-
-  }catch(error){
-    alert("Login gagal: " + error.message);
-  }
-};
+}
 
 </script>
 
