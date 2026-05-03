@@ -7,21 +7,12 @@
 
 <style>
 
-/* RESET */
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
-}
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 
-body {
-  height:100vh;
-  overflow:hidden;
-}
+body{height:100vh;overflow:hidden;}
 
-/* BACKGROUND */
-body::before {
+body::before{
   content:"";
   position:absolute;
   width:100%;
@@ -30,8 +21,8 @@ body::before {
   filter:brightness(0.6);
 }
 
-/* CONTAINER */
-.container {
+/* ===== CONTAINER ===== */
+.container{
   position:relative;
   z-index:2;
   height:100vh;
@@ -40,40 +31,22 @@ body::before {
   align-items:center;
 }
 
-/* FORM BOX */
-.form-box {
+/* ===== BOX ===== */
+.form-box{
   width:90%;
   max-width:500px;
-
   background:rgba(255,255,255,0.2);
   backdrop-filter:blur(20px);
   border:1px solid rgba(255,255,255,0.3);
-
   border-radius:20px;
   padding:40px;
   color:white;
-
-  animation:fadeUp 0.8s ease;
 }
 
-/* TITLE */
-.form-box h2 {
-  text-align:center;
-  margin-bottom:25px;
-}
+.form-box h2{text-align:center;margin-bottom:25px;}
 
-/* INPUT */
-.input-group {
-  margin-bottom:15px;
-}
-
-.input-group label {
-  font-size:14px;
-  display:block;
-  margin-bottom:5px;
-}
-
-.input-group input {
+.input-group{margin-bottom:15px;}
+.input-group input{
   width:100%;
   padding:10px;
   border-radius:8px;
@@ -81,59 +54,31 @@ body::before {
 }
 
 /* BUTTON */
-.btn {
+.btn{
   width:100%;
   padding:12px;
-  border-radius:10px;
   border:none;
+  border-radius:10px;
   margin-top:10px;
   cursor:pointer;
   font-weight:bold;
 }
 
-.primary {
-  background:#00c6ff;
-  color:white;
-}
+.primary{background:#00c6ff;color:white;}
 
 /* METHOD */
-.method {
-  margin-top:20px;
-  text-align:center;
-}
-
-.method button {
+.method{text-align:center;margin-top:20px;}
+.method button{
   margin:5px;
   padding:10px 15px;
   border:none;
   border-radius:10px;
   cursor:pointer;
-  transition:0.3s;
 }
 
-.method button:hover {
-  transform:scale(1.05);
-}
-
-.google { background:white; }
-.email { background:#eee; }
-.hp { background:#ddd; }
-
-/* LINK */
-.link {
-  text-align:center;
-  margin-top:15px;
-}
-
-.link a {
-  color:white;
-}
-
-/* ANIMASI */
-@keyframes fadeUp {
-  from {opacity:0; transform:translateY(40px);}
-  to {opacity:1; transform:translateY(0);}
-}
+.google{background:white;}
+.email{background:#eee;}
+.hp{background:#ddd;}
 
 </style>
 </head>
@@ -141,105 +86,138 @@ body::before {
 <body>
 
 <div class="container">
+<div class="form-box">
 
-  <div class="form-box">
+<h2>Daftar Akun FLOWS-PRO</h2>
 
-    <h2>Daftar Akun FLOWS-PRO</h2>
+<form id="form">
+<input id="nama" placeholder="Nama lengkap" required>
+<input id="tgl" type="date" required>
+<input id="lokasi" placeholder="Lokasi" required>
 
-    <form id="registerForm">
+<button class="btn primary">Daftar</button>
+</form>
 
-      <div class="input-group">
-        <label>Nama Lengkap</label>
-        <input type="text" id="nama" required>
-      </div>
-
-      <div class="input-group">
-        <label>Tanggal Lahir</label>
-        <input type="date" id="tgl" required>
-      </div>
-
-      <div class="input-group">
-        <label>Lokasi</label>
-        <input type="text" id="lokasi" required>
-      </div>
-
-      <button type="submit" class="btn primary">Daftar Sekarang</button>
-
-    </form>
-
-    <div class="method">
-      <p>Atau daftar menggunakan</p>
-
-      <button class="google" onclick="loginGoogle()">Google</button>
-      <button class="email" onclick="focusForm()">Email</button>
-      <button class="hp" onclick="loginHP()">No HP</button>
-    </div>
-
-    <div class="link">
-      <p>Sudah punya akun? <a href="login.html">Masuk</a></p>
-    </div>
-
-  </div>
-
+<div class="method">
+<p>Atau daftar menggunakan</p>
+<button class="google" onclick="googleLogin()">Google</button>
+<button class="email" onclick="focusForm()">Email</button>
+<button class="hp" onclick="startHP()">No HP</button>
 </div>
 
-<script>
+</div>
+</div>
 
-/* AUTO LOGIN */
+<!-- OTP POPUP -->
+<div id="otpBox" style="
+position:fixed;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:20px;
+border-radius:12px;
+display:none;
+text-align:center;
+">
+  <h3>Verifikasi HP</h3>
+  <p>Kode OTP: <b id="kodeOtp"></b></p>
+  <input id="otpInput" placeholder="Masukkan OTP">
+  <br><br>
+  <button onclick="verifyOTP()">Verifikasi</button>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
+  authDomain: "flows-pro-dc80e.firebaseapp.com",
+  projectId: "flows-pro-dc80e",
+  appId: "1:1013010002522:web:cb10af6a2b2592dcd09e63"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+/* ===== AUTO LOGIN ===== */
 if(localStorage.getItem("user")){
   window.location.href = "dashboard.html";
 }
 
-/* FORM REGISTER */
-document.getElementById("registerForm").addEventListener("submit", function(e){
-
+/* ===== FORM ===== */
+document.getElementById("form").addEventListener("submit",(e)=>{
   e.preventDefault();
 
   const user = {
-    name: document.getElementById("nama").value,
-    tgl: document.getElementById("tgl").value,
-    lokasi: document.getElementById("lokasi").value,
-    photo: "https://i.pravatar.cc/150"
+    name: nama.value,
+    tgl: tgl.value,
+    lokasi: lokasi.value,
+    photo:"https://i.pravatar.cc/150"
   };
 
   localStorage.setItem("user", JSON.stringify(user));
-
-  alert("Berhasil daftar!");
-  window.location.href = "dashboard.html";
+  window.location.href="dashboard.html";
 });
 
-/* GOOGLE LOGIN (SIMULASI CEPAT) */
-function loginGoogle(){
+/* ===== GOOGLE REAL ===== */
+window.googleLogin = async ()=>{
+  try{
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-  const user = {
-    name: "User Google",
-    email: "google@gmail.com",
-    photo: "https://i.pravatar.cc/150?img=3"
-  };
+    localStorage.setItem("user", JSON.stringify({
+      name:user.displayName,
+      email:user.email,
+      photo:user.photoURL
+    }));
 
-  localStorage.setItem("user", JSON.stringify(user));
+    window.location.href="dashboard.html";
 
-  window.location.href = "dashboard.html";
-}
+  }catch(err){
+    alert("Google gagal: "+err.message);
+  }
+};
 
-/* EMAIL BUTTON → FOKUS KE FORM */
-function focusForm(){
-  document.getElementById("nama").focus();
-}
+/* ===== EMAIL ===== */
+window.focusForm = ()=>{
+  nama.focus();
+};
 
-/* NO HP LOGIN (SIMULASI) */
-function loginHP(){
+/* ===== HP (OTP SIMULASI) ===== */
+let otpCode;
 
-  const user = {
-    name: "User HP",
-    phone: "08123456789",
-    photo: "https://i.pravatar.cc/150?img=5"
-  };
+window.startHP = ()=>{
+  otpCode = Math.floor(100000 + Math.random()*900000);
+  document.getElementById("kodeOtp").innerText = otpCode;
+  document.getElementById("otpBox").style.display="block";
+};
 
-  localStorage.setItem("user", JSON.stringify(user));
+window.verifyOTP = ()=>{
+  if(document.getElementById("otpInput").value == otpCode){
 
-  window.location.href = "dashboard.html";
-}
+    const user = {
+      name:"User HP",
+      phone:"08123xxxx",
+      photo:"https://i.pravatar.cc/150?img=5"
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+    window.location.href="dashboard.html";
+
+  }else{
+    alert("OTP salah!");
+  }
+};
 
 </script>
 
