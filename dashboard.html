@@ -5,14 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FLOWS-PRO</title>
 
-<!-- CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- MAP -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- ROUTING -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
@@ -30,7 +27,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 16px 30px; /* FIX DI SINI */
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,7 +49,7 @@ body {
   color: white;
   cursor: pointer;
   position: relative;
-  margin-right: 10px; /* FIX */
+  max-width: 180px;
 }
 
 .user-box img {
@@ -62,7 +59,7 @@ body {
 }
 
 .user-box span {
-  max-width: 120px;
+  max-width: 110px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -71,23 +68,14 @@ body {
 /* DROPDOWN */
 .dropdown {
   position: absolute;
-  top: 55px;
-  right: 10px; /* FIX */
+  top: 50px;
+  right: 0;
   background: white;
   color: black;
   border-radius: 10px;
   padding: 10px;
   display: none;
   box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-}
-
-.dropdown div {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.dropdown div:hover {
-  background: #eee;
 }
 
 /* ===== CONTAINER ===== */
@@ -97,27 +85,20 @@ body {
   margin: auto;
 }
 
-/* ===== CARD ===== */
+/* CARD */
 .card {
   background: white;
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  transition: 0.3s;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-}
-
-/* ===== GRID ===== */
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 20px;
 }
 
-/* ===== VALUE ===== */
 .value {
   font-size: 28px;
   font-weight: bold;
@@ -151,16 +132,9 @@ body {
   margin-top: 25px;
 }
 
-/* MAP */
 #map {
   height: 350px;
   border-radius: 12px;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .grid { grid-template-columns: 1fr; }
-  .row { grid-template-columns: 1fr; }
 }
 
 </style>
@@ -168,7 +142,6 @@ body {
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">FLOWS-PRO</div>
 
@@ -189,7 +162,6 @@ body {
   <div class="card">
     <h3>Tinggi Air</h3>
     <div id="tinggi" class="value">-</div>
-
     <div class="progress">
       <div id="progressBar" class="progress-bar"></div>
     </div>
@@ -231,7 +203,7 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* CONFIG */
 const firebaseConfig = {
-  apiKey: "ISI_API_KEY_KAMU",
+  apiKey: "ISI_API_KEY",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
   projectId: "flows-pro-dc80e"
 };
@@ -243,23 +215,22 @@ const db = getFirestore(app);
 const user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
-  window.location.href = "login.html";
+  window.location.href="login.html";
 }
 
 userName.innerText = user.name;
 userPhoto.src = user.photo;
 
-/* DROPDOWN */
-window.toggleMenu = function(){
-  let d = document.getElementById("dropdown");
-  d.style.display = d.style.display === "block" ? "none" : "block";
-}
+/* MENU */
+window.toggleMenu = () => {
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+};
 
-/* LOGOUT */
-window.logout = function(){
+window.logout = () => {
   localStorage.removeItem("user");
-  window.location.href = "index.html";
-}
+  window.location.href="index.html";
+};
 
 /* MAP */
 let map = L.map('map').setView([1.666,101.45], 13);
@@ -267,13 +238,12 @@ let map = L.map('map').setView([1.666,101.45], 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
 .addTo(map);
 
-let marker;
 let routingControl;
 
-/* LOAD DATA */
+/* LOAD DATA REAL */
 async function loadData(){
 
-  const snapshot = await getDocs(collection(db, "data_air"));
+  const snapshot = await getDocs(collection(db,"data_air"));
 
   snapshot.forEach(doc => {
     let d = doc.data();
@@ -290,53 +260,39 @@ async function loadData(){
 
     progressBar.style.width = d.tinggi_air + "%";
 
-    if(marker) map.removeLayer(marker);
+    /* MAP + ROUTE */
+    let start = L.latLng(d.latitude, d.longitude);
+    let safe = L.latLng(1.67,101.46);
 
-    marker = L.marker([d.latitude,d.longitude]).addTo(map);
-    map.setView([d.latitude,d.longitude],14);
+    if(routingControl) map.removeControl(routingControl);
 
-    showRoute(d.latitude, d.longitude);
+    routingControl = L.Routing.control({
+      waypoints: [start, safe],
+      createMarker: () => null,
+      addWaypoints: false
+    }).addTo(map);
+
+    map.setView(start,14);
+
+    loadChart(d.tinggi_air);
   });
 }
 
-/* ROUTE */
-function showRoute(lat, lng){
-
-  let safePoint = [1.67,101.46];
-
-  if(routingControl){
-    map.removeControl(routingControl);
-  }
-
-  routingControl = L.Routing.control({
-    waypoints: [
-      L.latLng(lat,lng),
-      L.latLng(safePoint[0],safePoint[1])
-    ],
-    routeWhileDragging:false
-  }).addTo(map);
-}
-
-/* CHART */
+/* CHART FIX (NO LOOP) */
 let chart;
 
-function loadChart(){
-
-  let data = Array.from({length:10},()=>Math.floor(Math.random()*100));
+function loadChart(value){
 
   if(chart) chart.destroy();
 
   chart = new Chart(document.getElementById("chart"),{
     type:"line",
     data:{
-      labels:data.map((_,i)=>i+1),
+      labels:["Data"],
       datasets:[{
-        data:data,
+        data:[value],
         borderColor:"#00c6ff",
-        borderWidth:3,
-        tension:0.4,
-        fill:true,
-        backgroundColor:"rgba(0,198,255,0.1)"
+        borderWidth:3
       }]
     },
     options:{
@@ -345,14 +301,315 @@ function loadChart(){
   });
 }
 
-/* LOOP */
-setInterval(()=>{
-  loadData();
-  loadChart();
-},5000);
+loadData();
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOWS-PRO</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6f9;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #7b2ff7, #00c6ff);
+  z-index: 1000;
+}
+
+.logo {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* USER */
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  max-width: 180px;
+}
+
+.user-box img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.user-box span {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  display: none;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  padding: 110px 30px 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+}
+
+.value {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* STATUS */
+.aman { color: #2ecc71; }
+.waspada { color: #f39c12; }
+.bahaya { color: #e74c3c; }
+
+/* PROGRESS */
+.progress {
+  height: 8px;
+  background: #eee;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 8px;
+  border-radius: 10px;
+  width: 0%;
+  background: #3498db;
+}
+
+/* ROW */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+#map {
+  height: 350px;
+  border-radius: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">FLOWS-PRO</div>
+
+  <div class="user-box" onclick="toggleMenu()">
+    <img id="userPhoto">
+    <span id="userName"></span>
+
+    <div id="dropdown" class="dropdown">
+      <div onclick="logout()">Logout</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="grid">
+
+  <div class="card">
+    <h3>Tinggi Air</h3>
+    <div id="tinggi" class="value">-</div>
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Status</h3>
+    <div id="status" class="value">-</div>
+  </div>
+
+  <div class="card">
+    <h3>Kondisi</h3>
+    <div id="water" class="value">-</div>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="card">
+    <h3>Grafik Ketinggian Air</h3>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>Lokasi Sensor & Evakuasi</h3>
+    <div id="map"></div>
+  </div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* CONFIG */
+const firebaseConfig = {
+  apiKey: "ISI_API_KEY",
+  authDomain: "flows-pro-dc80e.firebaseapp.com",
+  projectId: "flows-pro-dc80e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* USER */
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+  window.location.href="login.html";
+}
+
+userName.innerText = user.name;
+userPhoto.src = user.photo;
+
+/* MENU */
+window.toggleMenu = () => {
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+};
+
+window.logout = () => {
+  localStorage.removeItem("user");
+  window.location.href="index.html";
+};
+
+/* MAP */
+let map = L.map('map').setView([1.666,101.45], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+.addTo(map);
+
+let routingControl;
+
+/* LOAD DATA REAL */
+async function loadData(){
+
+  const snapshot = await getDocs(collection(db,"data_air"));
+
+  snapshot.forEach(doc => {
+    let d = doc.data();
+
+    tinggi.innerText = d.tinggi_air + " cm";
+    water.innerText = d.status;
+
+    status.innerText = d.status;
+    status.className="value";
+
+    if(d.status=="AMAN") status.classList.add("aman");
+    else if(d.status=="WASPADA") status.classList.add("waspada");
+    else status.classList.add("bahaya");
+
+    progressBar.style.width = d.tinggi_air + "%";
+
+    /* MAP + ROUTE */
+    let start = L.latLng(d.latitude, d.longitude);
+    let safe = L.latLng(1.67,101.46);
+
+    if(routingControl) map.removeControl(routingControl);
+
+    routingControl = L.Routing.control({
+      waypoints: [start, safe],
+      createMarker: () => null,
+      addWaypoints: false
+    }).addTo(map);
+
+    map.setView(start,14);
+
+    loadChart(d.tinggi_air);
+  });
+}
+
+/* CHART FIX (NO LOOP) */
+let chart;
+
+function loadChart(value){
+
+  if(chart) chart.destroy();
+
+  chart = new Chart(document.getElementById("chart"),{
+    type:"line",
+    data:{
+      labels:["Data"],
+      datasets:[{
+        data:[value],
+        borderColor:"#00c6ff",
+        borderWidth:3
+      }]
+    },
+    options:{
+      plugins:{legend:{display:false}}
+    }
+  });
+}
 
 loadData();
-loadChart();
 
 </script>
 
