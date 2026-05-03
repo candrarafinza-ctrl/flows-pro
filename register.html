@@ -116,10 +116,6 @@ body::before {
   cursor:pointer;
 }
 
-.google { background:white; }
-.email { background:#eee; }
-.hp { background:#ddd; }
-
 /* LINK */
 .link {
   text-align:center;
@@ -147,24 +143,25 @@ body::before {
 
     <h2>Daftar Akun FLOWS-PRO</h2>
 
-    <form>
+    <!-- FORM -->
+    <form id="registerForm">
 
       <div class="input-group">
         <label>Nama Lengkap</label>
-        <input type="text" placeholder="Masukkan nama lengkap">
+        <input type="text" id="nama" required placeholder="Masukkan nama lengkap">
       </div>
 
       <div class="input-group">
         <label>Tanggal Lahir</label>
-        <input type="date">
+        <input type="date" id="tgl" required>
       </div>
 
       <div class="input-group">
         <label>Lokasi Tempat Tinggal</label>
-        <input type="text" placeholder="Contoh: Medan, Sumatera Utara">
+        <input type="text" id="lokasi" required placeholder="Contoh: Medan, Sumatera Utara">
       </div>
 
-      <button class="btn primary">Daftar Sekarang</button>
+      <button type="submit" class="btn primary">Daftar Sekarang</button>
 
     </form>
 
@@ -182,6 +179,33 @@ body::before {
   </div>
 
 </div>
+
+<script>
+
+/* HANDLE REGISTER */
+document.getElementById("registerForm").addEventListener("submit", function(e){
+
+  e.preventDefault(); // biar tidak reload
+
+  const nama = document.getElementById("nama").value;
+  const tgl = document.getElementById("tgl").value;
+  const lokasi = document.getElementById("lokasi").value;
+
+  // simpan ke localStorage (sementara)
+  localStorage.setItem("userData", JSON.stringify({
+    nama,
+    tgl,
+    lokasi
+  }));
+
+  alert("Pendaftaran berhasil!");
+
+  // arahkan ke login
+  window.location.href = "login.html";
+
+});
+
+</script>
 
 </body>
 </html>
