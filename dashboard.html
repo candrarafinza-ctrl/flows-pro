@@ -27,7 +27,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 16px 20px;
+  padding: 16px 35px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,7 +49,6 @@ body {
   color: white;
   cursor: pointer;
   position: relative;
-  max-width: 180px;
 }
 
 .user-box img {
@@ -59,7 +58,7 @@ body {
 }
 
 .user-box span {
-  max-width: 110px;
+  max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -68,7 +67,7 @@ body {
 /* DROPDOWN */
 .dropdown {
   position: absolute;
-  top: 50px;
+  top: 55px;
   right: 0;
   background: white;
   color: black;
@@ -85,14 +84,20 @@ body {
   margin: auto;
 }
 
-/* CARD */
+/* ===== CARD ===== */
 .card {
   background: white;
   padding: 20px;
   border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: 0.3s;
 }
 
-/* GRID */
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* ===== GRID ===== */
 .grid {
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -104,12 +109,10 @@ body {
   font-weight: bold;
 }
 
-/* STATUS */
 .aman { color: #2ecc71; }
 .waspada { color: #f39c12; }
 .bahaya { color: #e74c3c; }
 
-/* PROGRESS */
 .progress {
   height: 8px;
   background: #eee;
@@ -124,7 +127,7 @@ body {
   background: #3498db;
 }
 
-/* ROW */
+/* ===== ROW ===== */
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -142,6 +145,7 @@ body {
 
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">FLOWS-PRO</div>
 
@@ -162,6 +166,7 @@ body {
   <div class="card">
     <h3>Tinggi Air</h3>
     <div id="tinggi" class="value">-</div>
+
     <div class="progress">
       <div id="progressBar" class="progress-bar"></div>
     </div>
@@ -203,7 +208,7 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* CONFIG */
 const firebaseConfig = {
-  apiKey: "ISI_API_KEY",
+  apiKey: "ISI_API_KEY_KAMU",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
   projectId: "flows-pro-dc80e"
 };
@@ -215,21 +220,22 @@ const db = getFirestore(app);
 const user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
-  window.location.href="login.html";
+  window.location.href = "login.html";
 }
 
 userName.innerText = user.name;
 userPhoto.src = user.photo;
 
-/* MENU */
-window.toggleMenu = () => {
+/* DROPDOWN */
+window.toggleMenu = function(){
   dropdown.style.display =
     dropdown.style.display === "block" ? "none" : "block";
 };
 
-window.logout = () => {
+/* LOGOUT */
+window.logout = function(){
   localStorage.removeItem("user");
-  window.location.href="index.html";
+  window.location.href = "index.html";
 };
 
 /* MAP */
@@ -240,7 +246,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
 
 let routingControl;
 
-/* LOAD DATA REAL */
+/* DATA */
 async function loadData(){
 
   const snapshot = await getDocs(collection(db,"data_air"));
@@ -260,7 +266,6 @@ async function loadData(){
 
     progressBar.style.width = d.tinggi_air + "%";
 
-    /* MAP + ROUTE */
     let start = L.latLng(d.latitude, d.longitude);
     let safe = L.latLng(1.67,101.46);
 
@@ -268,8 +273,7 @@ async function loadData(){
 
     routingControl = L.Routing.control({
       waypoints: [start, safe],
-      createMarker: () => null,
-      addWaypoints: false
+      addWaypoints:false
     }).addTo(map);
 
     map.setView(start,14);
@@ -278,7 +282,7 @@ async function loadData(){
   });
 }
 
-/* CHART FIX (NO LOOP) */
+/* CHART */
 let chart;
 
 function loadChart(value){
@@ -288,7 +292,7 @@ function loadChart(value){
   chart = new Chart(document.getElementById("chart"),{
     type:"line",
     data:{
-      labels:["Data"],
+      labels:["Sensor"],
       datasets:[{
         data:[value],
         borderColor:"#00c6ff",
