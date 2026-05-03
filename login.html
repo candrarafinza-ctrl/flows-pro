@@ -18,6 +18,7 @@
 body {
   height:100vh;
   overflow:hidden;
+  background:#000;
 }
 
 /* BACKGROUND */
@@ -27,7 +28,8 @@ body::before {
   width:100%;
   height:100%;
   background:url('Desain tanpa judul (1).png') center/cover;
-  filter:brightness(0.6);
+  filter:brightness(0.5);
+  animation:zoomBg 6s ease forwards;
 }
 
 /* CONTAINER */
@@ -43,50 +45,87 @@ body::before {
 /* BOX */
 .box {
   width:90%;
-  max-width:400px;
+  max-width:420px;
 
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(25px);
   border:1px solid rgba(255,255,255,0.3);
 
-  border-radius:20px;
-  padding:40px;
+  border-radius:25px;
+  padding:45px;
   color:white;
+  text-align:center;
 
-  animation:fadeUp 0.8s ease;
+  animation:fadeUp 1s ease;
 }
 
+/* TITLE */
 .box h2 {
-  text-align:center;
-  margin-bottom:25px;
+  margin-bottom:30px;
+  font-size:24px;
 }
 
 /* BUTTON */
 .btn {
   width:100%;
-  padding:14px;
+  padding:15px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
   font-weight:bold;
-  background:#00c6ff;
+  background:linear-gradient(90deg,#00c6ff,#0072ff);
   color:white;
+  font-size:16px;
+  transition:0.3s;
+}
+
+.btn:hover {
+  transform:scale(1.05);
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.btn:active {
+  transform:scale(0.95);
 }
 
 /* LINK */
 .link {
-  text-align:center;
-  margin-top:20px;
+  margin-top:25px;
 }
 
 .link a {
-  color:white;
+  color:#fff;
+  text-decoration:underline;
+}
+
+/* POPUP */
+.popup {
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:white;
+  color:black;
+  padding:20px 30px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  transition:0.3s;
+  z-index:999;
+}
+
+.popup.show {
+  transform:translate(-50%,-50%) scale(1);
 }
 
 /* ANIMASI */
 @keyframes fadeUp {
   from {opacity:0; transform:translateY(40px);}
   to {opacity:1; transform:translateY(0);}
+}
+
+@keyframes zoomBg {
+  from {transform:scale(1.2);}
+  to {transform:scale(1);}
 }
 
 </style>
@@ -108,23 +147,42 @@ body::before {
   </div>
 </div>
 
+<!-- POPUP -->
+<div id="popup" class="popup">Silakan daftar terlebih dahulu</div>
+
 <script>
 
-/* AUTO MASUK JIKA SUDAH DAFTAR */
+/* AUTO LOGIN */
 if(localStorage.getItem("user")){
   window.location.href = "dashboard.html";
 }
 
-/* TOMBOL MASUK */
+/* POPUP FUNCTION */
+function showPopup(){
+  const popup = document.getElementById("popup");
+  popup.classList.add("show");
+
+  setTimeout(()=>{
+    popup.classList.remove("show");
+  },2000);
+}
+
+/* MASUK */
 function masuk(){
 
   if(localStorage.getItem("user")){
-    // sudah punya akun
-    window.location.href = "dashboard.html";
+    document.body.style.opacity = "0";
+
+    setTimeout(()=>{
+      window.location.href = "dashboard.html";
+    },500);
+
   } else {
-    // belum punya akun
-    alert("Silakan daftar terlebih dahulu!");
-    window.location.href = "register.html";
+    showPopup();
+
+    setTimeout(()=>{
+      window.location.href = "register.html";
+    },2000);
   }
 
 }
