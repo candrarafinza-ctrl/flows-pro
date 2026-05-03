@@ -116,6 +116,10 @@ body::before {
   cursor:pointer;
 }
 
+.google { background:white; }
+.email { background:#eee; }
+.hp { background:#ddd; }
+
 /* LINK */
 .link {
   text-align:center;
@@ -143,7 +147,6 @@ body::before {
 
     <h2>Daftar Akun FLOWS-PRO</h2>
 
-    <!-- FORM -->
     <form id="registerForm">
 
       <div class="input-group">
@@ -182,26 +185,34 @@ body::before {
 
 <script>
 
-/* HANDLE REGISTER */
+/* CEK SUDAH LOGIN */
+if(localStorage.getItem("user")){
+  window.location.href = "dashboard.html";
+}
+
+/* REGISTER + AUTO LOGIN */
 document.getElementById("registerForm").addEventListener("submit", function(e){
 
-  e.preventDefault(); // biar tidak reload
+  e.preventDefault();
 
   const nama = document.getElementById("nama").value;
   const tgl = document.getElementById("tgl").value;
   const lokasi = document.getElementById("lokasi").value;
 
-  // simpan ke localStorage (sementara)
-  localStorage.setItem("userData", JSON.stringify({
-    nama,
-    tgl,
-    lokasi
-  }));
+  const user = {
+    name: nama,
+    tgl: tgl,
+    lokasi: lokasi,
+    photo: "https://i.pravatar.cc/150"
+  };
 
-  alert("Pendaftaran berhasil!");
+  // simpan sebagai user login
+  localStorage.setItem("user", JSON.stringify(user));
 
-  // arahkan ke login
-  window.location.href = "login.html";
+  alert("Akun berhasil dibuat & langsung masuk dashboard!");
+
+  // langsung ke dashboard
+  window.location.href = "dashboard.html";
 
 });
 
