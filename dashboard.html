@@ -30,7 +30,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 16px 40px;
+  padding: 16px 30px; /* FIX DI SINI */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,6 +52,7 @@ body {
   color: white;
   cursor: pointer;
   position: relative;
+  margin-right: 10px; /* FIX */
 }
 
 .user-box img {
@@ -60,11 +61,18 @@ body {
   border-radius: 50%;
 }
 
+.user-box span {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* DROPDOWN */
 .dropdown {
   position: absolute;
-  top: 50px;
-  right: 0;
+  top: 55px;
+  right: 10px; /* FIX */
   background: white;
   color: black;
   border-radius: 10px;
@@ -176,7 +184,6 @@ body {
 
 <div class="container">
 
-<!-- TOP -->
 <div class="grid">
 
   <div class="card">
@@ -200,7 +207,6 @@ body {
 
 </div>
 
-<!-- BOTTOM -->
 <div class="row">
 
   <div class="card">
@@ -217,7 +223,6 @@ body {
 
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -285,13 +290,11 @@ async function loadData(){
 
     progressBar.style.width = d.tinggi_air + "%";
 
-    /* MAP */
     if(marker) map.removeLayer(marker);
 
     marker = L.marker([d.latitude,d.longitude]).addTo(map);
     map.setView([d.latitude,d.longitude],14);
 
-    /* EVAKUASI */
     showRoute(d.latitude, d.longitude);
   });
 }
