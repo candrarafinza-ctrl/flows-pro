@@ -114,11 +114,15 @@ body::before {
   border:none;
   border-radius:8px;
   cursor:pointer;
+  transition:0.3s;
+}
+
+.method button:hover {
+  transform:scale(1.05);
 }
 
 .google { background:white; }
 .email { background:#eee; }
-.hp { background:#ddd; }
 
 /* LINK */
 .link {
@@ -136,21 +140,6 @@ body::before {
   to {opacity:1; transform:translateY(0);}
 }
 
-/* OTP BOX */
-#otpBox {
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:white;
-  color:black;
-  padding:25px;
-  border-radius:12px;
-  display:none;
-  text-align:center;
-  z-index:999;
-}
-
 </style>
 </head>
 
@@ -162,6 +151,7 @@ body::before {
 
     <h2>Daftar Akun FLOWS-PRO</h2>
 
+    <!-- FORM -->
     <form id="registerForm">
 
       <div class="input-group">
@@ -170,27 +160,28 @@ body::before {
       </div>
 
       <div class="input-group">
-        <label>Tanggal Lahir</label>
-        <input type="date" id="tgl" required>
+        <label>Email</label>
+        <input type="email" id="email" required placeholder="Masukkan email">
       </div>
 
       <div class="input-group">
-        <label>Lokasi Tempat Tinggal</label>
-        <input type="text" id="lokasi" required placeholder="Contoh: Medan">
+        <label>Password</label>
+        <input type="password" id="password" required placeholder="Masukkan password">
       </div>
 
       <button type="submit" class="btn primary">Daftar Sekarang</button>
 
     </form>
 
+    <!-- METHOD -->
     <div class="method">
       <p>Atau daftar menggunakan</p>
 
       <button class="google" onclick="loginGoogle()">Google</button>
       <button class="email" onclick="focusForm()">Email</button>
-      <button class="hp" onclick="startHP()">No HP</button>
     </div>
 
+    <!-- LINK -->
     <div class="link">
       <p>Sudah punya akun? <a href="login.html">Masuk</a></p>
     </div>
@@ -199,25 +190,18 @@ body::before {
 
 </div>
 
-<!-- OTP POPUP -->
-<div id="otpBox">
-  <h3>Verifikasi Nomor HP</h3>
-  <p>Kode OTP: <b id="otpCode"></b></p>
-  <input id="otpInput" placeholder="Masukkan OTP">
-  <br><br>
-  <button onclick="verifyOTP()">Verifikasi</button>
-</div>
-
 <!-- FIREBASE -->
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
+  createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+/* CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
@@ -234,71 +218,60 @@ if(localStorage.getItem("user")){
   window.location.href = "dashboard.html";
 }
 
-/* FORM REGISTER */
-document.getElementById("registerForm").addEventListener("submit", function(e){
+/* REGISTER EMAIL */
+document.getElementById("registerForm").addEventListener("submit", async function(e){
 
   e.preventDefault();
 
-  const user = {
-    name: nama.value,
-    tgl: tgl.value,
-    lokasi: lokasi.value,
-    photo: "https://i.pravatar.cc/150"
-  };
+  const nama = document.getElementById("nama").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  localStorage.setItem("user", JSON.stringify(user));
-  window.location.href = "dashboard.html";
+  try{
+
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    localStorage.setItem("user", JSON.stringify({
+      name: nama,
+      email: user.email,
+      photo: "https://i.pravatar.cc/150"
+    }));
+
+    alert("Berhasil daftar!");
+    window.location.href = "dashboard.html";
+
+  } catch(error){
+    alert("Gagal: " + error.message);
+  }
+
 });
 
-/* GOOGLE LOGIN (REAL) */
+/* GOOGLE LOGIN */
 window.loginGoogle = async function(){
+
   try{
+
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
     localStorage.setItem("user", JSON.stringify({
-      name:user.displayName,
-      email:user.email,
-      photo:user.photoURL
+      name: user.displayName,
+      email: user.email,
+      photo: user.photoURL
     }));
 
-    window.location.href="dashboard.html";
+    window.location.href = "dashboard.html";
 
-  }catch(err){
-    alert(err.message);
+  } catch(error){
+    alert("Google error: " + error.message);
   }
+
 };
 
-/* EMAIL */
+/* EMAIL BUTTON */
 window.focusForm = function(){
-  document.getElementById("nama").focus();
-};
-
-/* HP OTP */
-let otp;
-
-window.startHP = function(){
-  otp = Math.floor(100000 + Math.random()*900000);
-  document.getElementById("otpCode").innerText = otp;
-  document.getElementById("otpBox").style.display="block";
-};
-
-window.verifyOTP = function(){
-
-  if(document.getElementById("otpInput").value == otp){
-
-    const user = {
-      name:"User HP",
-      phone:"08xxxx",
-      photo:"https://i.pravatar.cc/150?img=5"
-    };
-
-    localStorage.setItem("user", JSON.stringify(user));
-    window.location.href="dashboard.html";
-
-  } else {
-    alert("OTP salah!");
-  }
+  document.getElementById("email").focus();
 };
 
 </script>
