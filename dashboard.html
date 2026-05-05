@@ -90,6 +90,50 @@ body{
   box-shadow:0 6px 15px rgba(0,0,0,0.2);
 }
 
+.dropdown div{
+  padding:8px;
+  cursor:pointer;
+}
+
+.dropdown div:hover{
+  background:#eee;
+}
+
+/* POPUP EDIT */
+.modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-box{
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  width:300px;
+}
+
+.modal-box input{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+}
+
+.modal-box button{
+  padding:10px;
+  width:100%;
+  background:#00c6ff;
+  border:none;
+  color:white;
+  border-radius:8px;
+}
+
 /* ===== CONTENT ===== */
 .container{
   max-width:1200px;
@@ -161,10 +205,21 @@ body{
       <span id="userName"></span>
 
       <div id="dropdown" class="dropdown">
+        <div onclick="openEdit()">Edit Akun</div>
         <div onclick="logout()">Logout</div>
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- MODAL EDIT -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <h3>Edit Akun</h3>
+    <input type="text" id="editName" placeholder="Nama baru">
+    <input type="text" id="editPhoto" placeholder="URL Foto">
+    <button onclick="saveEdit()">Simpan</button>
   </div>
 </div>
 
@@ -215,7 +270,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getFirestore, collection, onSnapshot }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* FIREBASE CONFIG */
+/* CONFIG */
 const firebaseConfig = {
   apiKey: "ISI_API_KEY",
   authDomain: "flows-pro-dc80e.firebaseapp.com",
@@ -226,14 +281,17 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 /* USER */
-const user = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
   window.location.href="login.html";
 }
 
-userName.innerText = user.name;
-userPhoto.src = user.photo;
+function loadUser(){
+  userName.innerText = user.name;
+  userPhoto.src = user.photo;
+}
+loadUser();
 
 /* DROPDOWN */
 window.toggleMenu = () => {
@@ -241,9 +299,27 @@ window.toggleMenu = () => {
     dropdown.style.display === "block" ? "none" : "block";
 };
 
+/* LOGOUT */
 window.logout = () => {
   localStorage.removeItem("user");
   window.location.href="index.html";
+};
+
+/* EDIT */
+window.openEdit = () => {
+  modal.style.display="flex";
+  editName.value = user.name;
+  editPhoto.value = user.photo;
+};
+
+window.saveEdit = () => {
+  user.name = editName.value;
+  user.photo = editPhoto.value;
+
+  localStorage.setItem("user", JSON.stringify(user));
+  loadUser();
+
+  modal.style.display="none";
 };
 
 /* MAP */
@@ -278,13 +354,6 @@ function updateChart(value){
   });
 }
 
-/* ALERT */
-function showAlert(status){
-  if(status === "BAHAYA"){
-    alert("🚨 BAHAYA BANJIR! Segera evakuasi!");
-  }
-}
-
 /* REALTIME */
 onSnapshot(collection(db,"data_air"), (snapshot)=>{
 
@@ -308,39 +377,15 @@ onSnapshot(collection(db,"data_air"), (snapshot)=>{
     progressBar.style.width = d.tinggi_air + "%";
 
     updateChart(d.tinggi_air);
-    showAlert(d.status);
 
     let marker = L.marker([d.latitude,d.longitude])
       .addTo(map)
-      .bindPopup(`
-        <b>${d.nama}</b><br>
-        Status: ${d.status}<br>
-        ${d.tinggi_air} cm<br><br>
-        <button onclick="routeTo(${d.latitude},${d.longitude})">
-        Evakuasi
-        </button>
-      `);
+      .bindPopup(`<b>${d.nama}</b>`);
 
     markers.push(marker);
   });
 
 });
-
-/* ROUTE */
-window.routeTo = function(lat,lng){
-
-  let safe = [1.67,101.46];
-
-  if(routingControl) map.removeControl(routingControl);
-
-  routingControl = L.Routing.control({
-    waypoints:[
-      L.latLng(lat,lng),
-      L.latLng(safe[0],safe[1])
-    ],
-    addWaypoints:false
-  }).addTo(map);
-};
 
 </script>
 
