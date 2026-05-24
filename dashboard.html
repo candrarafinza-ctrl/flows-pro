@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FLOWS-PRO Enterprise</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOWS-PRO Dashboard</title>
 
 <!-- CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,7 +12,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- LEAFLET -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <!-- ICON -->
@@ -31,9 +33,40 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 }
 
 body{
-  background:#081018;
-  color:white;
+  background:
+  linear-gradient(
+    135deg,
+    #0072ff,
+    #00c6ff
+  );
+  min-height:100vh;
   overflow-x:hidden;
+}
+
+/* ================= BACKGROUND EFFECT ================= */
+
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background:rgba(255,255,255,0.15);
+  border-radius:50%;
+  top:-200px;
+  right:-100px;
+  filter:blur(80px);
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  width:400px;
+  height:400px;
+  background:rgba(255,255,255,0.1);
+  border-radius:50%;
+  bottom:-150px;
+  left:-100px;
+  filter:blur(80px);
 }
 
 /* ================= SIDEBAR ================= */
@@ -42,24 +75,30 @@ body{
   position:fixed;
   left:0;
   top:0;
-  width:260px;
+  width:250px;
   height:100vh;
-  background:linear-gradient(
-    180deg,
-    #071521,
-    #0d2233
-  );
-  border-right:1px solid rgba(255,255,255,0.05);
+
+  background:rgba(255,255,255,0.12);
+
+  backdrop-filter:blur(20px);
+
+  border-right:1px solid rgba(255,255,255,0.2);
+
   padding:25px 18px;
+
   z-index:1000;
 }
 
+/* LOGO */
+
 .logo{
+  color:white;
   font-size:30px;
   font-weight:bold;
-  color:#00d9ff;
   margin-bottom:35px;
 }
+
+/* MENU */
 
 .menu{
   display:flex;
@@ -69,33 +108,27 @@ body{
 
 .menu a{
   text-decoration:none;
-  color:#d8e6f2;
+  color:white;
   padding:14px;
-  border-radius:12px;
-  transition:0.3s;
+  border-radius:14px;
   display:flex;
   align-items:center;
   gap:12px;
+  transition:0.3s;
 }
 
 .menu a:hover{
-  background:rgba(0,217,255,0.12);
-  color:#00d9ff;
+  background:rgba(255,255,255,0.18);
 }
 
 .active{
-  background:linear-gradient(
-    90deg,
-    rgba(0,217,255,0.18),
-    rgba(0,217,255,0.05)
-  );
-  color:#00d9ff !important;
+  background:rgba(255,255,255,0.25);
 }
 
 /* ================= MAIN ================= */
 
 .main{
-  margin-left:260px;
+  margin-left:250px;
   min-height:100vh;
 }
 
@@ -103,30 +136,39 @@ body{
 
 .navbar{
   height:80px;
+
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
+
   padding:0 30px;
-  background:#0b1825;
-  border-bottom:1px solid rgba(255,255,255,0.05);
+
+  background:rgba(255,255,255,0.1);
+
+  backdrop-filter:blur(15px);
+
+  border-bottom:1px solid rgba(255,255,255,0.2);
+
   position:sticky;
   top:0;
   z-index:999;
 }
 
+/* NAV LINKS */
+
 .nav-links{
   display:flex;
-  gap:30px;
+  gap:25px;
 }
 
 .nav-links a{
-  color:#dce9f5;
+  color:white;
   text-decoration:none;
   transition:0.3s;
 }
 
 .nav-links a:hover{
-  color:#00d9ff;
+  opacity:0.7;
 }
 
 /* ================= USER ================= */
@@ -144,32 +186,42 @@ body{
   height:42px;
   border-radius:50%;
   object-fit:cover;
-  border:2px solid #00d9ff;
+  border:2px solid white;
 }
 
 .user-name{
+  color:white;
   font-weight:600;
 }
+
+/* DROPDOWN */
 
 .dropdown{
   position:absolute;
   top:60px;
   right:0;
+
   width:180px;
-  background:#12263a;
-  border-radius:14px;
+
+  background:rgba(255,255,255,0.2);
+
+  backdrop-filter:blur(20px);
+
+  border-radius:15px;
+
   overflow:hidden;
+
   display:none;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 .dropdown div{
   padding:14px;
+  color:white;
   transition:0.3s;
 }
 
 .dropdown div:hover{
-  background:#18344e;
+  background:rgba(255,255,255,0.15);
 }
 
 /* ================= CONTENT ================= */
@@ -189,45 +241,60 @@ body{
 /* ================= CARD ================= */
 
 .card{
-  background:linear-gradient(
-    180deg,
-    #102131,
-    #0d1c2b
-  );
-  border-radius:20px;
+  background:rgba(255,255,255,0.15);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,0.2);
+
+  border-radius:22px;
+
   padding:22px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.2);
-  border:1px solid rgba(255,255,255,0.03);
+
+  color:white;
+
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+
+  transition:0.3s;
 }
 
-.card-title{
-  color:#cfe6f9;
-  margin-bottom:15px;
-  font-size:17px;
+.card:hover{
+  transform:translateY(-5px);
 }
+
+/* CARD TITLE */
+
+.card-title{
+  font-size:17px;
+  margin-bottom:15px;
+}
+
+/* VALUE */
 
 .value{
   font-size:38px;
   font-weight:bold;
 }
 
+/* SUB */
+
 .sub{
-  color:#7fa6c3;
-  margin-top:8px;
+  margin-top:10px;
+  opacity:0.8;
 }
 
-/* ================= STATUS ================= */
+/* STATUS */
 
 .aman{
-  color:#2ecc71;
+  color:#8cffc1;
 }
 
 .waspada{
-  color:#f1c40f;
+  color:#ffe082;
 }
 
 .bahaya{
-  color:#ff4d4d;
+  color:#ff8a80;
 }
 
 /* ================= PROGRESS ================= */
@@ -235,20 +302,22 @@ body{
 .progress{
   width:100%;
   height:10px;
-  background:#173149;
+
+  background:rgba(255,255,255,0.2);
+
   border-radius:20px;
-  margin-top:18px;
+
+  margin-top:15px;
+
   overflow:hidden;
 }
 
 .progress-bar{
-  height:10px;
   width:0%;
-  background:linear-gradient(
-    90deg,
-    #00d9ff,
-    #00ffa3
-  );
+  height:10px;
+
+  background:white;
+
   transition:0.5s;
 }
 
@@ -256,46 +325,52 @@ body{
 
 .big-grid{
   margin-top:25px;
+
   display:grid;
   grid-template-columns:2fr 1fr;
+
   gap:20px;
 }
 
-/* ================= CHART ================= */
+/* CHART */
 
 .chart-box{
-  height:420px;
+  height:430px;
 }
 
-/* ================= MAP ================= */
-
-#map{
-  height:420px;
-  border-radius:15px;
-}
-
-/* ================= ALERT ================= */
+/* ALERT */
 
 .alert-box{
-  margin-top:20px;
   display:flex;
   flex-direction:column;
   gap:15px;
 }
 
 .alert{
-  background:#1b2f44;
+  background:rgba(255,255,255,0.15);
+
+  border-left:5px solid white;
+
   padding:15px;
-  border-radius:14px;
-  border-left:5px solid #00d9ff;
+
+  border-radius:15px;
+
+  color:white;
 }
 
 .alert.red{
-  border-left:5px solid #ff4d4d;
+  border-left:5px solid #ff5252;
 }
 
 .alert.yellow{
-  border-left:5px solid #f1c40f;
+  border-left:5px solid #ffd54f;
+}
+
+/* MAP */
+
+#map{
+  height:420px;
+  border-radius:18px;
 }
 
 /* ================= MODAL ================= */
@@ -303,55 +378,85 @@ body{
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+
+  background:rgba(0,0,0,0.5);
+
   display:none;
+
   justify-content:center;
   align-items:center;
+
   z-index:99999;
 }
 
 .modal-box{
   width:340px;
-  background:#12263a;
-  padding:25px;
+
+  background:rgba(255,255,255,0.18);
+
+  backdrop-filter:blur(20px);
+
   border-radius:20px;
+
+  padding:25px;
+
+  border:1px solid rgba(255,255,255,0.2);
 }
 
 .modal-box h3{
+  color:white;
   margin-bottom:15px;
 }
 
 .modal-box img{
   width:90px;
   height:90px;
+
   border-radius:50%;
+
   object-fit:cover;
+
   display:block;
+
   margin:auto;
   margin-bottom:15px;
 }
 
 .modal-box input{
   width:100%;
+
   padding:12px;
+
   border:none;
-  border-radius:10px;
+
+  border-radius:12px;
+
   margin-bottom:12px;
-  background:#1c3853;
+
+  background:rgba(255,255,255,0.2);
+
+  color:white;
+}
+
+.modal-box input::placeholder{
   color:white;
 }
 
 .modal-box button{
   width:100%;
+
   padding:12px;
+
   border:none;
+
   border-radius:12px;
-  background:linear-gradient(
-    90deg,
-    #00d9ff,
-    #00ffa3
-  );
+
+  background:white;
+
+  color:#0072ff;
+
   font-weight:bold;
+
   cursor:pointer;
 }
 
@@ -403,7 +508,7 @@ body{
 <div class="sidebar">
 
   <div class="logo">
-    FLOWS-PRO
+    FLOWS
   </div>
 
   <div class="menu">
@@ -451,7 +556,7 @@ body{
 
 <div class="main">
 
-<!-- ================= NAVBAR ================= -->
+<!-- NAVBAR -->
 
 <div class="navbar">
 
@@ -485,15 +590,15 @@ body{
 
 </div>
 
-<!-- ================= CONTENT ================= -->
+<!-- CONTENT -->
 
 <div class="content">
 
-<!-- ================= TOP GRID ================= -->
+<!-- TOP GRID -->
 
 <div class="grid">
 
-  <!-- CARD 1 -->
+  <!-- CARD -->
   <div class="card">
 
     <div class="card-title">
@@ -509,19 +614,21 @@ body{
     </div>
 
     <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
+      <div class="progress-bar"
+      id="progressBar"></div>
     </div>
 
   </div>
 
-  <!-- CARD 2 -->
+  <!-- CARD -->
   <div class="card">
 
     <div class="card-title">
-      Status Banjir
+      Status
     </div>
 
-    <div class="value aman" id="status">
+    <div class="value aman"
+    id="status">
       AMAN
     </div>
 
@@ -531,14 +638,15 @@ body{
 
   </div>
 
-  <!-- CARD 3 -->
+  <!-- CARD -->
   <div class="card">
 
     <div class="card-title">
       Water Sensor
     </div>
 
-    <div class="value" id="water">
+    <div class="value"
+    id="water">
       KERING
     </div>
 
@@ -550,7 +658,7 @@ body{
 
 </div>
 
-<!-- ================= BIG GRID ================= -->
+<!-- BIG GRID -->
 
 <div class="big-grid">
 
@@ -566,20 +674,17 @@ body{
   </div>
 
   <!-- ALERT -->
-  <div>
+  <div class="card">
 
-    <div class="card">
+    <div class="card-title">
+      Live Alerts
+    </div>
 
-      <div class="card-title">
-        Live Alerts
-      </div>
+    <div class="alert-box"
+    id="alerts">
 
-      <div class="alert-box" id="alerts">
-
-        <div class="alert">
-          Sistem monitoring aktif
-        </div>
-
+      <div class="alert">
+        Sistem monitoring aktif
       </div>
 
     </div>
@@ -588,7 +693,7 @@ body{
 
 </div>
 
-<!-- ================= MAP ================= -->
+<!-- MAP -->
 
 <div style="margin-top:25px;">
 
@@ -610,7 +715,8 @@ body{
 
 <!-- ================= MODAL ================= -->
 
-<div class="modal" id="modal">
+<div class="modal"
+id="modal">
 
   <div class="modal-box">
 
@@ -618,7 +724,8 @@ body{
 
     <img id="previewPhoto">
 
-    <input type="file" id="photoInput">
+    <input type="file"
+    id="photoInput">
 
     <input
     type="text"
@@ -639,15 +746,17 @@ body{
 
 /* ================= SUPABASE ================= */
 
-const supabase = window.supabase.createClient(
+const supabase =
+window.supabase.createClient(
   "https://hceblnmngnnexxtkeiev.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
 );
 
 /* ================= USER ================= */
 
-let user = JSON.parse(
-  localStorage.getItem("user")
+let user =
+JSON.parse(
+localStorage.getItem("user")
 );
 
 if(!user){
@@ -657,11 +766,11 @@ if(!user){
 function loadUser(){
 
   userName.innerText =
-    user.name || "User";
+  user.name || "User";
 
   userPhoto.src =
-    user.photo ||
-    "https://i.pravatar.cc/150";
+  user.photo ||
+  "https://i.pravatar.cc/150";
 
 }
 
@@ -694,9 +803,11 @@ function openEdit(){
 
   modal.style.display="flex";
 
-  editName.value = user.name;
+  editName.value =
+  user.name;
 
-  previewPhoto.src = user.photo;
+  previewPhoto.src =
+  user.photo;
 
 }
 
@@ -706,16 +817,19 @@ photoInput.addEventListener(
 "change",
 function(){
 
-  const file = this.files[0];
+  const file =
+  this.files[0];
 
   if(!file) return;
 
-  const reader = new FileReader();
+  const reader =
+  new FileReader();
 
-  reader.onload = function(e){
+  reader.onload =
+  function(e){
 
     previewPhoto.src =
-      e.target.result;
+    e.target.result;
 
   };
 
@@ -728,10 +842,10 @@ function(){
 function saveEdit(){
 
   user.name =
-    editName.value;
+  editName.value;
 
   user.photo =
-    previewPhoto.src;
+  previewPhoto.src;
 
   localStorage.setItem(
     "user",
@@ -760,7 +874,8 @@ modal.addEventListener(
 
 /* ================= MAP ================= */
 
-let map = L.map('map')
+let map =
+L.map('map')
 .setView([1.666,101.45],13);
 
 L.tileLayer(
@@ -771,27 +886,36 @@ let marker;
 
 /* ================= CHART ================= */
 
-let chart = new Chart(
+let chart =
+new Chart(
 document.getElementById("chart"),
 {
   type:"line",
 
   data:{
     labels:[],
+
     datasets:[{
       label:"Tinggi Air",
+
       data:[],
-      borderColor:"#00d9ff",
+
+      borderColor:"#ffffff",
+
       borderWidth:3,
+
       tension:0.4,
+
       fill:true,
+
       backgroundColor:
-      "rgba(0,217,255,0.1)"
+      "rgba(255,255,255,0.15)"
     }]
   },
 
   options:{
     responsive:true,
+
     maintainAspectRatio:false,
 
     plugins:{
@@ -805,13 +929,13 @@ document.getElementById("chart"),
     scales:{
       x:{
         ticks:{
-          color:"#cfe6f9"
+          color:"white"
         }
       },
 
       y:{
         ticks:{
-          color:"#cfe6f9"
+          color:"white"
         }
       }
     }
@@ -835,30 +959,37 @@ function addAlert(text,type){
 
 }
 
-/* ================= UPDATE UI ================= */
+/* ================= UPDATE ================= */
 
 function updateDashboard(data){
 
   /* TINGGI */
+
   tinggi.innerText =
-    data.tinggi_air + " cm";
+  data.tinggi_air + " cm";
 
   /* WATER */
+
   water.innerText =
-    data.water_level;
+  data.water_level;
 
   /* STATUS */
-  status.innerText =
-    data.status;
 
-  status.className = "value";
+  status.innerText =
+  data.status;
+
+  status.className =
+  "value";
 
   if(data.status==="AMAN"){
 
     status.classList.add("aman");
 
   }
-  else if(data.status==="WASPADA"){
+
+  else if(
+  data.status==="WASPADA"
+  ){
 
     status.classList.add("waspada");
 
@@ -868,6 +999,7 @@ function updateDashboard(data){
     );
 
   }
+
   else{
 
     status.classList.add("bahaya");
@@ -880,13 +1012,15 @@ function updateDashboard(data){
   }
 
   /* PROGRESS */
+
   progressBar.style.width =
-    data.tinggi_air + "%";
+  data.tinggi_air + "%";
 
   /* CHART */
 
   chart.data.labels.push(
-    new Date().toLocaleTimeString()
+    new Date()
+    .toLocaleTimeString()
   );
 
   chart.data.datasets[0]
@@ -894,7 +1028,9 @@ function updateDashboard(data){
     data.tinggi_air
   );
 
-  if(chart.data.labels.length > 15){
+  if(
+  chart.data.labels.length > 15
+  ){
 
     chart.data.labels.shift();
 
@@ -913,14 +1049,20 @@ function updateDashboard(data){
 
   }
 
-  marker = L.marker([
+  marker =
+  L.marker([
     data.latitude,
     data.longitude
   ])
+
   .addTo(map)
+
   .bindPopup(`
-    <b>Status:</b> ${data.status}<br>
-    <b>Tinggi:</b> ${data.tinggi_air} cm
+    <b>Status:</b>
+    ${data.status}<br>
+
+    <b>Tinggi:</b>
+    ${data.tinggi_air} cm
   `);
 
   map.setView([
@@ -930,16 +1072,22 @@ function updateDashboard(data){
 
 }
 
-/* ================= LOAD DATA ================= */
+/* ================= LOAD ================= */
 
 async function loadLatest(){
 
   const { data, error } =
   await supabase
+
   .from("data_air")
+
   .select("*")
-  .order("id",
-  {ascending:false})
+
+  .order(
+    "id",
+    {ascending:false}
+  )
+
   .limit(1);
 
   if(data && data.length > 0){
@@ -955,6 +1103,7 @@ loadLatest();
 /* ================= REALTIME ================= */
 
 supabase
+
 .channel("realtime-air")
 
 .on(
@@ -962,7 +1111,9 @@ supabase
 
 {
   event:"INSERT",
+
   schema:"public",
+
   table:"data_air"
 },
 
