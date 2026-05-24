@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>FLOWS-PRO Dashboard</title>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <!-- CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,10 +22,6 @@ href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- ICON -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
 <style>
 
 /* ================= RESET ================= */
@@ -33,72 +34,39 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 }
 
 body{
-  background:
-  linear-gradient(
-    135deg,
-    #0072ff,
-    #00c6ff
-  );
-  min-height:100vh;
+  background:#eef3f8;
   overflow-x:hidden;
-}
-
-/* ================= BACKGROUND EFFECT ================= */
-
-body::before{
-  content:"";
-  position:fixed;
-  width:500px;
-  height:500px;
-  background:rgba(255,255,255,0.15);
-  border-radius:50%;
-  top:-200px;
-  right:-100px;
-  filter:blur(80px);
-}
-
-body::after{
-  content:"";
-  position:fixed;
-  width:400px;
-  height:400px;
-  background:rgba(255,255,255,0.1);
-  border-radius:50%;
-  bottom:-150px;
-  left:-100px;
-  filter:blur(80px);
 }
 
 /* ================= SIDEBAR ================= */
 
 .sidebar{
   position:fixed;
-  left:0;
   top:0;
+  left:0;
   width:250px;
   height:100vh;
 
-  background:rgba(255,255,255,0.12);
+  background:
+  linear-gradient(
+    180deg,
+    #081b2d,
+    #102c46
+  );
 
-  backdrop-filter:blur(20px);
+  color:white;
 
-  border-right:1px solid rgba(255,255,255,0.2);
-
-  padding:25px 18px;
+  padding:20px 15px;
 
   z-index:1000;
 }
 
-/* LOGO */
-
 .logo{
-  color:white;
   font-size:30px;
   font-weight:bold;
   margin-bottom:35px;
+  color:#00c6ff;
 }
-
-/* MENU */
 
 .menu{
   display:flex;
@@ -109,20 +77,30 @@ body::after{
 .menu a{
   text-decoration:none;
   color:white;
+
   padding:14px;
-  border-radius:14px;
+
+  border-radius:12px;
+
   display:flex;
   align-items:center;
+
   gap:12px;
+
   transition:0.3s;
 }
 
 .menu a:hover{
-  background:rgba(255,255,255,0.18);
+  background:rgba(255,255,255,0.12);
 }
 
 .active{
-  background:rgba(255,255,255,0.25);
+  background:
+  linear-gradient(
+    90deg,
+    #00c6ff,
+    #0072ff
+  );
 }
 
 /* ================= MAIN ================= */
@@ -135,7 +113,9 @@ body::after{
 /* ================= NAVBAR ================= */
 
 .navbar{
-  height:80px;
+  height:75px;
+
+  background:white;
 
   display:flex;
   justify-content:space-between;
@@ -143,32 +123,26 @@ body::after{
 
   padding:0 30px;
 
-  background:rgba(255,255,255,0.1);
-
-  backdrop-filter:blur(15px);
-
-  border-bottom:1px solid rgba(255,255,255,0.2);
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
 
   position:sticky;
   top:0;
   z-index:999;
 }
 
-/* NAV LINKS */
-
 .nav-links{
   display:flex;
-  gap:25px;
+  gap:30px;
 }
 
 .nav-links a{
-  color:white;
   text-decoration:none;
-  transition:0.3s;
+  color:#333;
+  font-size:15px;
 }
 
 .nav-links a:hover{
-  opacity:0.7;
+  color:#00a8ff;
 }
 
 /* ================= USER ================= */
@@ -177,20 +151,22 @@ body::after{
   display:flex;
   align-items:center;
   gap:10px;
+
   cursor:pointer;
+
   position:relative;
 }
 
 .user-box img{
   width:42px;
   height:42px;
+
   border-radius:50%;
+
   object-fit:cover;
-  border:2px solid white;
 }
 
 .user-name{
-  color:white;
   font-weight:600;
 }
 
@@ -198,179 +174,191 @@ body::after{
 
 .dropdown{
   position:absolute;
+
   top:60px;
   right:0;
 
   width:180px;
 
-  background:rgba(255,255,255,0.2);
-
-  backdrop-filter:blur(20px);
+  background:white;
 
   border-radius:15px;
 
   overflow:hidden;
+
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
 
   display:none;
 }
 
 .dropdown div{
   padding:14px;
-  color:white;
   transition:0.3s;
 }
 
 .dropdown div:hover{
-  background:rgba(255,255,255,0.15);
+  background:#f1f5f9;
 }
 
 /* ================= CONTENT ================= */
 
 .content{
-  padding:30px;
+  padding:25px;
 }
 
-/* ================= GRID ================= */
+/* ================= TOP GRID ================= */
 
-.grid{
+.top-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+
+  grid-template-columns:
+  2fr 1fr 1fr;
+
   gap:20px;
 }
 
 /* ================= CARD ================= */
 
 .card{
-  background:rgba(255,255,255,0.15);
+  background:white;
 
-  backdrop-filter:blur(20px);
+  border-radius:18px;
 
-  border:1px solid rgba(255,255,255,0.2);
+  padding:18px;
 
-  border-radius:22px;
-
-  padding:22px;
-
-  color:white;
-
-  box-shadow:0 8px 20px rgba(0,0,0,0.12);
-
-  transition:0.3s;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
-
-.card:hover{
-  transform:translateY(-5px);
-}
-
-/* CARD TITLE */
 
 .card-title{
-  font-size:17px;
-  margin-bottom:15px;
+  font-size:16px;
+  margin-bottom:12px;
+  color:#333;
 }
 
-/* VALUE */
+/* ================= VALUE ================= */
 
 .value{
-  font-size:38px;
+  font-size:34px;
   font-weight:bold;
 }
 
-/* SUB */
-
-.sub{
-  margin-top:10px;
-  opacity:0.8;
-}
-
-/* STATUS */
+/* ================= STATUS ================= */
 
 .aman{
-  color:#8cffc1;
+  color:#2ecc71;
 }
 
 .waspada{
-  color:#ffe082;
+  color:#f39c12;
 }
 
 .bahaya{
-  color:#ff8a80;
+  color:#e74c3c;
 }
 
-/* ================= PROGRESS ================= */
-
-.progress{
-  width:100%;
-  height:10px;
-
-  background:rgba(255,255,255,0.2);
-
-  border-radius:20px;
-
-  margin-top:15px;
-
-  overflow:hidden;
-}
-
-.progress-bar{
-  width:0%;
-  height:10px;
-
-  background:white;
-
-  transition:0.5s;
-}
-
-/* ================= BIG GRID ================= */
-
-.big-grid{
-  margin-top:25px;
-
-  display:grid;
-  grid-template-columns:2fr 1fr;
-
-  gap:20px;
-}
-
-/* CHART */
+/* ================= CHART ================= */
 
 .chart-box{
-  height:430px;
+  height:340px;
 }
 
-/* ALERT */
+canvas{
+  width:100% !important;
+  height:100% !important;
+}
+
+/* ================= WEATHER ================= */
+
+.weather-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.weather-icon{
+  width:45px;
+  height:45px;
+
+  border-radius:12px;
+
+  background:#e9f7ff;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  color:#00a8ff;
+}
+
+/* ================= ALERT ================= */
 
 .alert-box{
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:12px;
 }
 
 .alert{
-  background:rgba(255,255,255,0.15);
-
-  border-left:5px solid white;
-
-  padding:15px;
-
-  border-radius:15px;
-
-  color:white;
+  padding:12px;
+  border-radius:12px;
+  font-size:14px;
 }
 
 .alert.red{
-  border-left:5px solid #ff5252;
+  background:#ffecec;
+  color:#d63031;
 }
 
 .alert.yellow{
-  border-left:5px solid #ffd54f;
+  background:#fff8df;
+  color:#d68910;
 }
 
-/* MAP */
+.alert.blue{
+  background:#eaf6ff;
+  color:#0984e3;
+}
+
+/* ================= MAP ================= */
 
 #map{
-  height:420px;
-  border-radius:18px;
+  height:380px;
+  border-radius:15px;
+}
+
+/* ================= BOTTOM ================= */
+
+.bottom-grid{
+  margin-top:25px;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(5,1fr);
+
+  gap:15px;
+}
+
+.gallery{
+  background:white;
+
+  border-radius:15px;
+
+  overflow:hidden;
+
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.gallery img{
+  width:100%;
+  height:120px;
+  object-fit:cover;
+}
+
+.gallery p{
+  padding:12px;
+  font-size:14px;
 }
 
 /* ================= MODAL ================= */
@@ -392,19 +380,14 @@ body::after{
 .modal-box{
   width:340px;
 
-  background:rgba(255,255,255,0.18);
+  background:white;
 
-  backdrop-filter:blur(20px);
-
-  border-radius:20px;
+  border-radius:18px;
 
   padding:25px;
-
-  border:1px solid rgba(255,255,255,0.2);
 }
 
 .modal-box h3{
-  color:white;
   margin-bottom:15px;
 }
 
@@ -427,19 +410,11 @@ body::after{
 
   padding:12px;
 
-  border:none;
+  border:1px solid #ddd;
 
   border-radius:12px;
 
   margin-bottom:12px;
-
-  background:rgba(255,255,255,0.2);
-
-  color:white;
-}
-
-.modal-box input::placeholder{
-  color:white;
 }
 
 .modal-box button{
@@ -451,9 +426,14 @@ body::after{
 
   border-radius:12px;
 
-  background:white;
+  background:
+  linear-gradient(
+    90deg,
+    #00c6ff,
+    #0072ff
+  );
 
-  color:#0072ff;
+  color:white;
 
   font-weight:bold;
 
@@ -462,14 +442,14 @@ body::after{
 
 /* ================= RESPONSIVE ================= */
 
-@media(max-width:1100px){
+@media(max-width:1200px){
 
-  .grid{
+  .top-grid{
     grid-template-columns:1fr;
   }
 
-  .big-grid{
-    grid-template-columns:1fr;
+  .bottom-grid{
+    grid-template-columns:1fr 1fr;
   }
 
 }
@@ -480,12 +460,12 @@ body::after{
     width:80px;
   }
 
-  .sidebar .logo{
-    font-size:18px;
+  .sidebar span{
+    display:none;
   }
 
-  .sidebar a span{
-    display:none;
+  .logo{
+    font-size:18px;
   }
 
   .main{
@@ -519,28 +499,28 @@ body::after{
     </a>
 
     <a>
-      <i class="fa-solid fa-water"></i>
-      <span>Live Sensor</span>
+      <i class="fa-solid fa-bell"></i>
+      <span>Live Alerts</span>
     </a>
 
     <a>
-      <i class="fa-solid fa-map-location-dot"></i>
-      <span>Peta Banjir</span>
+      <i class="fa-solid fa-water"></i>
+      <span>Water Level Map</span>
     </a>
 
     <a>
       <i class="fa-solid fa-cloud-rain"></i>
-      <span>Cuaca</span>
+      <span>Weather</span>
     </a>
 
     <a>
-      <i class="fa-solid fa-clock-rotate-left"></i>
-      <span>Riwayat</span>
+      <i class="fa-solid fa-file"></i>
+      <span>Reports</span>
     </a>
 
     <a>
       <i class="fa-solid fa-gear"></i>
-      <span>Pengaturan</span>
+      <span>Settings</span>
     </a>
 
     <a>
@@ -568,13 +548,17 @@ body::after{
   </div>
 
   <!-- USER -->
-  <div class="user-box" onclick="toggleMenu()">
+  <div class="user-box"
+  onclick="toggleMenu()">
 
     <img id="userPhoto">
 
-    <div class="user-name" id="userName"></div>
+    <div class="user-name"
+    id="userName">
+    </div>
 
-    <div class="dropdown" id="dropdown">
+    <div class="dropdown"
+    id="dropdown">
 
       <div onclick="openEdit()">
         Edit Akun
@@ -596,95 +580,125 @@ body::after{
 
 <!-- TOP GRID -->
 
-<div class="grid">
-
-  <!-- CARD -->
-  <div class="card">
-
-    <div class="card-title">
-      Tinggi Air
-    </div>
-
-    <div class="value" id="tinggi">
-      0 cm
-    </div>
-
-    <div class="sub">
-      Monitoring realtime sensor
-    </div>
-
-    <div class="progress">
-      <div class="progress-bar"
-      id="progressBar"></div>
-    </div>
-
-  </div>
-
-  <!-- CARD -->
-  <div class="card">
-
-    <div class="card-title">
-      Status
-    </div>
-
-    <div class="value aman"
-    id="status">
-      AMAN
-    </div>
-
-    <div class="sub">
-      Sistem berjalan normal
-    </div>
-
-  </div>
-
-  <!-- CARD -->
-  <div class="card">
-
-    <div class="card-title">
-      Water Sensor
-    </div>
-
-    <div class="value"
-    id="water">
-      KERING
-    </div>
-
-    <div class="sub">
-      Deteksi air permukaan
-    </div>
-
-  </div>
-
-</div>
-
-<!-- BIG GRID -->
-
-<div class="big-grid">
+<div class="top-grid">
 
   <!-- CHART -->
   <div class="card chart-box">
 
     <div class="card-title">
-      Grafik Monitoring Realtime
+      IoT Dashboard
     </div>
 
     <canvas id="chart"></canvas>
 
   </div>
 
-  <!-- ALERT -->
-  <div class="card">
+  <!-- STATUS -->
+  <div>
 
-    <div class="card-title">
-      Live Alerts
+    <div class="card"
+    style="margin-bottom:20px;">
+
+      <div class="card-title">
+        Kondisi Saat Ini
+      </div>
+
+      <div
+      class="value"
+      id="tinggi">
+        0 cm
+      </div>
+
+      <div
+      class="value aman"
+      id="status"
+      style="font-size:24px;">
+        AMAN
+      </div>
+
     </div>
 
-    <div class="alert-box"
-    id="alerts">
+    <div class="card">
 
-      <div class="alert">
-        Sistem monitoring aktif
+      <div class="card-title">
+        Water Sensor
+      </div>
+
+      <div
+      class="value"
+      id="water">
+        KERING
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- WEATHER -->
+  <div>
+
+    <div class="card"
+    style="margin-bottom:20px;">
+
+      <div class="card-title">
+        Weather Data
+      </div>
+
+      <div class="weather-item">
+
+        <div class="weather-icon">
+          <i class="fa-solid fa-cloud-rain"></i>
+        </div>
+
+        <div>
+          <b>Curah Hujan</b><br>
+          0 mm
+        </div>
+
+      </div>
+
+      <div class="weather-item">
+
+        <div class="weather-icon">
+          <i class="fa-solid fa-cloud"></i>
+        </div>
+
+        <div>
+          <b>Prediksi Cuaca</b><br>
+          3-5 Hari
+        </div>
+
+      </div>
+
+      <div class="weather-item">
+
+        <div class="weather-icon">
+          <i class="fa-solid fa-wind"></i>
+        </div>
+
+        <div>
+          <b>Kecepatan Angin</b><br>
+          0 km/h
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ALERT -->
+    <div class="card">
+
+      <div class="card-title">
+        Sistem Log
+      </div>
+
+      <div class="alert-box"
+      id="alerts">
+
+        <div class="alert blue">
+          Sistem monitoring aktif
+        </div>
+
       </div>
 
     </div>
@@ -695,16 +709,45 @@ body::after{
 
 <!-- MAP -->
 
-<div style="margin-top:25px;">
+<div
+class="card"
+style="margin-top:25px;">
 
-  <div class="card">
+  <div class="card-title">
+    Sistem Monitoring Banjir
+  </div>
 
-    <div class="card-title">
-      Lokasi Sensor & Evakuasi
-    </div>
+  <div id="map"></div>
 
-    <div id="map"></div>
+</div>
 
+<!-- GALLERY -->
+
+<div class="bottom-grid">
+
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1547683905-f686c993aae5?q=80&w=1200">
+    <p>Analisis Area</p>
+  </div>
+
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1527489377706-5bf97e608852?q=80&w=1200">
+    <p>Pekerjaan Darurat</p>
+  </div>
+
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1200">
+    <p>Pola Cuaca</p>
+  </div>
+
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=1200">
+    <p>Relokasi</p>
+  </div>
+
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?q=80&w=1200">
+    <p>Dampak Area</p>
   </div>
 
 </div>
@@ -727,8 +770,7 @@ id="modal">
     <input type="file"
     id="photoInput">
 
-    <input
-    type="text"
+    <input type="text"
     id="editName"
     placeholder="Nama baru">
 
@@ -776,7 +818,7 @@ function loadUser(){
 
 loadUser();
 
-/* ================= DROPDOWN ================= */
+/* ================= MENU ================= */
 
 function toggleMenu(){
 
@@ -900,45 +942,22 @@ document.getElementById("chart"),
 
       data:[],
 
-      borderColor:"#ffffff",
+      borderColor:"#00a8ff",
 
-      borderWidth:3,
-
-      tension:0.4,
+      backgroundColor:
+      "rgba(0,168,255,0.15)",
 
       fill:true,
 
-      backgroundColor:
-      "rgba(255,255,255,0.15)"
+      tension:0.4,
+
+      borderWidth:3
     }]
   },
 
   options:{
     responsive:true,
-
-    maintainAspectRatio:false,
-
-    plugins:{
-      legend:{
-        labels:{
-          color:"white"
-        }
-      }
-    },
-
-    scales:{
-      x:{
-        ticks:{
-          color:"white"
-        }
-      },
-
-      y:{
-        ticks:{
-          color:"white"
-        }
-      }
-    }
+    maintainAspectRatio:false
   }
 
 });
@@ -963,17 +982,11 @@ function addAlert(text,type){
 
 function updateDashboard(data){
 
-  /* TINGGI */
-
   tinggi.innerText =
   data.tinggi_air + " cm";
 
-  /* WATER */
-
   water.innerText =
   data.water_level;
-
-  /* STATUS */
 
   status.innerText =
   data.status;
@@ -1010,11 +1023,6 @@ function updateDashboard(data){
     );
 
   }
-
-  /* PROGRESS */
-
-  progressBar.style.width =
-  data.tinggi_air + "%";
 
   /* CHART */
 
