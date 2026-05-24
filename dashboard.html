@@ -3,18 +3,17 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FLOWS-PRO V3</title>
+<title>FLOWS-PRO Smart Flood Monitoring</title>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <!-- LEAFLET -->
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
-<!-- ICON -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <!-- CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -80,27 +79,24 @@ flex-direction:column;
 gap:10px;
 }
 
-.menu a{
-text-decoration:none;
-color:white;
-
+.menu-item{
 padding:14px;
-
 border-radius:12px;
 
 display:flex;
 align-items:center;
-
 gap:12px;
+
+cursor:pointer;
 
 transition:0.3s;
 }
 
-.menu a:hover{
+.menu-item:hover{
 background:rgba(255,255,255,0.1);
 }
 
-.active{
+.menu-item.active{
 background:
 linear-gradient(
 90deg,
@@ -119,7 +115,7 @@ min-height:100vh;
 /* ================= NAVBAR ================= */
 
 .navbar{
-height:75px;
+height:80px;
 
 background:white;
 
@@ -146,70 +142,132 @@ gap:30px;
 .nav-links a{
 text-decoration:none;
 color:#333;
-font-size:15px;
+font-weight:500;
 }
 
-/* ================= USER ================= */
+/* ================= PROFILE ================= */
 
-.user-box{
+.profile-area{
 display:flex;
 align-items:center;
-gap:10px;
+gap:12px;
 
 cursor:pointer;
 
 position:relative;
+
+padding:8px 12px;
+
+border-radius:12px;
+
+transition:0.3s;
 }
 
-.user-box img{
-width:42px;
-height:42px;
+.profile-area:hover{
+background:#f3f7fb;
+}
+
+.profile-area img{
+width:48px;
+height:48px;
 
 border-radius:50%;
 
 object-fit:cover;
 }
 
-.user-name{
-font-weight:600;
+.profile-info{
+display:flex;
+flex-direction:column;
 }
 
-/* ================= DROPDOWN ================= */
+.profile-info h4{
+font-size:15px;
+}
 
-.dropdown{
+.profile-info span{
+font-size:12px;
+color:#888;
+}
+
+.profile-dropdown{
 position:absolute;
 
-top:60px;
+top:70px;
 right:0;
 
-width:180px;
+width:220px;
 
 background:white;
 
-border-radius:15px;
+border-radius:18px;
 
 overflow:hidden;
 
 display:none;
 
 box-shadow:
-0 10px 25px rgba(0,0,0,0.1);
+0 10px 30px rgba(0,0,0,0.1);
 }
 
-.dropdown div{
-padding:14px;
-transition:0.3s;
+.profile-dropdown div{
+padding:15px;
 cursor:pointer;
+transition:0.3s;
 }
 
-.dropdown div:hover{
-background:#f3f7fb;
+.profile-dropdown div:hover{
+background:#f5f9ff;
 }
 
 /* ================= CONTENT ================= */
 
 .content{
 padding:25px;
+}
+
+.page{
+display:none;
+animation:fade 0.4s ease;
+}
+
+.page.active{
+display:block;
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* ================= CARD ================= */
+
+.card{
+background:white;
+
+border-radius:18px;
+
+padding:20px;
+
+margin-bottom:20px;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,0.05);
+}
+
+.card-title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:20px;
 }
 
 /* ================= GRID ================= */
@@ -223,29 +281,28 @@ grid-template-columns:
 gap:20px;
 }
 
-/* ================= CARD ================= */
-
-.card{
-background:white;
-
-border-radius:18px;
-
-padding:20px;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,0.05);
+.grid-2{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
 }
 
-.card-title{
-font-size:16px;
-margin-bottom:15px;
-color:#333;
+.grid-3{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.grid-4{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
 }
 
 /* ================= VALUE ================= */
 
 .value{
-font-size:38px;
+font-size:40px;
 font-weight:bold;
 }
 
@@ -267,18 +324,18 @@ color:#e74c3c;
 width:100%;
 height:10px;
 
-background:#ecf0f1;
+background:#eee;
 
 border-radius:20px;
 
-margin-top:15px;
-
 overflow:hidden;
+
+margin-top:15px;
 }
 
 .progress-bar{
-width:0%;
 height:10px;
+width:65%;
 
 background:
 linear-gradient(
@@ -286,50 +343,14 @@ linear-gradient(
 #00c6ff,
 #0072ff
 );
-
-transition:0.5s;
-}
-
-/* ================= CHART ================= */
-
-.chart-box{
-height:350px;
-}
-
-canvas{
-width:100% !important;
-height:100% !important;
-}
-
-/* ================= WEATHER ================= */
-
-.weather-item{
-margin-bottom:15px;
-font-size:15px;
 }
 
 /* ================= ALERT ================= */
 
-.alert-box{
-display:flex;
-flex-direction:column;
-gap:12px;
-}
-
 .alert{
 padding:12px;
 border-radius:12px;
-font-size:14px;
-}
-
-.alert.red{
-background:#ffeaea;
-color:#d63031;
-}
-
-.alert.yellow{
-background:#fff8df;
-color:#d68910;
+margin-bottom:10px;
 }
 
 .alert.blue{
@@ -337,117 +358,83 @@ background:#eaf6ff;
 color:#0984e3;
 }
 
+.alert.red{
+background:#ffeaea;
+color:#d63031;
+}
+
+/* ================= WEATHER ================= */
+
+.weather-item{
+margin-bottom:15px;
+}
+
 /* ================= MAP ================= */
 
-.map-card{
-margin-top:25px;
-}
-
-#map{
-height:420px;
-border-radius:15px;
-}
-
-/* ================= GALLERY ================= */
-
-.gallery-grid{
-margin-top:25px;
-
-display:grid;
-
-grid-template-columns:
-repeat(4,1fr);
-
-gap:15px;
-}
-
-.gallery{
-background:white;
-
-border-radius:15px;
-
-overflow:hidden;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,0.05);
-}
-
-.gallery img{
-width:100%;
-height:160px;
-object-fit:cover;
-}
-
-.gallery p{
-padding:12px;
-font-size:14px;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-position:fixed;
-inset:0;
-
-background:rgba(0,0,0,0.5);
-
-display:none;
-
-justify-content:center;
-align-items:center;
-
-z-index:99999;
-}
-
-.modal-box{
-width:340px;
-
-background:white;
-
+#map-dashboard,
+#floodMap{
+height:450px;
 border-radius:18px;
-
-padding:25px;
 }
 
-.modal-box h3{
-margin-bottom:15px;
-}
+/* ================= TABLE ================= */
 
-.modal-box img{
-width:90px;
-height:90px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-display:block;
-
-margin:auto;
-margin-bottom:15px;
-}
-
-.modal-box input{
+table{
 width:100%;
-
-padding:12px;
-
-border:1px solid #ddd;
-
-border-radius:12px;
-
-margin-bottom:12px;
+border-collapse:collapse;
 }
 
-.modal-box button{
-width:100%;
+th,td{
+padding:15px;
+border-bottom:1px solid #eee;
+text-align:left;
+}
 
-padding:12px;
+th{
+background:#f7f9fc;
+}
+
+/* ================= BADGE ================= */
+
+.status-badge{
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
+
+.green{
+background:#dff9e8;
+color:#27ae60;
+}
+
+.yellow{
+background:#fff4d9;
+color:#f39c12;
+}
+
+.red{
+background:#ffe1e1;
+color:#e74c3c;
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+padding:12px 18px;
 
 border:none;
 
 border-radius:12px;
 
+cursor:pointer;
+
+font-weight:bold;
+
+transition:0.3s;
+}
+
+.btn-primary{
 background:
 linear-gradient(
 90deg,
@@ -456,22 +443,134 @@ linear-gradient(
 );
 
 color:white;
+}
 
-font-weight:bold;
+.btn-danger{
+background:#ff4d4d;
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+/* ================= WEATHER CARD ================= */
+
+.weather-card{
+background:white;
+
+padding:20px;
+
+border-radius:18px;
+
+text-align:center;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,0.05);
+}
+
+.weather-icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+/* ================= METRIC ================= */
+
+.metric-box{
+background:white;
+
+padding:20px;
+
+border-radius:18px;
+
+text-align:center;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* ================= INPUT ================= */
+
+input,
+select{
+padding:12px;
+
+border:1px solid #ddd;
+
+border-radius:12px;
+
+width:100%;
+}
+
+/* ================= FILTER ================= */
+
+.filter-box{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+/* ================= SETTINGS ================= */
+
+.settings-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+/* ================= TOGGLE ================= */
+
+.toggle{
+width:60px;
+height:30px;
+
+background:#ccc;
+
+border-radius:20px;
+
+position:relative;
 
 cursor:pointer;
+}
+
+.toggle::before{
+content:'';
+
+position:absolute;
+
+width:24px;
+height:24px;
+
+background:white;
+
+border-radius:50%;
+
+left:3px;
+top:3px;
+
+transition:0.3s;
+}
+
+.toggle.active{
+background:#00c6ff;
+}
+
+.toggle.active::before{
+left:33px;
 }
 
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:1200px){
 
-.top-grid{
+.top-grid,
+.grid-2,
+.grid-3,
+.grid-4,
+.filter-box,
+.settings-grid{
 grid-template-columns:1fr;
-}
-
-.gallery-grid{
-grid-template-columns:1fr 1fr;
 }
 
 }
@@ -479,27 +578,19 @@ grid-template-columns:1fr 1fr;
 @media(max-width:800px){
 
 .sidebar{
-width:80px;
+width:85px;
 }
 
 .sidebar span{
 display:none;
 }
 
-.logo{
-font-size:18px;
-}
-
 .main{
-margin-left:80px;
+margin-left:85px;
 }
 
 .nav-links{
 display:none;
-}
-
-.gallery-grid{
-grid-template-columns:1fr;
 }
 
 }
@@ -514,45 +605,66 @@ grid-template-columns:1fr;
 <div class="sidebar">
 
 <div class="logo">
-FLOWS-PRO
+FLOWS
 </div>
 
 <div class="menu">
 
-<a class="active">
+<div class="menu-item active"
+data-page="dashboardPage">
+
 <i class="fa-solid fa-chart-line"></i>
 <span>Dashboard</span>
-</a>
 
-<a>
-<i class="fa-solid fa-water"></i>
+</div>
+
+<div class="menu-item"
+data-page="sensorPage">
+
+<i class="fa-solid fa-microchip"></i>
 <span>Live Sensor</span>
-</a>
 
-<a>
+</div>
+
+<div class="menu-item"
+data-page="mapPage">
+
 <i class="fa-solid fa-map-location-dot"></i>
 <span>Peta Banjir</span>
-</a>
 
-<a>
+</div>
+
+<div class="menu-item"
+data-page="evacuationPage">
+
 <i class="fa-solid fa-route"></i>
 <span>Evakuasi</span>
-</a>
 
-<a>
+</div>
+
+<div class="menu-item"
+data-page="weatherPage">
+
 <i class="fa-solid fa-cloud-rain"></i>
 <span>Weather</span>
-</a>
 
-<a>
+</div>
+
+<div class="menu-item"
+data-page="reportsPage">
+
 <i class="fa-solid fa-file"></i>
 <span>Reports</span>
-</a>
 
-<a>
+</div>
+
+<div class="menu-item"
+data-page="settingsPage">
+
 <i class="fa-solid fa-gear"></i>
 <span>Settings</span>
-</a>
+
+</div>
 
 </div>
 
@@ -575,22 +687,41 @@ FLOWS-PRO
 
 </div>
 
-<div class="user-box"
-onclick="toggleMenu()">
+<!-- PROFILE -->
 
-<img id="userPhoto">
+<div class="profile-area"
+id="profileBtn">
 
-<div class="user-name"
-id="userName"></div>
+<img id="userPhoto"
+src="https://i.pravatar.cc/150?img=12">
 
-<div class="dropdown"
-id="dropdown">
+<div class="profile-info">
 
-<div onclick="openEdit()">
-Edit Akun
+<h4 id="userName">
+Admin Rudi
+</h4>
+
+<span>
+Operator
+</span>
+
+</div>
+
+<div class="profile-dropdown"
+id="profileDropdown">
+
+<div>
+<i class="fa-solid fa-user"></i>
+Profil Saya
+</div>
+
+<div>
+<i class="fa-solid fa-gear"></i>
+Pengaturan Akun
 </div>
 
 <div onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
 Logout
 </div>
 
@@ -600,21 +731,28 @@ Logout
 
 </div>
 
-<!-- CONTENT -->
+<!-- ================= CONTENT ================= -->
 
 <div class="content">
+
+<!-- ================= DASHBOARD ================= -->
+
+<div class="page active"
+id="dashboardPage">
 
 <div class="top-grid">
 
 <!-- CHART -->
 
-<div class="card chart-box">
+<div class="card">
 
 <div class="card-title">
 Monitoring Realtime
 </div>
 
-<canvas id="chart"></canvas>
+<div style="height:350px;">
+<canvas id="dashboardChart"></canvas>
+</div>
 
 </div>
 
@@ -622,38 +760,21 @@ Monitoring Realtime
 
 <div>
 
-<div class="card"
-style="margin-bottom:20px;">
+<div class="card">
 
 <div class="card-title">
 Tinggi Air
 </div>
 
 <div class="value"
-id="tinggi">
-0 cm
+id="tinggiAir">
+68 cm
 </div>
 
 <div class="progress">
-
 <div class="progress-bar"
 id="progressBar">
 </div>
-
-</div>
-
-</div>
-
-<div class="card"
-style="margin-bottom:20px;">
-
-<div class="card-title">
-Status
-</div>
-
-<div class="value aman"
-id="status">
-AMAN
 </div>
 
 </div>
@@ -661,12 +782,12 @@ AMAN
 <div class="card">
 
 <div class="card-title">
-Water Sensor
+Status Wilayah
 </div>
 
-<div class="value"
-id="water">
-KERING
+<div class="value waspada"
+id="statusAir">
+WASPADA
 </div>
 
 </div>
@@ -677,8 +798,7 @@ KERING
 
 <div>
 
-<div class="card"
-style="margin-bottom:20px;">
+<div class="card">
 
 <div class="card-title">
 Weather Data
@@ -686,28 +806,20 @@ Weather Data
 
 <div class="weather-item">
 🌧 Curah Hujan:
-<span id="rain">
-0 mm
-</span>
+72 mm
 </div>
 
 <div class="weather-item">
 🌡 Suhu:
-<span id="temp">
-0°C
-</span>
+28°C
 </div>
 
 <div class="weather-item">
 💨 Angin:
-<span id="wind">
-0 km/h
-</span>
+14 km/h
 </div>
 
 </div>
-
-<!-- ALERT -->
 
 <div class="card">
 
@@ -715,13 +827,12 @@ Weather Data
 Live Alerts
 </div>
 
-<div class="alert-box"
-id="alerts">
-
 <div class="alert blue">
-Sistem monitoring aktif
+Sistem Monitoring Aktif
 </div>
 
+<div class="alert red">
+Ketinggian Air Naik
 </div>
 
 </div>
@@ -732,83 +843,318 @@ Sistem monitoring aktif
 
 <!-- MAP -->
 
-<div class="card map-card">
+<div class="card">
 
 <div class="card-title">
-Smart Flood Monitoring
+Peta Monitoring
 </div>
 
-<div id="map"></div>
-
-</div>
-
-<!-- GALLERY -->
-
-<div class="gallery-grid">
-
-<div class="gallery">
-
-<img src="https://images.unsplash.com/photo-1547683905-f686c993aae5?q=80&w=1200">
-
-<p>Monitoring Area</p>
-
-</div>
-
-<div class="gallery">
-
-<img src="https://images.unsplash.com/photo-1527489377706-5bf97e608852?q=80&w=1200">
-
-<p>Evakuasi</p>
-
-</div>
-
-<div class="gallery">
-
-<img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1200">
-
-<p>Kondisi Cuaca</p>
-
-</div>
-
-<div class="gallery">
-
-<img src="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=1200">
-
-<p>Daerah Rawan</p>
+<div id="map-dashboard"></div>
 
 </div>
 
 </div>
 
+<!-- ================= SENSOR PAGE ================= -->
+
+<div class="page"
+id="sensorPage">
+
+<div class="card">
+
+<div class="card-title">
+Live Sensor Monitoring
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Lokasi</th>
+<th>Voltase</th>
+<th>Baterai</th>
+<th>Update</th>
+
+</tr>
+
+</thead>
+
+<tbody id="sensorTable">
+
+<tr>
+
+<td>FS-102</td>
+<td>Dumai Timur</td>
+<td>4.9V</td>
+<td>92%</td>
+<td>10:22 WIB</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Tren Ketinggian Air
+</div>
+
+<div style="height:350px;">
+<canvas id="sensorChart"></canvas>
 </div>
 
 </div>
 
-<!-- ================= MODAL ================= -->
+</div>
 
-<div class="modal"
-id="modal">
+<!-- ================= MAP PAGE ================= -->
 
-<div class="modal-box">
+<div class="page"
+id="mapPage">
 
-<h3>Edit Akun</h3>
+<div class="card">
 
-<img id="previewPhoto">
+<div class="card-title">
+Peta Titik Rawan
+</div>
 
-<input type="file"
-id="photoInput">
+<div id="floodMap"></div>
 
-<input type="text"
-id="editName"
-placeholder="Nama baru">
+</div>
 
-<button onclick="saveEdit()">
-Simpan
+</div>
+
+<!-- ================= EVACUATION ================= -->
+
+<div class="page"
+id="evacuationPage">
+
+<div class="grid-3">
+
+<div class="card">
+
+<h3>Aula Kecamatan</h3>
+
+<br>
+
+<p>Kapasitas:
+250 Orang</p>
+
+<p>Pengungsi:
+122 Orang</p>
+
+<br>
+
+<button class="btn btn-primary">
+Rute Tercepat
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>GOR Dumai</h3>
+
+<br>
+
+<p>Kapasitas:
+400 Orang</p>
+
+<p>Pengungsi:
+188 Orang</p>
+
+<br>
+
+<button class="btn btn-primary">
+Rute Tercepat
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Sekolah Negeri 4</h3>
+
+<br>
+
+<p>Kapasitas:
+300 Orang</p>
+
+<p>Pengungsi:
+145 Orang</p>
+
+<br>
+
+<button class="btn btn-primary">
+Rute Tercepat
 </button>
 
 </div>
 
 </div>
+
+</div>
+
+<!-- ================= WEATHER PAGE ================= -->
+
+<div class="page"
+id="weatherPage">
+
+<div class="grid-4">
+
+<div class="weather-card">
+
+<div class="weather-icon">
+🌧
+</div>
+
+<h3>Senin</h3>
+
+<p>24° / 30°</p>
+
+<p>90% Hujan</p>
+
+</div>
+
+<div class="weather-card">
+
+<div class="weather-icon">
+☀️
+</div>
+
+<h3>Selasa</h3>
+
+<p>26° / 33°</p>
+
+<p>10% Hujan</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= REPORT PAGE ================= -->
+
+<div class="page"
+id="reportsPage">
+
+<div class="card">
+
+<div class="card-title">
+Riwayat Data Banjir
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tanggal</th>
+<th>Lokasi</th>
+<th>Tinggi Air</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>12 Mei 2026</td>
+<td>Dumai Timur</td>
+<td>72 cm</td>
+
+<td>
+<span class="status-badge yellow">
+WASPADA
+</span>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- ================= SETTINGS ================= -->
+
+<div class="page"
+id="settingsPage">
+
+<div class="settings-grid">
+
+<div class="card">
+
+<div class="card-title">
+Pengaturan Profil
+</div>
+
+<input type="text"
+placeholder="Nama">
+
+<br><br>
+
+<input type="email"
+placeholder="Email">
+
+<br><br>
+
+<input type="file">
+
+<br><br>
+
+<button class="btn btn-primary">
+Simpan
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Notifikasi
+</div>
+
+<p>Email Notification</p>
+
+<br>
+
+<div class="toggle active"></div>
+
+<br><br>
+
+<p>WhatsApp Notification</p>
+
+<br>
+
+<div class="toggle"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
 
 <script>
 
@@ -816,151 +1162,144 @@ Simpan
 
 const supabase =
 window.supabase.createClient(
+
 "https://hceblnmngnnexxtkeiev.supabase.co",
+
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs"
+
 );
 
-/* ================= USER ================= */
+/* ================= NAVIGATION ================= */
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+const menuItems =
+document.querySelectorAll('.menu-item');
 
-if(!user){
-window.location.href="login.html";
+const pages =
+document.querySelectorAll('.page');
+
+menuItems.forEach(item=>{
+
+item.addEventListener('click',()=>{
+
+menuItems.forEach(menu=>{
+menu.classList.remove('active');
+});
+
+item.classList.add('active');
+
+const target =
+item.dataset.page;
+
+pages.forEach(page=>{
+page.classList.remove('active');
+});
+
+document
+.getElementById(target)
+.classList.add('active');
+
+});
+
+});
+
+/* ================= PROFILE ================= */
+
+const profileBtn =
+document.getElementById('profileBtn');
+
+const profileDropdown =
+document.getElementById('profileDropdown');
+
+profileBtn.addEventListener('click',()=>{
+
+profileDropdown.style.display =
+profileDropdown.style.display==='block'
+? 'none'
+: 'block';
+
+});
+
+window.addEventListener('click',(e)=>{
+
+if(!profileBtn.contains(e.target)){
+
+profileDropdown.style.display='none';
+
 }
 
-function loadUser(){
-
-userName.innerText =
-user.name || "User";
-
-userPhoto.src =
-user.photo ||
-"https://i.pravatar.cc/150";
-
-}
-
-loadUser();
-
-/* ================= MENU ================= */
-
-function toggleMenu(){
-
-dropdown.style.display =
-dropdown.style.display==="block"
-? "none"
-: "block";
-
-}
+});
 
 /* ================= LOGOUT ================= */
 
 function logout(){
 
-localStorage.removeItem("user");
+localStorage.removeItem('user');
 
-window.location.href="index.html";
-
-}
-
-/* ================= EDIT ================= */
-
-function openEdit(){
-
-modal.style.display="flex";
-
-editName.value =
-user.name;
-
-previewPhoto.src =
-user.photo;
+window.location.href='login.html';
 
 }
 
-photoInput.addEventListener(
-"change",
-function(){
+/* ================= TOGGLE ================= */
 
-const file =
-this.files[0];
+const toggles =
+document.querySelectorAll('.toggle');
 
-if(!file) return;
+toggles.forEach(toggle=>{
 
-const reader =
-new FileReader();
+toggle.addEventListener('click',()=>{
 
-reader.onload =
-function(e){
-
-previewPhoto.src =
-e.target.result;
-
-};
-
-reader.readAsDataURL(file);
+toggle.classList.toggle('active');
 
 });
 
-function saveEdit(){
-
-user.name =
-editName.value;
-
-user.photo =
-previewPhoto.src;
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-loadUser();
-
-modal.style.display="none";
-
-}
-
-modal.addEventListener(
-"click",
-(e)=>{
-
-if(e.target===modal){
-
-modal.style.display="none";
-
-}
-
 });
 
-/* ================= CHART ================= */
+/* ================= CHART DASHBOARD ================= */
 
-let chart =
+const dashboardChart =
 new Chart(
-document.getElementById("chart"),
+document.getElementById('dashboardChart'),
 {
-type:"line",
+
+type:'line',
 
 data:{
-labels:[],
+
+labels:[
+'00:00',
+'04:00',
+'08:00',
+'12:00',
+'16:00',
+'20:00'
+],
 
 datasets:[{
-label:"Tinggi Air",
 
-data:[],
+label:'Ketinggian Air',
 
-borderColor:"#00a8ff",
+data:[
+20,
+35,
+40,
+68,
+52,
+72
+],
+
+borderColor:'#00a8ff',
 
 backgroundColor:
-"rgba(0,168,255,0.15)",
+'rgba(0,168,255,0.15)',
 
 fill:true,
 
 tension:0.4,
 
 borderWidth:3
+
 }]
+
 },
 
 options:{
@@ -970,241 +1309,203 @@ maintainAspectRatio:false
 
 });
 
-/* ================= MAP ================= */
+/* ================= SENSOR CHART ================= */
 
-let map =
-L.map('map')
-.setView([1.666,101.45],13);
+const sensorChart =
+new Chart(
+document.getElementById('sensorChart'),
+{
+
+type:'line',
+
+data:{
+
+labels:[
+'01','02','03',
+'04','05','06',
+'07','08','09',
+'10','11','12'
+],
+
+datasets:[{
+
+label:'Fluktuasi Air',
+
+data:[
+15,18,20,
+28,30,35,
+42,55,60,
+58,62,68
+],
+
+borderColor:'#0072ff',
+
+backgroundColor:
+'rgba(0,114,255,0.12)',
+
+fill:true,
+
+tension:0.4,
+
+borderWidth:3
+
+}]
+
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+});
+
+/* ================= DASHBOARD MAP ================= */
+
+const dashboardMap =
+L.map('map-dashboard')
+.setView([-1.675,101.45],11);
 
 L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-).addTo(map);
+).addTo(dashboardMap);
 
-let marker;
-let routeControl;
+L.marker([-1.675,101.45])
+.addTo(dashboardMap)
+.bindPopup('Sensor Utama FLOWS-PRO');
 
-/* ================= ALERT ================= */
+/* ================= FLOOD MAP ================= */
 
-function addAlert(
-text,
-type
-){
+const floodMap =
+L.map('floodMap')
+.setView([-1.675,101.45],11);
 
-const div =
-document.createElement("div");
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+).addTo(floodMap);
 
-div.className =
-"alert " + type;
+/* SAFE */
 
-div.innerHTML = text;
-
-alerts.prepend(div);
-
+L.circleMarker(
+[-1.68,101.43],
+{
+color:'green',
+radius:10
 }
-
-/* ================= WEATHER ================= */
-
-async function loadWeather(){
-
-rain.innerText = "12 mm";
-temp.innerText = "28°C";
-wind.innerText = "8 km/h";
-
-}
-
-loadWeather();
-
-/* ================= UPDATE DASHBOARD ================= */
-
-function updateDashboard(data){
-
-tinggi.innerText =
-data.tinggi_air + " cm";
-
-water.innerText =
-data.water_level;
-
-status.innerText =
-data.status;
-
-status.className =
-"value";
-
-if(data.status==="AMAN"){
-
-status.classList.add("aman");
-
-}
-
-else if(
-data.status==="WASPADA"
-){
-
-status.classList.add("waspada");
-
-addAlert(
-"⚠️ Status waspada terdeteksi",
-"yellow"
-);
-
-}
-
-else{
-
-status.classList.add("bahaya");
-
-addAlert(
-"🚨 BAHAYA BANJIR!",
-"red"
-);
-
-}
-
-/* PROGRESS */
-
-progressBar.style.width =
-data.tinggi_air + "%";
-
-/* CHART */
-
-chart.data.labels.push(
-new Date()
-.toLocaleTimeString()
-);
-
-chart.data.datasets[0]
-.data.push(
-data.tinggi_air
-);
-
-if(
-chart.data.labels.length > 15
-){
-
-chart.data.labels.shift();
-
-chart.data.datasets[0]
-.data.shift();
-
-}
-
-chart.update();
-
-/* MAP */
-
-if(marker){
-
-map.removeLayer(marker);
-
-}
-
-marker =
-L.marker([
-data.latitude,
-data.longitude
-])
-
-.addTo(map)
-
-.bindPopup(`
-<b>Status:</b>
-${data.status}<br>
-
-<b>Tinggi:</b>
-${data.tinggi_air} cm
-`);
-
-map.setView([
-data.latitude,
-data.longitude
-],13);
-
-/* ROUTE */
-
-if(routeControl){
-
-map.removeControl(routeControl);
-
-}
-
-routeControl =
-L.Routing.control({
-
-waypoints:[
-
-L.latLng(
-data.latitude,
-data.longitude
-),
-
-L.latLng(
-1.680,
-101.45
 )
+.addTo(floodMap)
+.bindPopup('Dumai Barat - Aman - 25cm');
 
-],
+/* WARNING */
 
-routeWhileDragging:false
-
-}).addTo(map);
-
+L.circleMarker(
+[-1.70,101.47],
+{
+color:'yellow',
+radius:10
 }
+)
+.addTo(floodMap)
+.bindPopup('Dumai Timur - Waspada - 68cm');
 
-/* ================= LOAD DATA ================= */
+/* DANGER */
 
-async function loadLatest(){
+L.circleMarker(
+[-1.72,101.50],
+{
+color:'red',
+radius:10
+}
+)
+.addTo(floodMap)
+.bindPopup('Pesisir - Bahaya - 120cm');
+
+/* ================= REALTIME SUPABASE ================= */
+
+async function loadLatestData(){
 
 const { data } =
 await supabase
 
-.from("data_air")
+.from('data_air')
 
-.select("*")
+.select('*')
 
-.order(
-"id",
-{ascending:false}
-)
+.order('id',
+{ascending:false})
 
 .limit(1);
 
 if(data && data.length > 0){
 
-updateDashboard(data[0]);
+const latest = data[0];
+
+document
+.getElementById('tinggiAir')
+.innerText =
+latest.tinggi_air + ' cm';
+
+document
+.getElementById('statusAir')
+.innerText =
+latest.status;
 
 }
 
 }
 
-loadLatest();
+loadLatestData();
 
-/* ================= REALTIME ================= */
+/* REALTIME */
 
 supabase
 
-.channel("realtime-air")
+.channel('realtime-air')
 
 .on(
-"postgres_changes",
-
+'postgres_changes',
 {
-event:"INSERT",
-
-schema:"public",
-
-table:"data_air"
+event:'INSERT',
+schema:'public',
+table:'data_air'
 },
-
 (payload)=>{
 
-console.log(payload);
+const data =
+payload.new;
 
-updateDashboard(
-payload.new
+document
+.getElementById('tinggiAir')
+.innerText =
+data.tinggi_air + ' cm';
+
+document
+.getElementById('statusAir')
+.innerText =
+data.status;
+
+dashboardChart.data.labels.push(
+new Date()
+.toLocaleTimeString()
 );
+
+dashboardChart.data.datasets[0]
+.data.push(data.tinggi_air);
+
+if(
+dashboardChart.data.labels.length > 10
+){
+
+dashboardChart.data.labels.shift();
+
+dashboardChart.data.datasets[0]
+.data.shift();
 
 }
 
+dashboardChart.update();
+
+}
 )
 
 .subscribe();
