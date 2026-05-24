@@ -1,35 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOWS-PRO Enterprise Dashboard</title>
 
-<title>FLOWS-PRO Smart Flood Monitoring</title>
-
-<!-- ================================================= -->
-<!-- ================== LIBRARIES ==================== -->
-<!-- ================================================= -->
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
-<link rel="stylesheet"
-href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
 <style>
-
-/* ================================================= */
-/* ===================== RESET ===================== */
-/* ================================================= */
 
 *{
 margin:0;
@@ -41,42 +24,7 @@ font-family:'Segoe UI',sans-serif;
 body{
 background:#edf3f8;
 overflow-x:hidden;
-color:#222;
 }
-
-/* ================================================= */
-/* ===================== LOADER ==================== */
-/* ================================================= */
-
-#loader{
-position:fixed;
-inset:0;
-background:#06192b;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999999;
-transition:0.5s;
-}
-
-.spinner{
-width:70px;
-height:70px;
-border-radius:50%;
-border:6px solid rgba(255,255,255,0.2);
-border-top:6px solid #00c6ff;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
-
-/* ================================================= */
-/* ==================== SIDEBAR ==================== */
-/* ================================================= */
 
 .sidebar{
 position:fixed;
@@ -84,32 +32,17 @@ left:0;
 top:0;
 width:260px;
 height:100vh;
-
-background:
-linear-gradient(
-180deg,
-#06192b,
-#0c2945,
-#11395f
-);
-
+background:linear-gradient(180deg,#071b2f,#0d2b45,#12395c);
 padding:20px;
 color:white;
-z-index:999;
 overflow-y:auto;
 }
 
 .logo{
-font-size:32px;
+font-size:30px;
 font-weight:bold;
+margin-bottom:30px;
 color:#00c6ff;
-margin-bottom:35px;
-}
-
-.menu{
-display:flex;
-flex-direction:column;
-gap:10px;
 }
 
 .menu-item{
@@ -117,60 +50,34 @@ padding:15px;
 border-radius:14px;
 display:flex;
 align-items:center;
-gap:14px;
+gap:12px;
+margin-bottom:10px;
 cursor:pointer;
 transition:0.3s;
-font-size:15px;
 }
 
-.menu-item:hover{
-background:rgba(255,255,255,0.08);
-}
-
+.menu-item:hover,
 .menu-item.active{
-background:
-linear-gradient(
-90deg,
-#00c6ff,
-#0072ff
-);
+background:linear-gradient(90deg,#00c6ff,#0072ff);
 }
-
-/* ================================================= */
-/* ====================== MAIN ===================== */
-/* ================================================= */
 
 .main{
 margin-left:260px;
-min-height:100vh;
 }
-
-/* ================================================= */
-/* ==================== NAVBAR ===================== */
-/* ================================================= */
 
 .navbar{
 height:80px;
 background:white;
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 padding:0 30px;
-
-position:sticky;
-top:0;
-
-z-index:998;
-
-box-shadow:
-0 2px 10px rgba(0,0,0,0.05);
+box-shadow:0 2px 10px rgba(0,0,0,0.06);
 }
 
 .nav-links{
 display:flex;
-gap:30px;
+gap:25px;
 }
 
 .nav-links a{
@@ -179,79 +86,39 @@ color:#333;
 font-weight:600;
 }
 
-/* ================================================= */
-/* ==================== PROFILE ==================== */
-/* ================================================= */
-
-.profile-box{
+.profile{
 display:flex;
 align-items:center;
 gap:12px;
-
-cursor:pointer;
-
 position:relative;
-
-padding:8px 14px;
-
-border-radius:15px;
-
-transition:0.3s;
+cursor:pointer;
 }
 
-.profile-box:hover{
-background:#f4f8fc;
-}
-
-.profile-box img{
+.profile img{
 width:50px;
 height:50px;
 border-radius:50%;
-object-fit:cover;
-}
-
-.profile-info h4{
-font-size:15px;
-}
-
-.profile-info p{
-font-size:12px;
-color:#888;
 }
 
 .dropdown{
 position:absolute;
-top:75px;
 right:0;
-
-width:240px;
-
+top:70px;
 background:white;
-
-border-radius:20px;
-
-overflow:hidden;
-
+width:220px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
 display:none;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.15);
-
-z-index:99999;
+overflow:hidden;
 }
 
 .dropdown div{
-padding:16px;
-transition:0.3s;
+padding:15px;
 }
 
 .dropdown div:hover{
 background:#f5f9ff;
 }
-
-/* ================================================= */
-/* ===================== CONTENT =================== */
-/* ================================================= */
 
 .content{
 padding:25px;
@@ -259,35 +126,10 @@ padding:25px;
 
 .page{
 display:none;
-animation:fade 0.4s ease;
 }
 
 .page.active{
 display:block;
-}
-
-@keyframes fade{
-
-from{
-opacity:0;
-transform:translateY(20px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-/* ================================================= */
-/* ======================= GRID ==================== */
-/* ================================================= */
-
-.top-grid{
-display:grid;
-grid-template-columns:2fr 1fr 1fr;
-gap:20px;
 }
 
 .grid-2{
@@ -308,24 +150,12 @@ grid-template-columns:repeat(4,1fr);
 gap:20px;
 }
 
-/* ================================================= */
-/* ======================= CARD ==================== */
-/* ================================================= */
-
 .card{
 background:white;
 padding:22px;
 border-radius:22px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
 margin-bottom:20px;
-
-box-shadow:
-0 5px 20px rgba(0,0,0,0.05);
-
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-3px);
 }
 
 .card-title{
@@ -334,112 +164,19 @@ font-weight:bold;
 margin-bottom:18px;
 }
 
-/* ================================================= */
-/* ======================= VALUE =================== */
-/* ================================================= */
-
-.value{
+.big-number{
 font-size:42px;
 font-weight:bold;
 }
 
-.aman{
-color:#2ecc71;
-}
-
-.waspada{
+.warning{
 color:#f1c40f;
 }
 
-.bahaya{
-color:#e74c3c;
-}
-
-/* ================================================= */
-/* ===================== PROGRESS ================== */
-/* ================================================= */
-
-.progress{
-width:100%;
-height:10px;
-background:#ecf0f1;
-border-radius:20px;
-overflow:hidden;
-margin-top:15px;
-}
-
-.progress-bar{
-height:10px;
-width:60%;
-
-background:
-linear-gradient(
-90deg,
-#00c6ff,
-#0072ff
-);
-}
-
-/* ================================================= */
-/* ======================= ALERT =================== */
-/* ================================================= */
-
-#alertsContainer{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.realtime-alert{
-padding:14px;
-border-radius:14px;
-font-size:14px;
-font-weight:600;
-animation:slideIn 0.4s ease;
-}
-
-.realtime-alert.red{
-background:#ffeaea;
-color:#d63031;
-}
-
-.realtime-alert.blue{
-background:#eaf6ff;
-color:#0984e3;
-}
-
-.realtime-alert.green{
-background:#e8fff1;
-color:#27ae60;
-}
-
-@keyframes slideIn{
-
-from{
-opacity:0;
-transform:translateX(30px);
-}
-
-to{
-opacity:1;
-transform:translateX(0);
-}
-
-}
-
-/* ================================================= */
-/* ======================= MAP ===================== */
-/* ================================================= */
-
-#dashboardMap,
-#floodMap{
+#dashboardMap,#floodMap{
 height:500px;
-border-radius:18px;
+border-radius:20px;
 }
-
-/* ================================================= */
-/* ====================== TABLE ==================== */
-/* ================================================= */
 
 table{
 width:100%;
@@ -447,77 +184,35 @@ border-collapse:collapse;
 }
 
 th,td{
-padding:16px;
+padding:15px;
 text-align:left;
 border-bottom:1px solid #eee;
 }
 
-th{
-background:#f7f9fc;
-}
-
-/* ================================================= */
-/* ===================== BUTTON ==================== */
-/* ================================================= */
-
 .btn{
-padding:12px 20px;
+padding:12px 18px;
 border:none;
 border-radius:12px;
-cursor:pointer;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:white;
 font-weight:bold;
-transition:0.3s;
+cursor:pointer;
 }
 
-.btn:hover{
-transform:translateY(-2px);
-}
-
-.btn-primary{
-background:
-linear-gradient(
-90deg,
-#00c6ff,
-#0072ff
-);
-color:white;
-}
-
-.btn-danger{
-background:#ff4d4d;
-color:white;
-}
-
-/* ================================================= */
-/* ====================== INPUT ==================== */
-/* ================================================= */
-
-input,
-select{
+input,select{
 width:100%;
 padding:12px;
 border:1px solid #ddd;
 border-radius:12px;
+margin-bottom:15px;
 }
-
-/* ================================================= */
-/* ===================== WEATHER =================== */
-/* ================================================= */
 
 .weather-card{
 background:white;
 padding:20px;
 border-radius:20px;
 text-align:center;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,0.05);
-
-transition:0.3s;
-}
-
-.weather-card:hover{
-transform:translateY(-5px);
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
 .weather-icon{
@@ -525,133 +220,10 @@ font-size:42px;
 margin-bottom:10px;
 }
 
-/* ================================================= */
-/* ===================== METRIC ==================== */
-/* ================================================= */
-
-.metric-box{
-background:white;
-padding:20px;
-border-radius:20px;
-text-align:center;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,0.05);
-}
-
-/* ================================================= */
-/* ===================== TOGGLE ==================== */
-/* ================================================= */
-
-.toggle{
-width:60px;
-height:30px;
-background:#ccc;
-border-radius:20px;
-position:relative;
-cursor:pointer;
-}
-
-.toggle::before{
-content:'';
-position:absolute;
-width:24px;
-height:24px;
-background:white;
-border-radius:50%;
-left:3px;
-top:3px;
-transition:0.3s;
-}
-
-.toggle.active{
-background:#00c6ff;
-}
-
-.toggle.active::before{
-left:33px;
-}
-
-/* ================================================= */
-/* ===================== LIVE DOT ================== */
-/* ================================================= */
-
-.live-dot{
-width:10px;
-height:10px;
-background:#2ecc71;
-border-radius:50%;
-display:inline-block;
-margin-right:8px;
-animation:blink 1s infinite;
-}
-
-@keyframes blink{
-
-0%{
-opacity:1;
-}
-
-50%{
-opacity:0.3;
-}
-
-100%{
-opacity:1;
-}
-
-}
-
-/* ================================================= */
-/* ==================== RESPONSIVE ================= */
-/* ================================================= */
-
-@media(max-width:1200px){
-
-.top-grid,
-.grid-2,
-.grid-3,
-.grid-4{
+@media(max-width:1000px){
+.grid-2,.grid-3,.grid-4{
 grid-template-columns:1fr;
 }
-
-}
-
-@media(max-width:800px){
-
-.sidebar{
-width:85px;
-}
-
-.sidebar span{
-display:none;
-}
-
-.main{
-margin-left:85px;
-}
-
-.nav-links{
-display:none;
-}
-
-}
-
-/* ================================================= */
-/* ==================== SCROLLBAR ================== */
-/* ================================================= */
-
-::-webkit-scrollbar{
-width:10px;
-}
-
-::-webkit-scrollbar-thumb{
-background:#00c6ff;
-border-radius:20px;
-}
-
-::-webkit-scrollbar-track{
-background:#f1f1f1;
 }
 
 </style>
@@ -659,33 +231,9 @@ background:#f1f1f1;
 
 <body>
 
-<!-- ================================================= -->
-<!-- ===================== LOADER ==================== -->
-<!-- ================================================= -->
-
-<div id="loader">
-<div class="spinner"></div>
-</div>
-
-<!-- ================================================= -->
-<!-- ====================== AUDIO ==================== -->
-<!-- ================================================= -->
-
-<audio id="alarmSound"
-src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
-</audio>
-
-<!-- ================================================= -->
-<!-- ==================== SIDEBAR ==================== -->
-<!-- ================================================= -->
-
 <div class="sidebar">
 
-<div class="logo">
-FLOWS-PRO
-</div>
-
-<div class="menu">
+<div class="logo">FLOWS-PRO</div>
 
 <div class="menu-item active" data-page="dashboardPage">
 <i class="fa-solid fa-chart-line"></i>
@@ -700,11 +248,6 @@ FLOWS-PRO
 <div class="menu-item" data-page="mapPage">
 <i class="fa-solid fa-map-location-dot"></i>
 <span>Peta Banjir</span>
-</div>
-
-<div class="menu-item" data-page="evacuationPage">
-<i class="fa-solid fa-route"></i>
-<span>Evakuasi</span>
 </div>
 
 <div class="menu-item" data-page="weatherPage">
@@ -723,11 +266,6 @@ FLOWS-PRO
 </div>
 
 </div>
-</div>
-
-<!-- ================================================= -->
-<!-- ====================== MAIN ===================== -->
-<!-- ================================================= -->
 
 <div class="main">
 
@@ -740,175 +278,72 @@ FLOWS-PRO
 <a href="#">Kontak</a>
 </div>
 
-<div class="profile-box" id="profileBtn">
+<div class="profile" id="profileBtn">
 
-<img id="userPhoto"
-src="https://i.pravatar.cc/150?img=12">
+<img id="userPhoto" src="https://i.pravatar.cc/150?img=12">
 
-<div class="profile-info">
+<div>
 <h4 id="userName">Admin Rudi</h4>
-<p>Operator</p>
+<p style="font-size:12px;color:#888;">Operator</p>
 </div>
 
 <div class="dropdown" id="dropdown">
-
-<div>
-<i class="fa-solid fa-user"></i>
-Profil Saya
-</div>
-
-<div>
-<i class="fa-solid fa-gear"></i>
-Pengaturan Akun
-</div>
-
-<div onclick="logout()">
-<i class="fa-solid fa-right-from-bracket"></i>
-Logout
+<div>Profil Saya</div>
+<div>Pengaturan Akun</div>
+<div onclick="logout()">Logout</div>
 </div>
 
 </div>
 
 </div>
-
-</div>
-
-<!-- ================================================= -->
-<!-- ==================== CONTENT ==================== -->
-<!-- ================================================= -->
 
 <div class="content">
 
-<!-- ================================================= -->
-<!-- ==================== DASHBOARD ================= -->
-<!-- ================================================= -->
-
 <div class="page active" id="dashboardPage">
 
-<div class="top-grid">
+<div class="grid-3">
 
 <div class="card">
-
-<div class="card-title">
-Monitoring Realtime
+<div class="card-title">Ketinggian Air</div>
+<div class="big-number warning" id="waterLevel">68 cm</div>
 </div>
 
+<div class="card">
+<div class="card-title">Status Wilayah</div>
+<div class="big-number warning" id="statusText">WASPADA</div>
+</div>
+
+<div class="card">
+<div class="card-title">Cuaca</div>
+<p>🌧 Curah Hujan: 72 mm</p>
+<br>
+<p>🌡 Suhu: 28°C</p>
+</div>
+
+</div>
+
+<div class="card">
+<div class="card-title">Realtime Monitoring</div>
 <div style="height:350px;">
 <canvas id="dashboardChart"></canvas>
 </div>
-
-</div>
-
-<div>
-
-<div class="card">
-
-<div class="card-title">
-Tinggi Air
-</div>
-
-<div class="value waspada"
-id="tinggiAir">
-68 cm
-</div>
-
-<div class="progress">
-<div class="progress-bar"
-id="progressBar">
-</div>
-</div>
-
 </div>
 
 <div class="card">
-
-<div class="card-title">
-Status Wilayah
-</div>
-
-<div class="value waspada"
-id="statusAir">
-WASPADA
-</div>
-
-</div>
-
-</div>
-
-<div>
-
-<div class="card">
-
-<div class="card-title">
-Weather Data
-</div>
-
-<p class="weather-item">
-🌧 Curah Hujan: 72 mm
-</p>
-
-<br>
-
-<p class="weather-item">
-🌡 Suhu: 28°C
-</p>
-
-<br>
-
-<p class="weather-item">
-💨 Angin: 14 km/h
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">
-Live Alerts
-</div>
-
-<div id="alertsContainer">
-
-<div class="realtime-alert green">
-✅ Sistem FLOWS-PRO Aktif
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">
-Peta Monitoring
-</div>
-
+<div class="card-title">Peta Monitoring</div>
 <div id="dashboardMap"></div>
-
 </div>
 
 </div>
-
-<!-- ================================================= -->
-<!-- =================== SENSOR PAGE ================= -->
-<!-- ================================================= -->
 
 <div class="page" id="sensorPage">
 
 <div class="card">
 
-<div class="card-title">
-Live Sensor Monitoring
-</div>
+<div class="card-title">Live Sensor Monitoring</div>
 
 <table>
-
 <thead>
-
 <tr>
 <th>ID</th>
 <th>Lokasi</th>
@@ -916,111 +351,32 @@ Live Sensor Monitoring
 <th>Baterai</th>
 <th>Update</th>
 </tr>
-
 </thead>
 
 <tbody id="sensorTable">
-
 <tr>
-
-<td>
-<span class="live-dot"></span>
-FS-102
-</td>
-
+<td>FS-102</td>
 <td>Dumai Timur</td>
 <td>4.9V</td>
 <td>92%</td>
 <td>10:22 WIB</td>
-
 </tr>
-
 </tbody>
 
 </table>
 
 </div>
 
-<div class="card">
-
-<div class="card-title">
-Trend Sensor
 </div>
-
-<div style="height:350px;">
-<canvas id="sensorChart"></canvas>
-</div>
-
-</div>
-
-</div>
-
-<!-- ================================================= -->
-<!-- ===================== MAP PAGE ================== -->
-<!-- ================================================= -->
 
 <div class="page" id="mapPage">
 
 <div class="card">
-
-<div class="card-title">
-Peta Titik Rawan
-</div>
-
+<div class="card-title">Peta Titik Rawan</div>
 <div id="floodMap"></div>
-
 </div>
 
 </div>
-
-<!-- ================================================= -->
-<!-- ================= EVACUATION PAGE =============== -->
-<!-- ================================================= -->
-
-<div class="page" id="evacuationPage">
-
-<div class="grid-3">
-
-<div class="card">
-<h3>Aula Kecamatan</h3>
-<br>
-<p>Kapasitas: 250 Orang</p>
-<p>Pengungsi: 122 Orang</p>
-<br>
-<button class="btn btn-primary">
-Rute Tercepat
-</button>
-</div>
-
-<div class="card">
-<h3>GOR Dumai</h3>
-<br>
-<p>Kapasitas: 400 Orang</p>
-<p>Pengungsi: 188 Orang</p>
-<br>
-<button class="btn btn-primary">
-Rute Tercepat
-</button>
-</div>
-
-<div class="card">
-<h3>SMP Negeri 14</h3>
-<br>
-<p>Kapasitas: 320 Orang</p>
-<p>Pengungsi: 98 Orang</p>
-<br>
-<button class="btn btn-primary">
-Rute Tercepat
-</button>
-</div>
-
-</div>
-
-</div>
-
-<!-- ================================================= -->
-<!-- ================= WEATHER PAGE ================== -->
-<!-- ================================================= -->
 
 <div class="page" id="weatherPage">
 
@@ -1030,113 +386,67 @@ Rute Tercepat
 <div class="weather-icon">🌧</div>
 <h3>Senin</h3>
 <p>24° / 30°</p>
-<p>90% Hujan</p>
 </div>
 
 <div class="weather-card">
 <div class="weather-icon">☀️</div>
 <h3>Selasa</h3>
 <p>26° / 33°</p>
-<p>10% Hujan</p>
 </div>
 
 <div class="weather-card">
 <div class="weather-icon">☁️</div>
 <h3>Rabu</h3>
 <p>25° / 31°</p>
-<p>40% Hujan</p>
 </div>
 
 <div class="weather-card">
 <div class="weather-icon">⛈</div>
 <h3>Kamis</h3>
 <p>23° / 29°</p>
-<p>95% Hujan</p>
-</div>
-
-</div>
-
-<br>
-
-<div class="grid-4">
-
-<div class="metric-box">
-<h2>87%</h2>
-<p>Kelembapan</p>
-</div>
-
-<div class="metric-box">
-<h2>1008 hPa</h2>
-<p>Tekanan Udara</p>
-</div>
-
-<div class="metric-box">
-<h2>6 UV</h2>
-<p>Indeks UV</p>
-</div>
-
-<div class="metric-box">
-<h2>14 km/h</h2>
-<p>Angin Timur</p>
 </div>
 
 </div>
 
 </div>
-
-<!-- ================================================= -->
-<!-- ================= REPORT PAGE =================== -->
-<!-- ================================================= -->
 
 <div class="page" id="reportsPage">
 
 <div class="card">
 
-<div class="card-title">
-Riwayat Data Banjir
-</div>
+<div class="card-title">Riwayat Data</div>
 
-<button class="btn btn-primary"
-onclick="exportPDF()">
-Export PDF
-</button>
+<input type="date">
 
-<button class="btn btn-primary"
-onclick="exportExcel()">
-Export Excel
-</button>
+<select>
+<option>Semua Lokasi</option>
+<option>Dumai Timur</option>
+<option>Dumai Barat</option>
+</select>
+
+<button class="btn">Export PDF</button>
+<button class="btn">Export Excel</button>
 
 <br><br>
 
 <table>
 
 <thead>
-
 <tr>
 <th>Tanggal</th>
 <th>Lokasi</th>
-<th>Tinggi Air</th>
 <th>Status</th>
+<th>Tinggi Air</th>
 </tr>
-
 </thead>
 
 <tbody>
-
 <tr>
-<td>12 Mei 2026</td>
+<td>24 Mei 2026</td>
 <td>Dumai Timur</td>
-<td>72 cm</td>
 <td>WASPADA</td>
+<td>68 cm</td>
 </tr>
-
-<tr>
-<td>10 Mei 2026</td>
-<td>Pesisir</td>
-<td>120 cm</td>
-<td>BAHAYA</td>
-</tr>
-
 </tbody>
 
 </table>
@@ -1145,38 +455,21 @@ Export Excel
 
 </div>
 
-<!-- ================================================= -->
-<!-- ================= SETTINGS PAGE ================= -->
-<!-- ================================================= -->
-
 <div class="page" id="settingsPage">
 
 <div class="grid-2">
 
 <div class="card">
 
-<div class="card-title">
-Pengaturan Profil
-</div>
+<div class="card-title">Pengaturan Profil</div>
 
-<input type="text"
-id="editNama"
-value="Admin Rudi">
+<input type="text" id="editNama" value="Admin Rudi">
 
-<br><br>
+<input type="email" value="admin@flowspro.com">
 
-<input type="email"
-value="admin@flowspro.com">
+<input type="file" id="uploadPhotoInput">
 
-<br><br>
-
-<input type="file"
-id="uploadPhoto">
-
-<br><br>
-
-<button class="btn btn-primary"
-onclick="saveProfile()">
+<button class="btn" onclick="saveProfile()">
 Simpan Profil
 </button>
 
@@ -1184,25 +477,13 @@ Simpan Profil
 
 <div class="card">
 
-<div class="card-title">
-Notifikasi
-</div>
+<div class="card-title">Pengaturan Notifikasi</div>
 
 <p>Email Notification</p>
-<br>
-<div class="toggle active"></div>
 
-<br><br>
+<br>
 
 <p>WhatsApp Notification</p>
-<br>
-<div class="toggle"></div>
-
-<br><br>
-
-<p>Alarm Buzzer</p>
-<br>
-<div class="toggle active"></div>
 
 </div>
 
@@ -1213,49 +494,20 @@ Notifikasi
 </div>
 
 </div>
-
-<!-- ================================================= -->
-<!-- ===================== SCRIPT ==================== -->
-<!-- ================================================= -->
 
 <script>
 
-/* ================================================= */
-/* ==================== SUPABASE =================== */
-/* ================================================= */
-
 const SUPABASE_URL =
-"https://hceblnmngnnexxtkeiev.supabase.co";
+'https://hceblnmngnnexxtkeiev.supabase.co';
 
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs";
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs';
 
 const supabase =
 window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
-
-/* ================================================= */
-/* ==================== LOADER ===================== */
-/* ================================================= */
-
-window.onload = function(){
-
-const loader =
-document.getElementById('loader');
-
-loader.style.opacity='0';
-
-setTimeout(()=>{
-loader.style.display='none';
-},500);
-
-};
-
-/* ================================================= */
-/* ==================== NAVIGATION ================= */
-/* ================================================= */
 
 const menuItems =
 document.querySelectorAll('.menu-item');
@@ -1273,16 +525,13 @@ menu.classList.remove('active');
 
 item.classList.add('active');
 
-const target =
-item.dataset.page;
+const target = item.dataset.page;
 
 pages.forEach(page=>{
 page.classList.remove('active');
 });
 
-document
-.getElementById(target)
-.classList.add('active');
+document.getElementById(target).classList.add('active');
 
 setTimeout(()=>{
 
@@ -1294,15 +543,11 @@ if(window.floodMap){
 floodMap.invalidateSize();
 }
 
-},400);
+},300);
 
 });
 
 });
-
-/* ================================================= */
-/* ==================== PROFILE ==================== */
-/* ================================================= */
 
 const profileBtn =
 document.getElementById('profileBtn');
@@ -1310,21 +555,16 @@ document.getElementById('profileBtn');
 const dropdown =
 document.getElementById('dropdown');
 
-profileBtn.addEventListener(
-'click',
-()=>{
+profileBtn.addEventListener('click',()=>{
 
 dropdown.style.display =
 dropdown.style.display === 'block'
 ? 'none'
 : 'block';
 
-}
-);
+});
 
-window.addEventListener(
-'click',
-(e)=>{
+window.addEventListener('click',(e)=>{
 
 if(!profileBtn.contains(e.target)){
 
@@ -1332,12 +572,7 @@ dropdown.style.display='none';
 
 }
 
-}
-);
-
-/* ================================================= */
-/* ==================== LOGOUT ===================== */
-/* ================================================= */
+});
 
 function logout(){
 
@@ -1347,209 +582,63 @@ window.location.href='login.html';
 
 }
 
-/* ================================================= */
-/* ==================== TOGGLE ===================== */
-/* ================================================= */
-
-const toggles =
-document.querySelectorAll('.toggle');
-
-toggles.forEach(toggle=>{
-
-toggle.addEventListener(
-'click',
-()=>{
-
-toggle.classList.toggle('active');
-
-}
-);
-
-});
-
-/* ================================================= */
-/* ==================== ALERT ====================== */
-/* ================================================= */
-
-function createRealtimeAlert(
-text,
-type
-){
-
-const div =
-document.createElement('div');
-
-div.className =
-'realtime-alert ' + type;
-
-div.innerHTML = text;
-
-document
-.getElementById('alertsContainer')
-.prepend(div);
-
-setTimeout(()=>{
-div.remove();
-},6000);
-
-}
-
-/* ================================================= */
-/* ==================== PROFILE ==================== */
-/* ================================================= */
-
 function saveProfile(){
 
 const newName =
-document
-.getElementById('editNama')
-.value;
+document.getElementById('editNama').value;
 
-document
-.getElementById('userName')
-.innerText =
+document.getElementById('userName').innerText =
 newName;
 
-createRealtimeAlert(
-'✅ Profil berhasil diperbarui',
-'green'
-);
+alert('Profil berhasil diperbarui');
 
 }
 
-/* ================================================= */
-/* ==================== PHOTO ====================== */
-/* ================================================= */
+const uploadPhotoInput =
+document.getElementById('uploadPhotoInput');
 
-document
-.getElementById('uploadPhoto')
+uploadPhotoInput.addEventListener('change',function(e){
 
-.addEventListener(
-'change',
-function(e){
-
-const file =
-e.target.files[0];
+const file = e.target.files[0];
 
 if(!file) return;
 
-const reader =
-new FileReader();
+const reader = new FileReader();
 
-reader.onload =
-function(event){
+reader.onload = function(event){
 
-document
-.getElementById('userPhoto')
-.src =
+document.getElementById('userPhoto').src =
 event.target.result;
 
 };
 
 reader.readAsDataURL(file);
 
-}
-);
+});
 
-/* ================================================= */
-/* ==================== CHART ====================== */
-/* ================================================= */
-
-const dashboardChart =
+window.dashboardChart =
 new Chart(
 document.getElementById('dashboardChart'),
 {
 type:'line',
-
 data:{
-labels:[
-'00',
-'04',
-'08',
-'12',
-'16',
-'20'
-],
-
+labels:['00','04','08','12','16','20'],
 datasets:[{
 label:'Ketinggian Air',
-
-data:[
-20,
-35,
-40,
-68,
-52,
-72
-],
-
+data:[20,35,40,68,52,72],
 borderColor:'#00a8ff',
 backgroundColor:'rgba(0,168,255,0.12)',
 fill:true,
 tension:0.4,
 borderWidth:3
-
 }]
 },
-
 options:{
 responsive:true,
 maintainAspectRatio:false
 }
-
 }
 );
-
-/* ================================================= */
-/* ================= SENSOR CHART ================== */
-/* ================================================= */
-
-new Chart(
-document.getElementById('sensorChart'),
-{
-type:'line',
-
-data:{
-labels:[
-'01',
-'02',
-'03',
-'04',
-'05',
-'06'
-],
-
-datasets:[{
-label:'Sensor',
-
-data:[
-10,
-18,
-25,
-40,
-55,
-70
-],
-
-borderColor:'#0072ff',
-backgroundColor:'rgba(0,114,255,0.15)',
-fill:true,
-tension:0.4
-
-}]
-},
-
-options:{
-responsive:true,
-maintainAspectRatio:false
-}
-
-}
-);
-
-/* ================================================= */
-/* ====================== MAP ====================== */
-/* ================================================= */
 
 window.dashboardMap =
 L.map('dashboardMap')
@@ -1570,312 +659,6 @@ L.map('floodMap')
 L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 ).addTo(floodMap);
-
-/* ================================================= */
-/* ==================== REALTIME =================== */
-/* ================================================= */
-
-function updateStatusUI(data){
-
-const statusEl =
-document.getElementById('statusAir');
-
-statusEl.innerText =
-data.status;
-
-statusEl.className =
-'value';
-
-if(data.status === 'AMAN'){
-
-statusEl.classList.add('aman');
-
-}
-
-else if(data.status === 'WASPADA'){
-
-statusEl.classList.add('waspada');
-
-createRealtimeAlert(
-'⚠️ Status Waspada',
-'blue'
-);
-
-}
-
-else{
-
-statusEl.classList.add('bahaya');
-
-createRealtimeAlert(
-'🚨 BAHAYA BANJIR',
-'red'
-);
-
-document
-.getElementById('alarmSound')
-.play();
-
-}
-
-}
-
-function updateProgress(data){
-
-document
-.getElementById('progressBar')
-.style.width =
-data.tinggi_air + '%';
-
-}
-
-function updateRealtimeChart(data){
-
-dashboardChart
-.data.labels.push(
-new Date().toLocaleTimeString()
-);
-
-dashboardChart
-.data.datasets[0]
-.data.push(
-data.tinggi_air
-);
-
-if(
-dashboardChart
-.data.labels.length > 12
-){
-
-dashboardChart
-.data.labels.shift();
-
-dashboardChart
-.data.datasets[0]
-.data.shift();
-
-}
-
-dashboardChart.update();
-
-}
-
-function addSensorRow(data){
-
-const row =
-document.createElement('tr');
-
-row.innerHTML = `
-<td>
-<span class="live-dot"></span>
-FS-${Math.floor(Math.random()*999)}
-</td>
-
-<td>
-${data.lokasi || 'Dumai'}
-</td>
-
-<td>
-${(4 + Math.random()).toFixed(1)}V
-</td>
-
-<td>
-${Math.floor(Math.random()*100)}%
-</td>
-
-<td>
-${new Date().toLocaleTimeString()}
-</td>
-`;
-
-document
-.getElementById('sensorTable')
-.prepend(row);
-
-}
-
-function updateRealtimeMap(data){
-
-const markerColor =
-data.status === 'BAHAYA'
-? 'red'
-:
-data.status === 'WASPADA'
-? 'yellow'
-: 'green';
-
-L.circleMarker(
-[
-data.latitude || -1.70,
-data.longitude || 101.47
-],
-{
-color:markerColor,
-radius:10
-}
-)
-
-.addTo(floodMap)
-
-.bindPopup(`
-<b>Status:</b>
-${data.status}
-<br>
-<b>Tinggi:</b>
-${data.tinggi_air} cm
-`);
-
-}
-
-/* ================================================= */
-/* ==================== LOAD DATA ================== */
-/* ================================================= */
-
-async function loadLatestData(){
-
-try{
-
-const { data } =
-await supabase
-
-.from('data_air')
-
-.select('*')
-
-.order('id',
-{ascending:false}
-)
-
-.limit(1);
-
-if(data && data.length > 0){
-
-const latest =
-data[0];
-
-document
-.getElementById('tinggiAir')
-.innerText =
-latest.tinggi_air + ' cm';
-
-updateStatusUI(latest);
-
-updateProgress(latest);
-
-}
-
-}catch(error){
-
-console.log(error);
-
-}
-
-}
-
-loadLatestData();
-
-/* ================================================= */
-/* ================= REALTIME LISTENER ============== */
-/* ================================================= */
-
-AKTIFKAN SETELAH SUPABASE SUKSES
-
-supabase
-
-.channel('realtime-air')
-
-.on(
-'postgres_changes',
-{
-event:'INSERT',
-schema:'public',
-table:'data_air'
-},
-
-(payload)=>{
-
-const data =
-payload.new;
-
-document
-.getElementById('tinggiAir')
-.innerText =
-data.tinggi_air + ' cm';
-
-updateStatusUI(data);
-
-updateProgress(data);
-
-updateRealtimeChart(data);
-
-addSensorRow(data);
-
-updateRealtimeMap(data);
-
-}
-
-)
-
-.subscribe();
-
-*/
-
-/* ================================================= */
-/* ================= WEATHER AUTO ================== */
-/* ================================================= */
-
-function randomWeather(){
-
-const suhu =
-Math.floor(
-26 + Math.random()*5
-);
-
-const hujan =
-Math.floor(
-20 + Math.random()*80
-);
-
-document
-.querySelectorAll('.weather-item')[0]
-.innerHTML =
-'🌧 Curah Hujan: ' +
-hujan + ' mm';
-
-document
-.querySelectorAll('.weather-item')[1]
-.innerHTML =
-'🌡 Suhu: ' +
-suhu + '°C';
-
-}
-
-setInterval(
-randomWeather,
-10000
-);
-
-/* ================================================= */
-/* ==================== EXPORT ===================== */
-/* ================================================= */
-
-function exportPDF(){
-
-createRealtimeAlert(
-'📄 Export PDF berhasil',
-'blue'
-);
-
-}
-
-function exportExcel(){
-
-createRealtimeAlert(
-'📊 Export Excel berhasil',
-'blue'
-);
-
-}
 
 </script>
 
