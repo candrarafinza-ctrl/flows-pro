@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -29,27 +30,17 @@ background:#edf3f8;
 overflow-x:hidden;
 }
 
-/* SIDEBAR */
-
 .sidebar{
 position:fixed;
 left:0;
 top:0;
 width:270px;
 height:100vh;
-background:
-linear-gradient(
-180deg,
-#071b2f,
-#0d2b45,
-#12395c
-);
+background:linear-gradient(180deg,#071b2f,#0d2b45,#12395c);
 padding:22px 18px;
 color:white;
 overflow-y:auto;
 z-index:1000;
-box-shadow:
-5px 0 20px rgba(0,0,0,0.15);
 }
 
 .logo{
@@ -71,59 +62,21 @@ margin-bottom:12px;
 cursor:pointer;
 transition:0.35s;
 font-weight:600;
-overflow:hidden;
-}
-
-.menu-item i{
-width:22px;
-font-size:18px;
 }
 
 .menu-item:hover{
-background:
-linear-gradient(
-90deg,
-#00c6ff,
-#0072ff
-);
-
+background:linear-gradient(90deg,#00c6ff,#0072ff);
 transform:translateX(4px);
-
-box-shadow:
-0 5px 18px rgba(0,198,255,0.35);
 }
 
 .menu-item.active{
-background:
-linear-gradient(
-90deg,
-#00c6ff,
-#0072ff
-);
-
-box-shadow:
-0 6px 20px rgba(0,198,255,0.4);
+background:linear-gradient(90deg,#00c6ff,#0072ff);
 }
-
-.menu-item.active::before{
-content:'';
-position:absolute;
-left:0;
-top:10px;
-width:5px;
-height:70%;
-background:white;
-border-radius:10px;
-}
-
-/* MAIN */
 
 .main{
 margin-left:270px;
 min-height:100vh;
 }
-
-/* NAVBAR */
 
 .navbar{
 height:85px;
@@ -133,9 +86,6 @@ justify-content:space-between;
 align-items:center;
 padding:0 35px;
 box-shadow:0 2px 10px rgba(0,0,0,0.06);
-position:sticky;
-top:0;
-z-index:100;
 }
 
 .nav-links{
@@ -149,8 +99,6 @@ font-weight:700;
 color:#333;
 }
 
-/* PROFILE */
-
 .profile{
 display:flex;
 align-items:center;
@@ -159,7 +107,6 @@ position:relative;
 cursor:pointer;
 padding:8px 14px;
 border-radius:14px;
-transition:0.3s;
 }
 
 .profile:hover{
@@ -186,14 +133,16 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 z-index:99999;
 }
 
-.leaflet-container{
-z-index:1 !important;
-}
-
-/* CONTENT */
-
 .content{
 padding:28px;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
 }
 
 .grid{
@@ -208,11 +157,6 @@ padding:24px;
 border-radius:22px;
 margin-bottom:20px;
 box-shadow:0 5px 20px rgba(0,0,0,0.05);
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-3px);
 }
 
 .card-title{
@@ -264,6 +208,17 @@ margin-top:10px;
 cursor:pointer;
 }
 
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:14px;
+text-align:left;
+border-bottom:1px solid #eee;
+}
+
 .live-badge{
 display:inline-flex;
 align-items:center;
@@ -290,30 +245,6 @@ animation:blink 1s infinite;
 100%{opacity:1;}
 }
 
-@media(max-width:1000px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.sidebar{
-width:90px;
-}
-
-.sidebar span{
-display:none;
-}
-
-.main{
-margin-left:90px;
-}
-
-.nav-links{
-display:none;
-}
-
-}
-
 </style>
 </head>
 
@@ -323,12 +254,12 @@ display:none;
 
 <div class="logo">FLOWS-PRO</div>
 
-<div class="menu-item active">
+<div class="menu-item active" data-page="dashboardPage">
 <i class="fa-solid fa-chart-line"></i>
 <span>Dashboard</span>
 </div>
 
-<div class="menu-item">
+<div class="menu-item" data-page="sensorPage">
 <i class="fa-solid fa-microchip"></i>
 <span>Live Sensor</span>
 </div>
@@ -399,6 +330,8 @@ Simpan Profil
 
 <div class="content">
 
+<div class="page active" id="dashboardPage">
+
 <div class="live-badge">
 <div class="live-dot"></div>
 Realtime FLOWS-PRO Connected
@@ -424,13 +357,43 @@ Realtime FLOWS-PRO Connected
 </div>
 
 <div class="card">
-
-<div class="card-title">
-Realtime Monitoring
-</div>
-
+<div class="card-title">Realtime Monitoring</div>
 <div style="height:350px;">
 <canvas id="dashboardChart"></canvas>
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">Peta Monitoring FLOWS-PRO</div>
+<div id="dashboardMap"></div>
+</div>
+
+</div>
+
+<!-- LIVE SENSOR -->
+
+<div class="page" id="sensorPage">
+
+<div class="live-badge">
+<div class="live-dot"></div>
+Realtime Sensor Connected
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-title">Sensor Aktif</div>
+<div class="big" id="sensorCount">4</div>
+</div>
+
+<div class="card">
+<div class="card-title">Sensor Online</div>
+<div class="big safe">4</div>
+</div>
+
+<div class="card">
+<div class="card-title">Sensor Warning</div>
+<div class="big warning">1</div>
 </div>
 
 </div>
@@ -438,10 +401,50 @@ Realtime Monitoring
 <div class="card">
 
 <div class="card-title">
-Peta Monitoring FLOWS-PRO
+Realtime Sensor Monitoring
 </div>
 
-<div id="dashboardMap"></div>
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Lokasi</th>
+<th>Tinggi Air</th>
+<th>Status</th>
+<th>Voltase</th>
+<th>Update</th>
+</tr>
+</thead>
+
+<tbody id="sensorRealtimeTable">
+
+<tr>
+<td>FS-101</td>
+<td>Dumai Timur</td>
+<td>68 cm</td>
+<td class="warning">WASPADA</td>
+<td>4.9V</td>
+<td>10:22 WIB</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Grafik Sensor Realtime
+</div>
+
+<div style="height:350px;">
+<canvas id="sensorChart"></canvas>
+</div>
+
+</div>
 
 </div>
 
@@ -463,7 +466,7 @@ SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
-/* ================= USER LOGIN ================= */
+/* LOGIN */
 
 const loginData =
 JSON.parse(
@@ -478,25 +481,9 @@ loginData.nama;
 document.getElementById('editName').value =
 loginData.nama;
 
-}else{
-
-window.location.href='login.html';
-
 }
 
-/* ================= AVATAR ================= */
-
-const savedAvatar =
-localStorage.getItem('flowspro_avatar');
-
-if(savedAvatar){
-
-document.getElementById('userPhoto').src =
-savedAvatar;
-
-}
-
-/* ================= DROPDOWN ================= */
+/* DROPDOWN */
 
 const profileBtn =
 document.getElementById('profileBtn');
@@ -513,17 +500,41 @@ dropdown.style.display === 'block'
 
 });
 
-window.addEventListener('click',(e)=>{
+/* NAVIGATION */
 
-if(!profileBtn.contains(e.target)){
+const menuItems =
+document.querySelectorAll('.menu-item');
 
-dropdown.style.display='none';
+const pages =
+document.querySelectorAll('.page');
 
-}
+menuItems.forEach(item=>{
+
+item.addEventListener('click',()=>{
+
+menuItems.forEach(menu=>{
+menu.classList.remove('active');
+});
+
+item.classList.add('active');
+
+const target =
+item.dataset.page;
+
+if(!target) return;
+
+pages.forEach(page=>{
+page.classList.remove('active');
+});
+
+document.getElementById(target)
+.classList.add('active');
 
 });
 
-/* ================= SAVE PROFILE ================= */
+});
+
+/* SAVE PROFILE */
 
 function saveProfile(){
 
@@ -553,10 +564,9 @@ alert('Profil berhasil diperbarui');
 
 }
 
-/* ================= AVATAR ================= */
+/* AVATAR */
 
 document.getElementById('uploadAvatar')
-
 .addEventListener('change',function(e){
 
 const file = e.target.files[0];
@@ -581,7 +591,7 @@ reader.readAsDataURL(file);
 
 });
 
-/* ================= CHART ================= */
+/* DASHBOARD CHART */
 
 window.dashboardChart =
 new Chart(
@@ -607,7 +617,29 @@ maintainAspectRatio:false
 }
 );
 
-/* ================= MAP ================= */
+/* SENSOR CHART */
+
+window.sensorChart =
+new Chart(
+document.getElementById('sensorChart'),
+{
+type:'bar',
+data:{
+labels:[],
+datasets:[{
+label:'Sensor Air',
+data:[],
+backgroundColor:'#00a8ff'
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+}
+);
+
+/* MAP */
 
 window.dashboardMap =
 L.map('dashboardMap')
@@ -621,7 +653,7 @@ const marker =
 L.marker([-1.675,101.45])
 .addTo(dashboardMap);
 
-/* ================= REALTIME ================= */
+/* REALTIME DASHBOARD */
 
 async function loadRealtimeData(){
 
@@ -639,10 +671,8 @@ await supabase
 .limit(1);
 
 if(error){
-
 console.log(error);
 return;
-
 }
 
 if(data && data.length > 0){
@@ -657,25 +687,6 @@ latest.status;
 
 document.getElementById('lastUpdate').innerText =
 new Date().toLocaleTimeString();
-
-const statusText =
-document.getElementById('statusText');
-
-statusText.className='big';
-
-if(latest.status === 'AMAN'){
-
-statusText.classList.add('safe');
-
-}else if(latest.status === 'WASPADA'){
-
-statusText.classList.add('warning');
-
-}else{
-
-statusText.classList.add('danger');
-
-}
 
 const now =
 new Date().toLocaleTimeString();
@@ -717,6 +728,88 @@ console.log(err);
 loadRealtimeData();
 
 setInterval(loadRealtimeData,5000);
+
+/* SENSOR REALTIME */
+
+async function loadSensorRealtime(){
+
+try{
+
+const { data,error } =
+await supabase
+
+.from('data_air')
+
+.select('*')
+
+.order('id',{ascending:false})
+
+.limit(10);
+
+if(error){
+console.log(error);
+return;
+}
+
+const table =
+document.getElementById(
+'sensorRealtimeTable'
+);
+
+table.innerHTML='';
+
+sensorChart.data.labels=[];
+sensorChart.data.datasets[0].data=[];
+
+data.reverse().forEach((item,index)=>{
+
+const row =
+document.createElement('tr');
+
+let statusClass='safe';
+
+if(item.status === 'WASPADA'){
+statusClass='warning';
+}else if(item.status === 'BAHAYA'){
+statusClass='danger';
+}
+
+row.innerHTML = `
+<td>FS-${100+index}</td>
+<td>Dumai Timur</td>
+<td>${item.tinggi_air} cm</td>
+<td class="${statusClass}">
+${item.status}
+</td>
+<td>4.${Math.floor(Math.random()*9)}V</td>
+<td>${new Date().toLocaleTimeString()}</td>
+`;
+
+table.appendChild(row);
+
+sensorChart.data.labels.push(
+'Sensor '+(index+1)
+);
+
+sensorChart.data.datasets[0].data.push(
+item.tinggi_air
+);
+
+});
+
+sensorChart.update();
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadSensorRealtime();
+
+setInterval(loadSensorRealtime,5000);
 
 </script>
 
