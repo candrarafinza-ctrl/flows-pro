@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLOWS-PRO Enterprise Fixed</title>
+<title>FLOWS-PRO Enterprise Final</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -221,6 +224,18 @@ margin-bottom:16px;
 .big{
 font-size:42px;
 font-weight:800;
+}
+
+.safe{
+color:#27ae60;
+}
+
+.warning{
+color:#f1c40f;
+}
+
+.danger{
+color:#e74c3c;
 }
 
 #dashboardMap{
@@ -448,25 +463,28 @@ SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
-/* PROFILE */
+/* ================= USER LOGIN ================= */
 
-const savedUser =
-localStorage.getItem('flowspro_user');
+const loginData =
+JSON.parse(
+localStorage.getItem('userLogin')
+);
 
-if(savedUser){
+if(loginData && loginData.nama){
 
 document.getElementById('userName').innerText =
-savedUser;
+loginData.nama;
 
 document.getElementById('editName').value =
-savedUser;
+loginData.nama;
 
 }else{
 
-document.getElementById('userName').innerText =
-'Admin Rudi';
+window.location.href='login.html';
 
 }
+
+/* ================= AVATAR ================= */
 
 const savedAvatar =
 localStorage.getItem('flowspro_avatar');
@@ -478,7 +496,7 @@ savedAvatar;
 
 }
 
-/* DROPDOWN */
+/* ================= DROPDOWN ================= */
 
 const profileBtn =
 document.getElementById('profileBtn');
@@ -505,7 +523,7 @@ dropdown.style.display='none';
 
 });
 
-/* SAVE PROFILE */
+/* ================= SAVE PROFILE ================= */
 
 function saveProfile(){
 
@@ -515,16 +533,27 @@ document.getElementById('editName').value;
 document.getElementById('userName').innerText =
 newName;
 
-localStorage.setItem(
-'flowspro_user',
-newName
+const loginData =
+JSON.parse(
+localStorage.getItem('userLogin')
 );
+
+if(loginData){
+
+loginData.nama = newName;
+
+localStorage.setItem(
+'userLogin',
+JSON.stringify(loginData)
+);
+
+}
 
 alert('Profil berhasil diperbarui');
 
 }
 
-/* AVATAR */
+/* ================= AVATAR ================= */
 
 document.getElementById('uploadAvatar')
 
@@ -552,7 +581,7 @@ reader.readAsDataURL(file);
 
 });
 
-/* CHART */
+/* ================= CHART ================= */
 
 window.dashboardChart =
 new Chart(
@@ -578,7 +607,7 @@ maintainAspectRatio:false
 }
 );
 
-/* MAP */
+/* ================= MAP ================= */
 
 window.dashboardMap =
 L.map('dashboardMap')
@@ -592,7 +621,7 @@ const marker =
 L.marker([-1.675,101.45])
 .addTo(dashboardMap);
 
-/* REALTIME */
+/* ================= REALTIME ================= */
 
 async function loadRealtimeData(){
 
@@ -628,6 +657,25 @@ latest.status;
 
 document.getElementById('lastUpdate').innerText =
 new Date().toLocaleTimeString();
+
+const statusText =
+document.getElementById('statusText');
+
+statusText.className='big';
+
+if(latest.status === 'AMAN'){
+
+statusText.classList.add('safe');
+
+}else if(latest.status === 'WASPADA'){
+
+statusText.classList.add('warning');
+
+}else{
+
+statusText.classList.add('danger');
+
+}
 
 const now =
 new Date().toLocaleTimeString();
