@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLOWS-PRO Enterprise Dashboard</title>
+<title>FLOWS-PRO Enterprise Fixed</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -26,65 +26,127 @@ background:#edf3f8;
 overflow-x:hidden;
 }
 
+/* SIDEBAR */
+
 .sidebar{
 position:fixed;
 left:0;
 top:0;
-width:260px;
+width:270px;
 height:100vh;
-background:linear-gradient(180deg,#071b2f,#0d2b45,#12395c);
-padding:20px;
+background:
+linear-gradient(
+180deg,
+#071b2f,
+#0d2b45,
+#12395c
+);
+padding:22px 18px;
 color:white;
 overflow-y:auto;
+z-index:1000;
+box-shadow:
+5px 0 20px rgba(0,0,0,0.15);
 }
 
 .logo{
 font-size:30px;
-font-weight:bold;
-margin-bottom:30px;
+font-weight:800;
+margin-bottom:35px;
 color:#00c6ff;
+padding-left:10px;
 }
 
 .menu-item{
-padding:15px;
-border-radius:14px;
+position:relative;
+padding:16px 18px;
+border-radius:16px;
 display:flex;
 align-items:center;
-gap:12px;
-margin-bottom:10px;
+gap:14px;
+margin-bottom:12px;
 cursor:pointer;
-transition:0.3s;
+transition:0.35s;
+font-weight:600;
+overflow:hidden;
 }
 
-.menu-item:hover,
-.menu-item.active{
-background:linear-gradient(90deg,#00c6ff,#0072ff);
+.menu-item i{
+width:22px;
+font-size:18px;
 }
+
+.menu-item:hover{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+transform:translateX(4px);
+
+box-shadow:
+0 5px 18px rgba(0,198,255,0.35);
+}
+
+.menu-item.active{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+box-shadow:
+0 6px 20px rgba(0,198,255,0.4);
+}
+
+.menu-item.active::before{
+content:'';
+position:absolute;
+left:0;
+top:10px;
+width:5px;
+height:70%;
+background:white;
+border-radius:10px;
+}
+
+/* MAIN */
 
 .main{
-margin-left:260px;
+margin-left:270px;
+min-height:100vh;
 }
 
+/* NAVBAR */
+
 .navbar{
-height:80px;
+height:85px;
 background:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 30px;
+padding:0 35px;
 box-shadow:0 2px 10px rgba(0,0,0,0.06);
+position:sticky;
+top:0;
+z-index:100;
 }
 
 .nav-links{
 display:flex;
-gap:25px;
+gap:28px;
 }
 
 .nav-links a{
 text-decoration:none;
+font-weight:700;
 color:#333;
-font-weight:600;
 }
+
+/* PROFILE */
 
 .profile{
 display:flex;
@@ -92,138 +154,149 @@ align-items:center;
 gap:12px;
 position:relative;
 cursor:pointer;
+padding:8px 14px;
+border-radius:14px;
+transition:0.3s;
+}
+
+.profile:hover{
+background:#f5f9ff;
 }
 
 .profile img{
 width:50px;
 height:50px;
 border-radius:50%;
+object-fit:cover;
 }
 
 .dropdown{
 position:absolute;
 right:0;
-top:70px;
+top:75px;
 background:white;
-width:220px;
+width:260px;
+padding:18px;
 border-radius:18px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
 display:none;
-overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+z-index:99999;
 }
 
-.dropdown div{
-padding:15px;
+.leaflet-container{
+z-index:1 !important;
 }
 
-.dropdown div:hover{
-background:#f5f9ff;
-}
+/* CONTENT */
 
 .content{
-padding:25px;
+padding:28px;
 }
 
-.page{
-display:none;
-}
-
-.page.active{
-display:block;
-}
-
-.grid-2{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-}
-
-.grid-3{
+.grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:20px;
 }
 
-.grid-4{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:20px;
-}
-
 .card{
 background:white;
-padding:22px;
+padding:24px;
 border-radius:22px;
-box-shadow:0 5px 20px rgba(0,0,0,0.05);
 margin-bottom:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-3px);
 }
 
 .card-title{
 font-size:18px;
-font-weight:bold;
-margin-bottom:18px;
+font-weight:700;
+margin-bottom:16px;
 }
 
-.big-number{
+.big{
 font-size:42px;
-font-weight:bold;
+font-weight:800;
 }
 
-.warning{
-color:#f1c40f;
-}
-
-#dashboardMap,#floodMap{
+#dashboardMap{
 height:500px;
 border-radius:20px;
+overflow:hidden;
 }
 
-table{
+input{
 width:100%;
-border-collapse:collapse;
+padding:12px;
+border-radius:12px;
+border:1px solid #ddd;
+margin-top:10px;
 }
 
-th,td{
-padding:15px;
-text-align:left;
-border-bottom:1px solid #eee;
-}
-
-.btn{
-padding:12px 18px;
+button{
+width:100%;
+padding:12px;
 border:none;
 border-radius:12px;
 background:linear-gradient(90deg,#00c6ff,#0072ff);
 color:white;
 font-weight:bold;
+margin-top:10px;
 cursor:pointer;
 }
 
-input,select{
-width:100%;
-padding:12px;
-border:1px solid #ddd;
-border-radius:12px;
-margin-bottom:15px;
+.live-badge{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:12px 18px;
+border-radius:40px;
+background:#e8fff1;
+color:#27ae60;
+font-weight:700;
+margin-bottom:20px;
 }
 
-.weather-card{
-background:white;
-padding:20px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,0.05);
+.live-dot{
+width:10px;
+height:10px;
+background:#27ae60;
+border-radius:50%;
+animation:blink 1s infinite;
 }
 
-.weather-icon{
-font-size:42px;
-margin-bottom:10px;
+@keyframes blink{
+0%{opacity:1;}
+50%{opacity:0.2;}
+100%{opacity:1;}
 }
 
 @media(max-width:1000px){
-.grid-2,.grid-3,.grid-4{
+
+.grid{
 grid-template-columns:1fr;
 }
+
+.sidebar{
+width:90px;
+}
+
+.sidebar span{
+display:none;
+}
+
+.main{
+margin-left:90px;
+}
+
+.nav-links{
+display:none;
+}
+
 }
 
 </style>
@@ -235,32 +308,32 @@ grid-template-columns:1fr;
 
 <div class="logo">FLOWS-PRO</div>
 
-<div class="menu-item active" data-page="dashboardPage">
+<div class="menu-item active">
 <i class="fa-solid fa-chart-line"></i>
 <span>Dashboard</span>
 </div>
 
-<div class="menu-item" data-page="sensorPage">
+<div class="menu-item">
 <i class="fa-solid fa-microchip"></i>
 <span>Live Sensor</span>
 </div>
 
-<div class="menu-item" data-page="mapPage">
+<div class="menu-item">
 <i class="fa-solid fa-map-location-dot"></i>
 <span>Peta Banjir</span>
 </div>
 
-<div class="menu-item" data-page="weatherPage">
+<div class="menu-item">
 <i class="fa-solid fa-cloud-rain"></i>
 <span>Weather</span>
 </div>
 
-<div class="menu-item" data-page="reportsPage">
+<div class="menu-item">
 <i class="fa-solid fa-file"></i>
 <span>Reports</span>
 </div>
 
-<div class="menu-item" data-page="settingsPage">
+<div class="menu-item">
 <i class="fa-solid fa-gear"></i>
 <span>Settings</span>
 </div>
@@ -280,17 +353,29 @@ grid-template-columns:1fr;
 
 <div class="profile" id="profileBtn">
 
-<img id="userPhoto" src="https://i.pravatar.cc/150?img=12">
+<img id="userPhoto"
+src="https://i.pravatar.cc/150?img=12">
 
 <div>
-<h4 id="userName">Admin Rudi</h4>
+<h4 id="userName">Loading...</h4>
 <p style="font-size:12px;color:#888;">Operator</p>
 </div>
 
 <div class="dropdown" id="dropdown">
-<div>Profil Saya</div>
-<div>Pengaturan Akun</div>
-<div onclick="logout()">Logout</div>
+
+<h3>Edit Profil</h3>
+
+<input type="text"
+id="editName"
+placeholder="Nama User">
+
+<input type="file"
+id="uploadAvatar">
+
+<button onclick="saveProfile()">
+Simpan Profil
+</button>
+
 </div>
 
 </div>
@@ -299,195 +384,49 @@ grid-template-columns:1fr;
 
 <div class="content">
 
-<div class="page active" id="dashboardPage">
+<div class="live-badge">
+<div class="live-dot"></div>
+Realtime FLOWS-PRO Connected
+</div>
 
-<div class="grid-3">
+<div class="grid">
 
 <div class="card">
 <div class="card-title">Ketinggian Air</div>
-<div class="big-number warning" id="waterLevel">68 cm</div>
+<div class="big" id="waterLevel">0 cm</div>
 </div>
 
 <div class="card">
 <div class="card-title">Status Wilayah</div>
-<div class="big-number warning" id="statusText">WASPADA</div>
+<div class="big" id="statusText">MENUNGGU</div>
 </div>
 
 <div class="card">
-<div class="card-title">Cuaca</div>
-<p>🌧 Curah Hujan: 72 mm</p>
-<br>
-<p>🌡 Suhu: 28°C</p>
+<div class="card-title">Update Terakhir</div>
+<div class="big" style="font-size:24px;" id="lastUpdate">--</div>
 </div>
 
 </div>
 
 <div class="card">
-<div class="card-title">Realtime Monitoring</div>
+
+<div class="card-title">
+Realtime Monitoring
+</div>
+
 <div style="height:350px;">
 <canvas id="dashboardChart"></canvas>
 </div>
+
 </div>
 
 <div class="card">
-<div class="card-title">Peta Monitoring</div>
+
+<div class="card-title">
+Peta Monitoring FLOWS-PRO
+</div>
+
 <div id="dashboardMap"></div>
-</div>
-
-</div>
-
-<div class="page" id="sensorPage">
-
-<div class="card">
-
-<div class="card-title">Live Sensor Monitoring</div>
-
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Lokasi</th>
-<th>Voltase</th>
-<th>Baterai</th>
-<th>Update</th>
-</tr>
-</thead>
-
-<tbody id="sensorTable">
-<tr>
-<td>FS-102</td>
-<td>Dumai Timur</td>
-<td>4.9V</td>
-<td>92%</td>
-<td>10:22 WIB</td>
-</tr>
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<div class="page" id="mapPage">
-
-<div class="card">
-<div class="card-title">Peta Titik Rawan</div>
-<div id="floodMap"></div>
-</div>
-
-</div>
-
-<div class="page" id="weatherPage">
-
-<div class="grid-4">
-
-<div class="weather-card">
-<div class="weather-icon">🌧</div>
-<h3>Senin</h3>
-<p>24° / 30°</p>
-</div>
-
-<div class="weather-card">
-<div class="weather-icon">☀️</div>
-<h3>Selasa</h3>
-<p>26° / 33°</p>
-</div>
-
-<div class="weather-card">
-<div class="weather-icon">☁️</div>
-<h3>Rabu</h3>
-<p>25° / 31°</p>
-</div>
-
-<div class="weather-card">
-<div class="weather-icon">⛈</div>
-<h3>Kamis</h3>
-<p>23° / 29°</p>
-</div>
-
-</div>
-
-</div>
-
-<div class="page" id="reportsPage">
-
-<div class="card">
-
-<div class="card-title">Riwayat Data</div>
-
-<input type="date">
-
-<select>
-<option>Semua Lokasi</option>
-<option>Dumai Timur</option>
-<option>Dumai Barat</option>
-</select>
-
-<button class="btn">Export PDF</button>
-<button class="btn">Export Excel</button>
-
-<br><br>
-
-<table>
-
-<thead>
-<tr>
-<th>Tanggal</th>
-<th>Lokasi</th>
-<th>Status</th>
-<th>Tinggi Air</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>24 Mei 2026</td>
-<td>Dumai Timur</td>
-<td>WASPADA</td>
-<td>68 cm</td>
-</tr>
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<div class="page" id="settingsPage">
-
-<div class="grid-2">
-
-<div class="card">
-
-<div class="card-title">Pengaturan Profil</div>
-
-<input type="text" id="editNama" value="Admin Rudi">
-
-<input type="email" value="admin@flowspro.com">
-
-<input type="file" id="uploadPhotoInput">
-
-<button class="btn" onclick="saveProfile()">
-Simpan Profil
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">Pengaturan Notifikasi</div>
-
-<p>Email Notification</p>
-
-<br>
-
-<p>WhatsApp Notification</p>
-
-</div>
-
-</div>
 
 </div>
 
@@ -509,45 +448,37 @@ SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
-const menuItems =
-document.querySelectorAll('.menu-item');
+/* PROFILE */
 
-const pages =
-document.querySelectorAll('.page');
+const savedUser =
+localStorage.getItem('flowspro_user');
 
-menuItems.forEach(item=>{
+if(savedUser){
 
-item.addEventListener('click',()=>{
+document.getElementById('userName').innerText =
+savedUser;
 
-menuItems.forEach(menu=>{
-menu.classList.remove('active');
-});
+document.getElementById('editName').value =
+savedUser;
 
-item.classList.add('active');
+}else{
 
-const target = item.dataset.page;
+document.getElementById('userName').innerText =
+'Admin Rudi';
 
-pages.forEach(page=>{
-page.classList.remove('active');
-});
-
-document.getElementById(target).classList.add('active');
-
-setTimeout(()=>{
-
-if(window.dashboardMap){
-dashboardMap.invalidateSize();
 }
 
-if(window.floodMap){
-floodMap.invalidateSize();
+const savedAvatar =
+localStorage.getItem('flowspro_avatar');
+
+if(savedAvatar){
+
+document.getElementById('userPhoto').src =
+savedAvatar;
+
 }
 
-},300);
-
-});
-
-});
+/* DROPDOWN */
 
 const profileBtn =
 document.getElementById('profileBtn');
@@ -574,30 +505,30 @@ dropdown.style.display='none';
 
 });
 
-function logout(){
-
-localStorage.removeItem('user');
-
-window.location.href='login.html';
-
-}
+/* SAVE PROFILE */
 
 function saveProfile(){
 
 const newName =
-document.getElementById('editNama').value;
+document.getElementById('editName').value;
 
 document.getElementById('userName').innerText =
 newName;
+
+localStorage.setItem(
+'flowspro_user',
+newName
+);
 
 alert('Profil berhasil diperbarui');
 
 }
 
-const uploadPhotoInput =
-document.getElementById('uploadPhotoInput');
+/* AVATAR */
 
-uploadPhotoInput.addEventListener('change',function(e){
+document.getElementById('uploadAvatar')
+
+.addEventListener('change',function(e){
 
 const file = e.target.files[0];
 
@@ -610,11 +541,18 @@ reader.onload = function(event){
 document.getElementById('userPhoto').src =
 event.target.result;
 
+localStorage.setItem(
+'flowspro_avatar',
+event.target.result
+);
+
 };
 
 reader.readAsDataURL(file);
 
 });
+
+/* CHART */
 
 window.dashboardChart =
 new Chart(
@@ -622,10 +560,10 @@ document.getElementById('dashboardChart'),
 {
 type:'line',
 data:{
-labels:['00','04','08','12','16','20'],
+labels:[],
 datasets:[{
 label:'Ketinggian Air',
-data:[20,35,40,68,52,72],
+data:[],
 borderColor:'#00a8ff',
 backgroundColor:'rgba(0,168,255,0.12)',
 fill:true,
@@ -640,6 +578,8 @@ maintainAspectRatio:false
 }
 );
 
+/* MAP */
+
 window.dashboardMap =
 L.map('dashboardMap')
 .setView([-1.675,101.45],11);
@@ -648,17 +588,87 @@ L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 ).addTo(dashboardMap);
 
+const marker =
 L.marker([-1.675,101.45])
-.addTo(dashboardMap)
-.bindPopup('Sensor Utama FLOWS-PRO');
+.addTo(dashboardMap);
 
-window.floodMap =
-L.map('floodMap')
-.setView([-1.675,101.45],11);
+/* REALTIME */
 
-L.tileLayer(
-'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-).addTo(floodMap);
+async function loadRealtimeData(){
+
+try{
+
+const { data,error } =
+await supabase
+
+.from('data_air')
+
+.select('*')
+
+.order('id',{ascending:false})
+
+.limit(1);
+
+if(error){
+
+console.log(error);
+return;
+
+}
+
+if(data && data.length > 0){
+
+const latest = data[0];
+
+document.getElementById('waterLevel').innerText =
+latest.tinggi_air + ' cm';
+
+document.getElementById('statusText').innerText =
+latest.status;
+
+document.getElementById('lastUpdate').innerText =
+new Date().toLocaleTimeString();
+
+const now =
+new Date().toLocaleTimeString();
+
+dashboardChart.data.labels.push(now);
+
+dashboardChart.data.datasets[0].data.push(
+latest.tinggi_air
+);
+
+if(dashboardChart.data.labels.length > 15){
+
+dashboardChart.data.labels.shift();
+
+dashboardChart.data.datasets[0].data.shift();
+
+}
+
+dashboardChart.update();
+
+marker.bindPopup(
+'Status : ' +
+latest.status +
+'<br>Tinggi Air : ' +
+latest.tinggi_air +
+' cm'
+);
+
+}
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadRealtimeData();
+
+setInterval(loadRealtimeData,5000);
 
 </script>
 
