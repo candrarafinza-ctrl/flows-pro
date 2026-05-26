@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOWS-PRO | Live Sensor</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#edf3f8;
+overflow-x:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:270px;
+height:100vh;
+background:
+linear-gradient(
+180deg,
+#071b2f,
+#0d2b45,
+#12395c
+);
+
+padding:22px 18px;
+color:white;
+overflow-y:auto;
+z-index:1000;
+}
+
+.logo{
+font-size:30px;
+font-weight:800;
+margin-bottom:35px;
+color:#00c6ff;
+padding-left:10px;
+}
+
+.menu-item{
+padding:16px 18px;
+border-radius:16px;
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:12px;
+cursor:pointer;
+transition:0.3s;
+font-weight:600;
+text-decoration:none;
+color:white;
+}
+
+.menu-item:hover{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+transform:translateX(4px);
+}
+
+.menu-item.active{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+}
+
+/* MAIN */
+
+.main{
+margin-left:270px;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+height:85px;
+background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 35px;
+box-shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+
+.nav-title{
+font-size:24px;
+font-weight:800;
+color:#12395c;
+}
+
+/* PROFILE */
+
+.profile{
+display:flex;
+align-items:center;
+gap:12px;
+padding:8px 14px;
+border-radius:14px;
+background:#f5f9ff;
+}
+
+.profile img{
+width:50px;
+height:50px;
+border-radius:50%;
+object-fit:cover;
+}
+
+/* CONTENT */
+
+.content{
+padding:28px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.card{
+background:white;
+padding:24px;
+border-radius:22px;
+margin-bottom:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.card-title{
+font-size:18px;
+font-weight:700;
+margin-bottom:16px;
+}
+
+.big{
+font-size:42px;
+font-weight:800;
+}
+
+.safe{
+color:#27ae60;
+}
+
+.warning{
+color:#f1c40f;
+}
+
+.danger{
+color:#e74c3c;
+}
+
+.live-badge{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:12px 18px;
+border-radius:40px;
+background:#e8fff1;
+color:#27ae60;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.live-dot{
+width:10px;
+height:10px;
+background:#27ae60;
+border-radius:50%;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%{opacity:1;}
+50%{opacity:0.2;}
+100%{opacity:1;}
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:14px;
+text-align:left;
+border-bottom:1px solid #eee;
+}
+
+th{
+background:#f8fbff;
+}
+
+.chart-container{
+height:350px;
+}
+
+@media(max-width:1000px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.sidebar{
+width:90px;
+}
+
+.sidebar span{
+display:none;
+}
+
+.main{
+margin-left:90px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+FLOWS-PRO
+</div>
+
+<a class="menu-item" href="dashboard.html">
+<i class="fa-solid fa-chart-line"></i>
+<span>Dashboard</span>
+</a>
+
+<a class="menu-item active" href="live_sensor.html">
+<i class="fa-solid fa-microchip"></i>
+<span>Live Sensor</span>
+</a>
+
+<a class="menu-item" href="#">
+<i class="fa-solid fa-map-location-dot"></i>
+<span>Peta Banjir</span>
+</a>
+
+<a class="menu-item" href="#">
+<i class="fa-solid fa-cloud-rain"></i>
+<span>Weather</span>
+</a>
+
+<a class="menu-item" href="#">
+<i class="fa-solid fa-file"></i>
+<span>Reports</span>
+</a>
+
+<a class="menu-item" href="#">
+<i class="fa-solid fa-gear"></i>
+<span>Settings</span>
+</a>
+
+</div>
+
+<div class="main">
+
+<div class="navbar">
+
+<div class="nav-title">
+Live Sensor Monitoring
+</div>
+
+<div class="profile">
+
+<img id="userPhoto"
+src="https://i.pravatar.cc/150?img=12">
+
+<div>
+<h4 id="userName">Loading...</h4>
+<p style="font-size:12px;color:#888;">
+Operator
+</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<div class="live-badge">
+<div class="live-dot"></div>
+Sensor FLOWS-PRO Realtime Connected
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-title">Sensor Aktif</div>
+<div class="big">4</div>
+</div>
+
+<div class="card">
+<div class="card-title">Sensor Online</div>
+<div class="big safe">4</div>
+</div>
+
+<div class="card">
+<div class="card-title">Sensor Warning</div>
+<div class="big warning">1</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Realtime Sensor Monitoring
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID Sensor</th>
+<th>Lokasi</th>
+<th>Tinggi Air</th>
+<th>Status</th>
+<th>Voltase</th>
+<th>Update</th>
+</tr>
+
+</thead>
+
+<tbody id="sensorRealtimeTable">
+
+<tr>
+<td>FS-101</td>
+<td>Dumai Timur</td>
+<td>68 cm</td>
+<td class="warning">WASPADA</td>
+<td>4.9V</td>
+<td>10:22 WIB</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Grafik Sensor Realtime
+</div>
+
+<div class="chart-container">
+<canvas id="sensorChart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+'https://hceblnmngnnexxtkeiev.supabase.co';
+
+const SUPABASE_ANON_KEY =
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs';
+
+const supabase =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+/* LOGIN USER */
+
+const loginData =
+JSON.parse(
+localStorage.getItem('userLogin')
+);
+
+if(loginData && loginData.nama){
+
+document.getElementById('userName').innerText =
+loginData.nama;
+
+}
+
+/* AVATAR */
+
+const savedAvatar =
+localStorage.getItem('flowspro_avatar');
+
+if(savedAvatar){
+
+document.getElementById('userPhoto').src =
+savedAvatar;
+
+}
+
+/* SENSOR CHART */
+
+window.sensorChart =
+new Chart(
+document.getElementById('sensorChart'),
+{
+type:'bar',
+
+data:{
+labels:[],
+datasets:[{
+label:'Sensor Air',
+data:[],
+backgroundColor:'#00a8ff'
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+/* REALTIME SENSOR */
+
+async function loadSensorRealtime(){
+
+try{
+
+const { data,error } =
+await supabase
+
+.from('data_air')
+
+.select('*')
+
+.order('id',{ascending:false})
+
+.limit(10);
+
+if(error){
+
+console.log(error);
+return;
+
+}
+
+const table =
+document.getElementById(
+'sensorRealtimeTable'
+);
+
+table.innerHTML='';
+
+sensorChart.data.labels=[];
+
+sensorChart.data.datasets[0].data=[];
+
+data.reverse().forEach((item,index)=>{
+
+const row =
+document.createElement('tr');
+
+let statusClass='safe';
+
+if(item.status === 'WASPADA'){
+
+statusClass='warning';
+
+}else if(item.status === 'BAHAYA'){
+
+statusClass='danger';
+
+}
+
+row.innerHTML = `
+
+<td>FS-${100+index}</td>
+
+<td>Dumai Timur</td>
+
+<td>${item.tinggi_air} cm</td>
+
+<td class="${statusClass}">
+${item.status}
+</td>
+
+<td>4.${Math.floor(Math.random()*9)}V</td>
+
+<td>
+${new Date().toLocaleTimeString()}
+</td>
+
+`;
+
+table.appendChild(row);
+
+sensorChart.data.labels.push(
+'Sensor '+(index+1)
+);
+
+sensorChart.data.datasets[0].data.push(
+item.tinggi_air
+);
+
+});
+
+sensorChart.update();
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadSensorRealtime();
+
+setInterval(loadSensorRealtime,5000);
+
+</script>
+
+</body>
+</html>
