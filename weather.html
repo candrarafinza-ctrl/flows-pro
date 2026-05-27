@@ -387,12 +387,16 @@ savedAvatar;
 
 async function getWeather(lat,lon){
 
+try{
+
 const url =
 `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
 
-const response = await fetch(url);
+const response =
+await fetch(url);
 
-const data = await response.json();
+const data =
+await response.json();
 
 document.getElementById('currentTemp').innerText =
 data.current_weather.temperature + '°C';
@@ -400,9 +404,11 @@ data.current_weather.temperature + '°C';
 document.getElementById('wind').innerText =
 data.current_weather.windspeed;
 
-document.getElementById('humidity').innerText = '82';
+document.getElementById('humidity').innerText =
+'82';
 
-document.getElementById('pressure').innerText = '1012';
+document.getElementById('pressure').innerText =
+'1012';
 
 document.getElementById('weatherDesc').innerText =
 'Realtime weather based on your current location';
@@ -423,6 +429,7 @@ icon='☁️';
 }
 
 cards.innerHTML += `
+
 <div class="weather-card">
 
 <div class="weather-icon">
@@ -439,13 +446,23 @@ ${data.daily.temperature_2m_max[index]}°
 </p>
 
 </div>
+
 `;
 
 });
 
-}
+}catch(err){
 
-/* LOCATION */
+console.log(err);
+
+document.getElementById('weatherDesc').innerText =
+'Gagal mengambil data cuaca';
+
+}
+}
+/* LOCATION SAFE */
+
+if(navigator.geolocation){
 
 navigator.geolocation.getCurrentPosition(
 
@@ -463,6 +480,24 @@ document.getElementById('locationName').innerText =
 getWeather(lat,lon);
 
 },
+
+(error)=>{
+
+console.log(error);
+
+document.getElementById('locationName').innerText =
+'Lokasi tidak diizinkan';
+
+}
+
+);
+
+}else{
+
+document.getElementById('locationName').innerText =
+'Browser tidak mendukung GPS';
+
+}
 
 ()=>{
 
