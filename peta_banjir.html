@@ -2,7 +2,9 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>FLOWS-PRO | Peta Banjir</title>
 
 <link rel="stylesheet"
@@ -12,6 +14,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
@@ -265,36 +268,53 @@ margin-left:90px;
 FLOWS-PRO
 </div>
 
-<a class="menu-item" href="dashboard.html">
+<a class="menu-item"
+href="dashboard.html">
+
 <i class="fa-solid fa-chart-line"></i>
 <span>Dashboard</span>
+
 </a>
 
-<a class="menu-item" href="live_sensor.html">
+<a class="menu-item"
+href="live_sensor.html">
+
 <i class="fa-solid fa-microchip"></i>
 <span>Live Sensor</span>
+
 </a>
 
-<a class="menu-item active" href="peta_banjir.html">
+<a class="menu-item active"
+href="peta_banjir.html">
+
 <i class="fa-solid fa-map-location-dot"></i>
 <span>Peta Banjir</span>
+
 </a>
 
-<div class="menu-item" herf="weather.html">
+<a class="menu-item"
+href="weather.html">
+
 <i class="fa-solid fa-cloud-rain"></i>
 <span>Weather</span>
-</div>
 
-<div class="menu-item" herf="reports.html">
+</a>
+
+<a class="menu-item"
+href="reports.html">
+
 <i class="fa-solid fa-file"></i>
 <span>Reports</span>
-</div>
 
-<div class="menu-item" herf="settings.html">
+</a>
+
+<a class="menu-item"
+href="settings.html">
+
 <i class="fa-solid fa-gear"></i>
 <span>Settings</span>
-</div>
 
+</a>
 
 </div>
 
@@ -312,10 +332,15 @@ Peta Monitoring Banjir
 src="https://i.pravatar.cc/150?img=12">
 
 <div>
-<h4 id="userName">Loading...</h4>
+
+<h4 id="userName">
+Loading...
+</h4>
+
 <p style="font-size:12px;color:#888;">
 Operator
 </p>
+
 </div>
 
 </div>
@@ -325,25 +350,49 @@ Operator
 <div class="content">
 
 <div class="live-badge">
+
 <div class="live-dot"></div>
+
 Realtime Flood Monitoring Connected
+
 </div>
 
 <div class="grid">
 
 <div class="card">
-<div class="card-title">Zona Aman</div>
-<div class="big safe">5</div>
+
+<div class="card-title">
+Zona Aman
+</div>
+
+<div class="big safe">
+5
+</div>
+
 </div>
 
 <div class="card">
-<div class="card-title">Zona Waspada</div>
-<div class="big warning">2</div>
+
+<div class="card-title">
+Zona Waspada
+</div>
+
+<div class="big warning">
+2
+</div>
+
 </div>
 
 <div class="card">
-<div class="card-title">Zona Bahaya</div>
-<div class="big danger">1</div>
+
+<div class="card-title">
+Zona Bahaya
+</div>
+
+<div class="big danger">
+1
+</div>
+
 </div>
 
 </div>
@@ -359,21 +408,30 @@ Peta Monitoring Realtime
 <div class="legend">
 
 <div class="legend-item">
+
 <div class="legend-color"
 style="background:#27ae60;"></div>
+
 Zona Aman
+
 </div>
 
 <div class="legend-item">
+
 <div class="legend-color"
 style="background:#f1c40f;"></div>
+
 Zona Waspada
+
 </div>
 
 <div class="legend-item">
+
 <div class="legend-color"
 style="background:#e74c3c;"></div>
+
 Zona Bahaya
+
 </div>
 
 </div>
@@ -386,19 +444,21 @@ Zona Bahaya
 
 <script>
 
+/* ================= SUPABASE ================= */
+
 const SUPABASE_URL =
 'https://hceblnmngnnexxtkeiev.supabase.co';
 
 const SUPABASE_ANON_KEY =
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs';
 
-const supabase =
+const supabaseClient =
 window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
-/* USER LOGIN */
+/* ================= LOGIN ================= */
 
 const loginData =
 JSON.parse(
@@ -412,7 +472,7 @@ loginData.nama;
 
 }
 
-/* AVATAR */
+/* ================= AVATAR ================= */
 
 const savedAvatar =
 localStorage.getItem('flowspro_avatar');
@@ -424,7 +484,7 @@ savedAvatar;
 
 }
 
-/* MAP */
+/* ================= MAP ================= */
 
 window.floodMap =
 L.map('floodMap')
@@ -434,14 +494,14 @@ L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 ).addTo(floodMap);
 
-/* REALTIME FLOOD MARKERS */
+/* ================= REALTIME FLOOD MAP ================= */
 
 async function loadFloodMap(){
 
 try{
 
 const { data,error } =
-await supabase
+await supabaseClient
 
 .from('data_air')
 
@@ -512,6 +572,8 @@ console.log(err);
 }
 
 loadFloodMap();
+
+setInterval(loadFloodMap,5000);
 
 </script>
 
