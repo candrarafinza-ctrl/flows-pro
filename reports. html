@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>FLOWS-PRO | Reports</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#edf3f8;
+overflow-x:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:270px;
+height:100vh;
+background:
+linear-gradient(
+180deg,
+#071b2f,
+#0d2b45,
+#12395c
+);
+
+padding:22px 18px;
+color:white;
+overflow-y:auto;
+z-index:1000;
+}
+
+.logo{
+font-size:30px;
+font-weight:800;
+margin-bottom:35px;
+color:#00c6ff;
+padding-left:10px;
+}
+
+.menu-item{
+padding:16px 18px;
+border-radius:16px;
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:12px;
+cursor:pointer;
+transition:0.3s;
+font-weight:600;
+text-decoration:none;
+color:white;
+}
+
+.menu-item:hover{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+transform:translateX(4px);
+}
+
+.menu-item.active{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+}
+
+/* MAIN */
+
+.main{
+margin-left:270px;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+height:85px;
+background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 35px;
+box-shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+
+.nav-title{
+font-size:24px;
+font-weight:800;
+color:#12395c;
+}
+
+/* PROFILE */
+
+.profile{
+display:flex;
+align-items:center;
+gap:12px;
+padding:8px 14px;
+border-radius:14px;
+background:#f5f9ff;
+}
+
+.profile img{
+width:50px;
+height:50px;
+border-radius:50%;
+object-fit:cover;
+}
+
+/* CONTENT */
+
+.content{
+padding:28px;
+}
+
+.card{
+background:white;
+padding:24px;
+border-radius:22px;
+margin-bottom:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.card-title{
+font-size:20px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.filter-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+input,select{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #ddd;
+outline:none;
+}
+
+button{
+padding:14px 20px;
+border:none;
+border-radius:12px;
+background:linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:14px;
+text-align:left;
+border-bottom:1px solid #eee;
+}
+
+th{
+background:#f8fbff;
+}
+
+.safe{
+color:#27ae60;
+font-weight:bold;
+}
+
+.warning{
+color:#f1c40f;
+font-weight:bold;
+}
+
+.danger{
+color:#e74c3c;
+font-weight:bold;
+}
+
+.pagination{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-top:20px;
+}
+
+.page-btn{
+width:45px;
+height:45px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:white;
+cursor:pointer;
+font-weight:bold;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+
+.page-btn.active{
+background:#0072ff;
+color:white;
+}
+
+.export-buttons{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+@media(max-width:1000px){
+
+.filter-grid{
+grid-template-columns:1fr;
+}
+
+.sidebar{
+width:90px;
+}
+
+.sidebar span{
+display:none;
+}
+
+.main{
+margin-left:90px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+FLOWS-PRO
+</div>
+
+<a class="menu-item"
+href="dashboard.html">
+
+<i class="fa-solid fa-chart-line"></i>
+<span>Dashboard</span>
+
+</a>
+
+<a class="menu-item"
+href="live_sensor.html">
+
+<i class="fa-solid fa-microchip"></i>
+<span>Live Sensor</span>
+
+</a>
+
+<a class="menu-item"
+href="peta_banjir.html">
+
+<i class="fa-solid fa-map-location-dot"></i>
+<span>Peta Banjir</span>
+
+</a>
+
+<a class="menu-item"
+href="weather.html">
+
+<i class="fa-solid fa-cloud-rain"></i>
+<span>Weather</span>
+
+</a>
+
+<a class="menu-item active"
+href="reports.html">
+
+<i class="fa-solid fa-file"></i>
+<span>Reports</span>
+
+</a>
+
+<a class="menu-item"
+href="settings.html">
+
+<i class="fa-solid fa-gear"></i>
+<span>Settings</span>
+
+</a>
+
+</div>
+
+<div class="main">
+
+<div class="navbar">
+
+<div class="nav-title">
+Laporan & Riwayat Data
+</div>
+
+<div class="profile">
+
+<img id="userPhoto"
+src="https://i.pravatar.cc/150?img=12">
+
+<div>
+
+<h4 id="userName">
+Loading...
+</h4>
+
+<p style="font-size:12px;color:#888;">
+Operator
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<!-- FILTER -->
+
+<div class="card">
+
+<div class="card-title">
+Filter Laporan
+</div>
+
+<div class="filter-grid">
+
+<div>
+
+<label>Tanggal Awal</label>
+
+<input type="date">
+
+</div>
+
+<div>
+
+<label>Tanggal Akhir</label>
+
+<input type="date">
+
+</div>
+
+<div>
+
+<label>Status Wilayah</label>
+
+<select>
+
+<option>Semua</option>
+<option>Aman</option>
+<option>Waspada</option>
+<option>Bahaya</option>
+
+</select>
+
+</div>
+
+<div style="display:flex;
+align-items:end;">
+
+<button style="width:100%;">
+Filter Data
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="card">
+
+<div class="card-title">
+Riwayat Monitoring Banjir
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Lokasi</th>
+<th>Tinggi Air</th>
+<th>Status</th>
+<th>Waktu</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>FS-101</td>
+<td>Dumai Timur</td>
+<td>32 cm</td>
+<td class="safe">AMAN</td>
+<td>08:20 WIB</td>
+
+</tr>
+
+<tr>
+
+<td>FS-102</td>
+<td>Dumai Barat</td>
+<td>68 cm</td>
+<td class="warning">WASPADA</td>
+<td>09:10 WIB</td>
+
+</tr>
+
+<tr>
+
+<td>FS-103</td>
+<td>Sungai Sembilan</td>
+<td>110 cm</td>
+<td class="danger">BAHAYA</td>
+<td>09:45 WIB</td>
+
+</tr>
+
+<tr>
+
+<td>FS-104</td>
+<td>Medang Kampai</td>
+<td>48 cm</td>
+<td class="warning">WASPADA</td>
+<td>10:15 WIB</td>
+
+</tr>
+
+<tr>
+
+<td>FS-105</td>
+<td>Dumai Selatan</td>
+<td>28 cm</td>
+<td class="safe">AMAN</td>
+<td>10:40 WIB</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<!-- PAGINATION -->
+
+<div class="pagination">
+
+<div class="page-btn">
+<i class="fa-solid fa-chevron-left"></i>
+</div>
+
+<div class="page-btn active">
+1
+</div>
+
+<div class="page-btn">
+2
+</div>
+
+<div class="page-btn">
+3
+</div>
+
+<div class="page-btn">
+<i class="fa-solid fa-chevron-right"></i>
+</div>
+
+</div>
+
+<!-- EXPORT -->
+
+<div class="export-buttons">
+
+<button onclick="exportPDF()">
+
+<i class="fa-solid fa-file-pdf"></i>
+Export PDF
+
+</button>
+
+<button onclick="exportExcel()">
+
+<i class="fa-solid fa-file-excel"></i>
+Export Excel
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+const loginData =
+JSON.parse(
+localStorage.getItem('userLogin')
+);
+
+if(loginData && loginData.nama){
+
+document.getElementById('userName').innerText =
+loginData.nama;
+
+}
+
+/* AVATAR */
+
+const savedAvatar =
+localStorage.getItem('flowspro_avatar');
+
+if(savedAvatar){
+
+document.getElementById('userPhoto').src =
+savedAvatar;
+
+}
+
+/* EXPORT */
+
+function exportPDF(){
+
+alert(
+'Export PDF berhasil dibuat'
+);
+
+}
+
+function exportExcel(){
+
+alert(
+'Export Excel berhasil dibuat'
+);
+
+}
+
+</script>
+
+</body>
+</html>
