@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>FLOWS-PRO | Settings</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#edf3f8;
+overflow-x:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:270px;
+height:100vh;
+background:
+linear-gradient(
+180deg,
+#071b2f,
+#0d2b45,
+#12395c
+);
+
+padding:22px 18px;
+color:white;
+overflow-y:auto;
+z-index:1000;
+}
+
+.logo{
+font-size:30px;
+font-weight:800;
+margin-bottom:35px;
+color:#00c6ff;
+padding-left:10px;
+}
+
+.menu-item{
+padding:16px 18px;
+border-radius:16px;
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:12px;
+cursor:pointer;
+transition:0.3s;
+font-weight:600;
+text-decoration:none;
+color:white;
+}
+
+.menu-item:hover{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+transform:translateX(4px);
+}
+
+.menu-item.active{
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+}
+
+/* MAIN */
+
+.main{
+margin-left:270px;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+height:85px;
+background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 35px;
+box-shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+
+.nav-title{
+font-size:24px;
+font-weight:800;
+color:#12395c;
+}
+
+/* PROFILE */
+
+.profile{
+display:flex;
+align-items:center;
+gap:12px;
+padding:8px 14px;
+border-radius:14px;
+background:#f5f9ff;
+}
+
+.profile img{
+width:50px;
+height:50px;
+border-radius:50%;
+object-fit:cover;
+}
+
+/* CONTENT */
+
+.content{
+padding:28px;
+}
+
+.card{
+background:white;
+padding:24px;
+border-radius:22px;
+margin-bottom:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.card-title{
+font-size:22px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.settings-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+
+.form-group{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:600;
+}
+
+input{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #ddd;
+outline:none;
+}
+
+button{
+padding:14px 22px;
+border:none;
+border-radius:12px;
+background:
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+.toggle{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px;
+border-radius:14px;
+background:#f8fbff;
+margin-bottom:15px;
+}
+
+.switch{
+position:relative;
+display:inline-block;
+width:60px;
+height:30px;
+}
+
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+.slider{
+position:absolute;
+cursor:pointer;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#ccc;
+transition:.4s;
+border-radius:30px;
+}
+
+.slider:before{
+position:absolute;
+content:"";
+height:22px;
+width:22px;
+left:4px;
+bottom:4px;
+background:white;
+transition:.4s;
+border-radius:50%;
+}
+
+input:checked + .slider{
+background:#0072ff;
+}
+
+input:checked + .slider:before{
+transform:translateX(28px);
+}
+
+@media(max-width:1000px){
+
+.settings-grid{
+grid-template-columns:1fr;
+}
+
+.sidebar{
+width:90px;
+}
+
+.sidebar span{
+display:none;
+}
+
+.main{
+margin-left:90px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+FLOWS-PRO
+</div>
+
+<a class="menu-item"
+href="dashboard.html">
+
+<i class="fa-solid fa-chart-line"></i>
+<span>Dashboard</span>
+
+</a>
+
+<a class="menu-item"
+href="live_sensor.html">
+
+<i class="fa-solid fa-microchip"></i>
+<span>Live Sensor</span>
+
+</a>
+
+<a class="menu-item"
+href="peta_banjir.html">
+
+<i class="fa-solid fa-map-location-dot"></i>
+<span>Peta Banjir</span>
+
+</a>
+
+<a class="menu-item"
+href="weather.html">
+
+<i class="fa-solid fa-cloud-rain"></i>
+<span>Weather</span>
+
+</a>
+
+<a class="menu-item"
+href="reports.html">
+
+<i class="fa-solid fa-file"></i>
+<span>Reports</span>
+
+</a>
+
+<a class="menu-item active"
+href="settings.html">
+
+<i class="fa-solid fa-gear"></i>
+<span>Settings</span>
+
+</a>
+
+</div>
+
+<div class="main">
+
+<div class="navbar">
+
+<div class="nav-title">
+Pengaturan Sistem
+</div>
+
+<div class="profile">
+
+<img id="userPhoto"
+src="https://i.pravatar.cc/150?img=12">
+
+<div>
+
+<h4 id="userName">
+Loading...
+</h4>
+
+<p style="font-size:12px;color:#888;">
+Operator
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<div class="settings-grid">
+
+<!-- PROFILE SETTINGS -->
+
+<div class="card">
+
+<div class="card-title">
+Pengaturan Profil
+</div>
+
+<div class="form-group">
+
+<label>Nama Lengkap</label>
+
+<input type="text"
+id="nameInput"
+placeholder="Masukkan nama">
+
+</div>
+
+<div class="form-group">
+
+<label>Email</label>
+
+<input type="email"
+placeholder="Masukkan email">
+
+</div>
+
+<div class="form-group">
+
+<label>Upload Foto Profil</label>
+
+<input type="file"
+id="uploadAvatar">
+
+</div>
+
+<button onclick="saveProfile()">
+
+Simpan Profil
+
+</button>
+
+</div>
+
+<!-- NOTIFICATION -->
+
+<div class="card">
+
+<div class="card-title">
+Pengaturan Notifikasi
+</div>
+
+<div class="toggle">
+
+<div>
+
+<h4>Email Alert</h4>
+<p style="color:#888;">
+Notifikasi via Email
+</p>
+
+</div>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="toggle">
+
+<div>
+
+<h4>WhatsApp Alert</h4>
+<p style="color:#888;">
+Notifikasi via WhatsApp
+</p>
+
+</div>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="toggle">
+
+<div>
+
+<h4>Alarm Darurat</h4>
+<p style="color:#888;">
+Sirine otomatis saat bahaya
+</p>
+
+</div>
+
+<label class="switch">
+
+<input type="checkbox">
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- THRESHOLD -->
+
+<div class="card">
+
+<div class="card-title">
+Threshold Ketinggian Air
+</div>
+
+<div class="settings-grid">
+
+<div class="form-group">
+
+<label>Batas Aman (cm)</label>
+
+<input type="number"
+value="30">
+
+</div>
+
+<div class="form-group">
+
+<label>Batas Waspada (cm)</label>
+
+<input type="number"
+value="70">
+
+</div>
+
+<div class="form-group">
+
+<label>Batas Bahaya (cm)</label>
+
+<input type="number"
+value="100">
+
+</div>
+
+</div>
+
+<button>
+
+Simpan Threshold
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+const loginData =
+JSON.parse(
+localStorage.getItem('userLogin')
+);
+
+if(loginData && loginData.nama){
+
+document.getElementById('userName').innerText =
+loginData.nama;
+
+document.getElementById('nameInput').value =
+loginData.nama;
+
+}
+
+/* AVATAR */
+
+const savedAvatar =
+localStorage.getItem('flowspro_avatar');
+
+if(savedAvatar){
+
+document.getElementById('userPhoto').src =
+savedAvatar;
+
+}
+
+/* SAVE PROFILE */
+
+function saveProfile(){
+
+const newName =
+document.getElementById('nameInput').value;
+
+document.getElementById('userName').innerText =
+newName;
+
+const loginData =
+JSON.parse(
+localStorage.getItem('userLogin')
+);
+
+if(loginData){
+
+loginData.nama = newName;
+
+localStorage.setItem(
+'userLogin',
+JSON.stringify(loginData)
+);
+
+}
+
+alert(
+'Profil berhasil diperbarui'
+);
+
+}
+
+/* AVATAR */
+
+document.getElementById('uploadAvatar')
+.addEventListener('change',function(e){
+
+const file = e.target.files[0];
+
+if(!file) return;
+
+const reader = new FileReader();
+
+reader.onload = function(event){
+
+document.getElementById('userPhoto').src =
+event.target.result;
+
+localStorage.setItem(
+'flowspro_avatar',
+event.target.result
+);
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+</script>
+
+</body>
+</html>
