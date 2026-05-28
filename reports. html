@@ -278,52 +278,34 @@ margin-left:90px;
 FLOWS-PRO
 </div>
 
-<a class="menu-item"
-href="dashboard.html">
-
+<a class="menu-item" href="dashboard.html">
 <i class="fa-solid fa-chart-line"></i>
 <span>Dashboard</span>
-
 </a>
 
-<a class="menu-item"
-href="live_sensor.html">
-
+<a class="menu-item" href="live_sensor.html">
 <i class="fa-solid fa-microchip"></i>
 <span>Live Sensor</span>
-
 </a>
 
-<a class="menu-item"
-href="peta_banjir.html">
-
+<a class="menu-item" href="peta_banjir.html">
 <i class="fa-solid fa-map-location-dot"></i>
 <span>Peta Banjir</span>
-
 </a>
 
-<a class="menu-item"
-href="weather.html">
-
+<a class="menu-item" href="weather.html">
 <i class="fa-solid fa-cloud-rain"></i>
 <span>Weather</span>
-
 </a>
 
-<a class="menu-item active"
-href="reports.html">
-
+<a class="menu-item active" href="reports.html">
 <i class="fa-solid fa-file"></i>
 <span>Reports</span>
-
 </a>
 
-<a class="menu-item"
-href="settings.html">
-
+<a class="menu-item" href="settings.html">
 <i class="fa-solid fa-gear"></i>
 <span>Settings</span>
-
 </a>
 
 </div>
