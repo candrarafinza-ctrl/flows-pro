@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,127 +6,171 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - FLOWS PRO</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 /* RESET */
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
-body {
-  height:100vh;
-  overflow:hidden;
-  background:#000;
+body{
+height:100vh;
+overflow:hidden;
+background:#000;
+transition:.4s;
 }
 
 /* BACKGROUND */
-body::before {
-  content:"";
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:url('Desain tanpa judul (1).png') center/cover;
-  filter:brightness(0.5);
-  animation:zoomBg 6s ease forwards;
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:url('Desain tanpa judul (1).png') center/cover;
+filter:brightness(.5);
+animation:zoomBg 6s ease forwards;
 }
 
 /* CONTAINER */
-.container {
-  position:relative;
-  z-index:2;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.container{
+position:relative;
+z-index:2;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 /* BOX */
-.box {
-  width:90%;
-  max-width:420px;
+.box{
+width:90%;
+max-width:420px;
 
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(25px);
-  border:1px solid rgba(255,255,255,0.3);
+background:rgba(255,255,255,.15);
+backdrop-filter:blur(25px);
+border:1px solid rgba(255,255,255,.3);
 
-  border-radius:25px;
-  padding:45px;
-  color:white;
-  text-align:center;
+border-radius:25px;
+padding:45px;
+color:white;
+text-align:center;
 
-  animation:fadeUp 1s ease;
+animation:fadeUp 1s ease;
 }
 
-/* TITLE */
-.box h2 {
-  margin-bottom:30px;
-  font-size:24px;
+.box h2{
+margin-bottom:30px;
+font-size:24px;
+}
+
+/* INPUT */
+.input{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+margin-bottom:15px;
+outline:none;
+font-size:15px;
 }
 
 /* BUTTON */
-.btn {
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:bold;
-  background:linear-gradient(90deg,#00c6ff,#0072ff);
-  color:white;
-  font-size:16px;
-  transition:0.3s;
+.btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+background:linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+color:white;
+font-size:16px;
+transition:.3s;
 }
 
-.btn:hover {
-  transform:scale(1.05);
-  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+.btn:hover{
+transform:scale(1.05);
+box-shadow:0 10px 25px rgba(0,0,0,.4);
 }
 
-.btn:active {
-  transform:scale(0.95);
+.btn:active{
+transform:scale(.95);
+}
+
+/* GOOGLE */
+.google{
+margin-top:12px;
+background:white;
+color:#222;
 }
 
 /* LINK */
-.link {
-  margin-top:25px;
+.link{
+margin-top:25px;
 }
 
-.link a {
-  color:#fff;
-  text-decoration:underline;
+.link a{
+color:#fff;
+text-decoration:underline;
 }
 
 /* POPUP */
-.popup {
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) scale(0);
-  background:white;
-  color:black;
-  padding:20px 30px;
-  border-radius:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-  transition:0.3s;
-  z-index:999;
+.popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+background:white;
+color:black;
+padding:20px 30px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+transition:.3s;
+z-index:999;
 }
 
-.popup.show {
-  transform:translate(-50%,-50%) scale(1);
+.popup.show{
+transform:translate(-50%,-50%) scale(1);
 }
 
-/* ANIMASI */
-@keyframes fadeUp {
-  from {opacity:0; transform:translateY(40px);}
-  to {opacity:1; transform:translateY(0);}
+/* LOADER */
+.loader{
+display:none;
+margin-top:15px;
 }
 
-@keyframes zoomBg {
-  from {transform:scale(1.2);}
-  to {transform:scale(1);}
+.loader.show{
+display:block;
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes zoomBg{
+from{
+transform:scale(1.2);
+}
+to{
+transform:scale(1);
+}
 }
 
 </style>
@@ -134,56 +179,224 @@ body::before {
 <body>
 
 <div class="container">
-  <div class="box">
 
-    <h2>Masuk ke FLOWS-PRO</h2>
+<div class="box">
 
-    <button class="btn" onclick="masuk()">Masuk</button>
+<h2>Masuk ke FLOWS-PRO</h2>
 
-    <div class="link">
-      <p>Belum punya akun? <a href="register.html">Daftar</a></p>
-    </div>
+<input
+type="email"
+id="email"
+class="input"
+placeholder="Masukkan Email">
 
-  </div>
+<input
+type="password"
+id="password"
+class="input"
+placeholder="Masukkan Password">
+
+<button
+class="btn"
+onclick="masuk()">
+
+Masuk
+
+</button>
+
+<button
+class="btn google"
+onclick="loginGoogle()">
+
+Masuk Dengan Google
+
+</button>
+
+<div class="loader" id="loader">
+Memproses login...
 </div>
 
-<!-- POPUP -->
-<div id="popup" class="popup">Silakan daftar terlebih dahulu</div>
+<div class="link">
+<p>
+Belum punya akun?
+<a href="register.html">
+Daftar
+</a>
+</p>
+</div>
+
+</div>
+
+</div>
+
+<div id="popup" class="popup"></div>
 
 <script>
 
-/* AUTO LOGIN */
-if(localStorage.getItem("user")){
-  window.location.href = "dashboard.html";
+/* ======================
+   SUPABASE
+====================== */
+
+const SUPABASE_URL =
+'https://hceblnmngnnexxtkeiev.supabase.co';
+
+const SUPABASE_ANON_KEY =
+'YOUR_SUPABASE_ANON_KEY';
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+/* ======================
+   AUTO LOGIN
+====================== */
+
+(async()=>{
+
+const {
+data:{session}
+}
+=
+await supabaseClient.auth.getSession();
+
+if(session){
+
+window.location.href =
+'dashboard.html';
+
 }
 
-/* POPUP FUNCTION */
-function showPopup(){
-  const popup = document.getElementById("popup");
-  popup.classList.add("show");
+})();
 
-  setTimeout(()=>{
-    popup.classList.remove("show");
-  },2000);
+/* ======================
+   POPUP
+====================== */
+
+function showPopup(text){
+
+const popup =
+document.getElementById('popup');
+
+popup.innerText = text;
+
+popup.classList.add('show');
+
+setTimeout(()=>{
+
+popup.classList.remove('show');
+
+},2500);
+
 }
 
-/* MASUK */
-function masuk(){
+/* ======================
+   LOGIN EMAIL
+====================== */
 
-  if(localStorage.getItem("user")){
-    document.body.style.opacity = "0";
+async function masuk(){
 
-    setTimeout(()=>{
-      window.location.href = "dashboard.html";
-    },500);
+const loader =
+document.getElementById('loader');
 
-  } else {
-    showPopup();
+try{
 
-    setTimeout(()=>{
-      window.location.href = "register.html";
-    },2000);
-  }
+const email =
+document.getElementById('email').value;
+
+const password =
+document.getElementById('password').value;
+
+if(!email){
+
+showPopup(
+'Masukkan email'
+);
+
+return;
+}
+
+if(!password){
+
+showPopup(
+'Masukkan password'
+);
+
+return;
+}
+
+loader.classList.add('show');
+
+const {
+data,
+error
+}
+=
+await supabaseClient.auth.signInWithPassword({
+
+email,
+password
+
+});
+
+loader.classList.remove('show');
+
+if(error){
+
+showPopup(
+'Email atau password salah'
+);
+
+return;
+}
+
+document.body.style.opacity='0';
+
+setTimeout(()=>{
+
+window.location.href =
+'dashboard.html';
+
+},500);
+
+}catch(err){
+
+loader.classList.remove('show');
+
+console.log(err);
+
+showPopup(
+'Terjadi kesalahan login'
+);
+
+}
+
+}
+
+/* ======================
+   LOGIN GOOGLE
+====================== */
+
+async function loginGoogle(){
+
+const {
+error
+}
+=
+await supabaseClient.auth.signInWithOAuth({
+
+provider:'google'
+
+});
+
+if(error){
+
+showPopup(
+error.message
+);
+
+}
 
 }
 
@@ -191,3 +404,4 @@ function masuk(){
 
 </body>
 </html>
+```
