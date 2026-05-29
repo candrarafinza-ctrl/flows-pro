@@ -380,34 +380,83 @@ SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
-/* LOGIN */
+/* =========================
+   LOAD USER PROFILE
+========================= */
 
-const loginData =
-JSON.parse(
-localStorage.getItem('userLogin')
-);
+async function loadUserProfile(){
 
-if(loginData && loginData.nama){
+try{
+
+const {
+data:{user}
+}
+=
+await supabaseClient.auth.getUser();
+
+if(!user){
+
+window.location.href =
+'login.html';
+
+return;
+
+}
+
+const { data,error } =
+await supabaseClient
+
+.from('profiles')
+
+.select('*')
+
+.eq('id',user.id)
+
+.single();
+
+if(error){
+
+console.log(error);
+return;
+
+}
 
 document.getElementById('userName').innerText =
-loginData.nama;
+data.nama || 'User';
 
 document.getElementById('editName').value =
-loginData.nama;
+data.nama || '';
+
+if(data.role){
+
+const roleElement =
+document.querySelector('.profile p');
+
+if(roleElement){
+
+roleElement.innerText =
+data.role;
 
 }
 
-/* PROFILE */
+}
 
-const savedAvatar =
-localStorage.getItem('flowspro_avatar');
-
-if(savedAvatar){
+if(data.avatar_url){
 
 document.getElementById('userPhoto').src =
-savedAvatar;
+data.avatar_url;
 
 }
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadUserProfile();
 
 const profileBtn =
 document.getElementById('profileBtn');
