@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,161 +6,172 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daftar - FLOWS PRO</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 /* RESET */
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
-body {
-  height:100vh;
-  overflow:hidden;
-  transition:0.4s;
+body{
+height:100vh;
+overflow:hidden;
+background:#000;
 }
 
 /* BACKGROUND */
-body::before {
-  content:"";
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:url('Desain tanpa judul (1).png') center/cover;
-  filter:brightness(0.6);
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:url('Desain tanpa judul (1).png') center/cover;
+filter:brightness(.6);
+animation:zoomBg 6s ease forwards;
 }
 
 /* CONTAINER */
-.container {
-  position:relative;
-  z-index:2;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.container{
+position:relative;
+z-index:2;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 /* FORM BOX */
-.form-box {
-  width:90%;
-  max-width:500px;
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.3);
-  border-radius:20px;
-  padding:40px;
-  color:white;
-  animation:fadeUp 0.8s ease;
+.form-box{
+width:90%;
+max-width:500px;
+
+background:rgba(255,255,255,.15);
+backdrop-filter:blur(25px);
+border:1px solid rgba(255,255,255,.3);
+
+border-radius:25px;
+padding:40px;
+color:white;
+
+animation:fadeUp 1s ease;
 }
 
-/* TITLE */
-.form-box h2 {
-  text-align:center;
-  margin-bottom:25px;
+.form-box h2{
+text-align:center;
+margin-bottom:25px;
 }
 
 /* INPUT */
-.input-group {
-  margin-bottom:15px;
+.input-group{
+margin-bottom:15px;
 }
 
-.input-group label {
-  font-size:14px;
-  display:block;
-  margin-bottom:5px;
+.input-group label{
+display:block;
+margin-bottom:6px;
 }
 
-.input-group input {
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:none;
-  outline:none;
+.input-group input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+outline:none;
+font-size:15px;
 }
 
 /* BUTTON */
-.btn {
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  margin-top:10px;
-  cursor:pointer;
-  font-weight:bold;
+.btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+background:linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+color:white;
+font-size:16px;
+transition:.3s;
 }
 
-.primary {
-  background:#00c6ff;
-  color:white;
+.btn:hover{
+transform:scale(1.03);
 }
 
-/* METHOD */
-.method {
-  margin-top:20px;
-  text-align:center;
+.google{
+margin-top:12px;
+background:white;
+color:#222;
 }
-
-.method p {
-  margin-bottom:10px;
-}
-
-.method button {
-  margin:5px;
-  padding:10px 15px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.method button:hover {
-  transform:scale(1.05);
-}
-
-/* ACTIVE BUTTON */
-.method button.active {
-  background:#00c6ff;
-  color:white;
-  transform:scale(1.1);
-}
-
-.google { background:white; color:black; }
-.email { background:#eee; color:black; }
 
 /* LINK */
-.link {
-  text-align:center;
-  margin-top:15px;
+.link{
+text-align:center;
+margin-top:18px;
 }
 
-.link a {
-  color:white;
+.link a{
+color:white;
+text-decoration:underline;
 }
 
-/* FORM ANIMATION */
-.form-slide {
-  transition:0.4s;
+/* POPUP */
+.popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+background:white;
+color:black;
+padding:20px 30px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+transition:.3s;
+z-index:999;
 }
 
-.hide {
-  opacity:0;
-  transform:translateX(-40px);
-  pointer-events:none;
-  position:absolute;
+.popup.show{
+transform:translate(-50%,-50%) scale(1);
 }
 
-.show {
-  opacity:1;
-  transform:translateX(0);
-  position:relative;
+/* LOADER */
+.loader{
+display:none;
+margin-top:15px;
+text-align:center;
 }
 
-/* ANIMASI */
-@keyframes fadeUp {
-  from {opacity:0; transform:translateY(40px);}
-  to {opacity:1; transform:translateY(0);}
+.loader.show{
+display:block;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes zoomBg{
+from{
+transform:scale(1.2);
+}
+to{
+transform:scale(1);
+}
 }
 
 </style>
@@ -168,81 +180,94 @@ body::before {
 <body>
 
 <div class="container">
-  <div class="form-box">
 
-    <h2>Daftar Akun FLOWS-PRO</h2>
+<div class="form-box">
 
-    <form id="registerForm">
+<h2>Daftar Akun FLOWS-PRO</h2>
 
-      <!-- DEFAULT -->
-      <div id="defaultForm" class="form-slide show">
+<form id="registerForm">
 
-        <div class="input-group">
-          <label>Nama Lengkap</label>
-          <input type="text" id="nama" required>
-        </div>
-
-        <div class="input-group">
-          <label>Tanggal Lahir</label>
-          <input type="date" id="tgl">
-        </div>
-
-        <div class="input-group">
-          <label>Lokasi Tempat Tinggal</label>
-          <input type="text" id="lokasi">
-        </div>
-
-      </div>
-
-      <!-- EMAIL -->
-      <div id="emailForm" class="form-slide hide">
-
-        <div class="input-group">
-          <label>Nama Lengkap</label>
-          <input type="text" id="namaEmail">
-        </div>
-
-        <div class="input-group">
-          <label>Email</label>
-          <input type="email" id="email">
-        </div>
-
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" id="password">
-        </div>
-
-      </div>
-
-      <button type="submit" class="btn primary">Daftar Sekarang</button>
-
-    </form>
-
-    <div class="method">
-      <p>Atau daftar menggunakan</p>
-
-      <button id="btnDefault" class="active" onclick="switchDefault()">Form</button>
-      <button id="btnEmail" class="email" onclick="switchEmail()">Email</button>
-      <button class="google" onclick="loginGoogle()">Google</button>
-    </div>
-
-    <div class="link">
-      <p>Sudah punya akun? <a href="login.html">Masuk</a></p>
-    </div>
-
-  </div>
+<div class="input-group">
+<label>Nama Lengkap</label>
+<input type="text" id="nama" required>
 </div>
 
-<!-- SUPABASECLIENT -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div class="input-group">
+<label>Tanggal Lahir</label>
+<input type="date" id="tgl">
+</div>
+
+<div class="input-group">
+<label>Lokasi</label>
+<input type="text" id="lokasi">
+</div>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" id="email" required>
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" id="password" required>
+</div>
+
+<button
+type="submit"
+class="btn">
+
+Daftar Sekarang
+
+</button>
+
+<button
+type="button"
+class="btn google"
+onclick="registerGoogle()">
+
+Daftar Dengan Google
+
+</button>
+
+<div id="loader"
+class="loader">
+
+Membuat akun...
+
+</div>
+
+</form>
+
+<div class="link">
+
+Sudah punya akun?
+
+<a href="login.html">
+
+Masuk
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="popup"
+class="popup"></div>
 
 <script>
+
+/* =====================
+   SUPABASE CONFIG
+===================== */
 
 const SUPABASE_URL =
 'https://hceblnmngnnexxtkeiev.supabase.co';
 
 const SUPABASE_ANON_KEY =
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs';
+'YOUR_SUPABASE_ANON_KEY';
 
 const supabaseClient =
 window.supabase.createClient(
@@ -250,167 +275,190 @@ SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
-/* CONFIG */
-const firebaseConfig = {
-  apiKey: "AIzaSyAfx674UeEZ0xFzXr0URPk-LP8CdMXWfE0",
-  authDomain: "flows-pro-dc80e.firebaseapp.com",
-  projectId: "flows-pro-dc80e"
-};
+/* =====================
+   POPUP
+===================== */
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+function showPopup(text){
 
-/* MODE */
-let mode = "default";
+const popup =
+document.getElementById('popup');
 
-/* SWITCH EMAIL */
-window.switchEmail = function(){
+popup.innerText = text;
 
-  mode = "email";
+popup.classList.add('show');
 
-  defaultForm.classList.remove("show");
-  defaultForm.classList.add("hide");
+setTimeout(()=>{
 
-  emailForm.classList.remove("hide");
-  emailForm.classList.add("show");
+popup.classList.remove('show');
 
-  btnEmail.classList.add("active");
-  btnDefault.classList.remove("active");
+},2500);
 
-  namaEmail.value = nama.value;
-};
+}
 
-/* SWITCH DEFAULT */
-window.switchDefault = function(){
+/* =====================
+   REGISTER EMAIL
+===================== */
 
-  mode = "default";
+document
+.getElementById('registerForm')
 
-  emailForm.classList.remove("show");
-  emailForm.classList.add("hide");
-
-  defaultForm.classList.remove("hide");
-  defaultForm.classList.add("show");
-
-  btnDefault.classList.add("active");
-  btnEmail.classList.remove("active");
-};
-
-/* REGISTER */
-registerForm.addEventListener(
-"submit",
+.addEventListener(
+'submit',
 async function(e){
 
 e.preventDefault();
 
-if(mode === "default"){
-
-localStorage.setItem(
-"userDraft",
-JSON.stringify({
-nama:nama.value,
-tgl:tgl.value,
-lokasi:lokasi.value
-})
+const loader =
+document.getElementById(
+'loader'
 );
 
-switchEmail();
-
-return;
-
-}
-
 try{
+
+loader.classList.add(
+'show'
+);
+
+const nama =
+document.getElementById(
+'nama'
+).value;
+
+const tgl =
+document.getElementById(
+'tgl'
+).value;
+
+const lokasi =
+document.getElementById(
+'lokasi'
+).value;
+
+const email =
+document.getElementById(
+'email'
+).value;
+
+const password =
+document.getElementById(
+'password'
+).value;
 
 const {
 data,
 error
 }
 =
-await supabaseClient.auth.signUp({
+await supabaseClient
+.auth
+.signUp({
 
-email:email.value,
-
-password:password.value
+email,
+password
 
 });
 
 if(error){
 
-alert(error.message);
+loader.classList.remove(
+'show'
+);
+
+showPopup(
+error.message
+);
+
 return;
 
 }
 
+/* INSERT PROFILE */
+
 await supabaseClient
-.from("profiles")
+
+.from('profiles')
+
 .insert([{
 
 id:data.user.id,
 
-nama:namaEmail.value,
+nama:nama,
 
-email:email.value,
+email:email,
 
-role:"Operator",
+role:'Operator',
 
 avatar_url:
-"https://i.pravatar.cc/150",
+'https://i.pravatar.cc/150',
 
 tanggal_lahir:
-tgl.value || null,
+tgl || null,
 
 lokasi:
-lokasi.value || null
+lokasi || null
 
 }]);
 
-alert(
-"Registrasi berhasil. Silakan login."
+loader.classList.remove(
+'show'
 );
 
+showPopup(
+'Registrasi berhasil'
+);
+
+setTimeout(()=>{
+
 window.location.href =
-"login.html";
+'login.html';
+
+},1500);
 
 }catch(err){
 
-alert(err.message);
+loader.classList.remove(
+'show'
+);
+
+showPopup(
+err.message
+);
 
 }
 
 });
 
-/* GOOGLE */
-window.loginGoogle =
-async function(){
+/* =====================
+   REGISTER GOOGLE
+===================== */
+
+async function registerGoogle(){
 
 const {
 error
 }
 =
-await supabaseClient.auth.signInWithOAuth({
+await supabaseClient
+.auth
+.signInWithOAuth({
 
-provider:"google"
+provider:'google'
 
 });
 
 if(error){
 
-alert(error.message);
+showPopup(
+error.message
+);
 
 }
 
-}
-
-/* TRANSISI */
-function smoothGo(){
-  document.body.style.opacity = "0";
-  setTimeout(()=>{
-    window.location.href = "dashboard.html";
-  },400);
 }
 
 </script>
 
 </body>
 </html>
+```
