@@ -473,27 +473,48 @@ dropdown.style.display === 'block'
 
 });
 
-function saveProfile(){
+async function saveProfile(){
+
+try{
+
+const {
+data:{user}
+}
+=
+await supabaseClient.auth.getUser();
 
 const newName =
 document.getElementById('editName').value;
 
-document.getElementById('userName').innerText =
-newName;
+const { error } =
+await supabaseClient
 
-const loginData =
-JSON.parse(
-localStorage.getItem('userLogin')
+.from('profiles')
+
+.update({
+nama:newName
+})
+
+.eq('id',user.id);
+
+if(error){
+
+console.log(error);
+return;
+
+}
+
+alert(
+'Profil berhasil diperbarui'
 );
 
-if(loginData){
+loadUserProfile();
 
-loginData.nama = newName;
+}catch(err){
 
-localStorage.setItem(
-'userLogin',
-JSON.stringify(loginData)
-);
+console.log(err);
+
+}
 
 }
 
