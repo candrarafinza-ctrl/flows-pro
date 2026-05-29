@@ -233,16 +233,22 @@ body::before {
   </div>
 </div>
 
-<!-- FIREBASE -->
-<script type="module">
+<!-- SUPABASECLIENT -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<script>
+
+const SUPABASE_URL =
+'https://hceblnmngnnexxtkeiev.supabase.co';
+
+const SUPABASE_ANON_KEY =
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjZWJsbm1uZ25uZXh4dGtlaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTc5MDQsImV4cCI6MjA5MTU3MzkwNH0.jRFevO_3qqjUpL3nNtYKqH-vExMabcnNzDYbThpJdjs';
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
 
 /* CONFIG */
 const firebaseConfig = {
@@ -291,67 +297,110 @@ window.switchDefault = function(){
 };
 
 /* REGISTER */
-registerForm.addEventListener("submit", async function(e){
+registerForm.addEventListener(
+"submit",
+async function(e){
 
-  e.preventDefault();
+e.preventDefault();
 
-  if(mode === "default"){
+if(mode === "default"){
 
-    localStorage.setItem("user", JSON.stringify({
-      name: nama.value,
-      tgl: tgl.value,
-      lokasi: lokasi.value,
-      photo:"https://i.pravatar.cc/150"
-    }));
+localStorage.setItem(
+"userDraft",
+JSON.stringify({
+nama:nama.value,
+tgl:tgl.value,
+lokasi:lokasi.value
+})
+);
 
-    smoothGo();
+switchEmail();
 
-  } else {
+return;
 
-    try{
+}
 
-      const cred = await createUserWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
+try{
 
-      localStorage.setItem("user", JSON.stringify({
-        name: namaEmail.value,
-        email: cred.user.email,
-        photo:"https://i.pravatar.cc/150"
-      }));
+const {
+data,
+error
+}
+=
+await supabaseClient.auth.signUp({
 
-      smoothGo();
+email:email.value,
 
-    } catch(err){
-      alert(err.message);
-    }
+password:password.value
 
-  }
+});
+
+if(error){
+
+alert(error.message);
+return;
+
+}
+
+await supabaseClient
+.from("profiles")
+.insert([{
+
+id:data.user.id,
+
+nama:namaEmail.value,
+
+email:email.value,
+
+role:"Operator",
+
+avatar_url:
+"https://i.pravatar.cc/150",
+
+tanggal_lahir:
+tgl.value || null,
+
+lokasi:
+lokasi.value || null
+
+}]);
+
+alert(
+"Registrasi berhasil. Silakan login."
+);
+
+window.location.href =
+"login.html";
+
+}catch(err){
+
+alert(err.message);
+
+}
 
 });
 
 /* GOOGLE */
-window.loginGoogle = async function(){
+window.loginGoogle =
+async function(){
 
-  try{
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+const {
+error
+}
+=
+await supabaseClient.auth.signInWithOAuth({
 
-    localStorage.setItem("user", JSON.stringify({
-      name:user.displayName,
-      email:user.email,
-      photo:user.photoURL
-    }));
+provider:"google"
 
-    smoothGo();
+});
 
-  } catch(err){
-    alert(err.message);
-  }
+if(error){
 
-};
+alert(error.message);
+
+}
+
+}
 
 /* TRANSISI */
 function smoothGo(){
