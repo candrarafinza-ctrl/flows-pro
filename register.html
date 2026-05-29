@@ -67,7 +67,10 @@ margin-bottom:25px;
 }
 
 /* INPUT */
-.input-group{
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
 margin-bottom:15px;
 }
 
@@ -187,9 +190,11 @@ transform:scale(1);
 
 <form id="registerForm">
 
+<div class="form-grid">
+
 <div class="input-group">
 <label>Nama Lengkap</label>
-<input type="text" id="nama" required>
+<input type="text" id="nama">
 </div>
 
 <div class="input-group">
@@ -204,7 +209,14 @@ transform:scale(1);
 
 <div class="input-group">
 <label>Email</label>
-<input type="email" id="email" required>
+<input type="email" id="email">
+</div>
+
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" id="password">
 </div>
 
 <div class="input-group">
@@ -429,36 +441,69 @@ err.message
 
 });
 
-/* =====================
-   REGISTER GOOGLE
-===================== */
-
-async function registerGoogle(){
+/* REGISTER */
 
 const {
+data,
 error
 }
 =
-await supabaseClient
-.auth
-.signInWithOAuth({
+await supabaseClient.auth.signUp({
 
-provider:'google'
+email,
+password
 
 });
 
 if(error){
 
+showPopup(error.message);
+return;
+
+}
+
+/* INSERT PROFILE */
+
+await supabaseClient
+.from('profiles')
+.insert([{
+id:data.user.id,
+nama:nama,
+email:email,
+role:'Operator',
+avatar_url:'https://i.pravatar.cc/150'
+}]);
+
+/* AUTO LOGIN */
+
+const {
+error:loginError
+}
+=
+await supabaseClient.auth.signInWithPassword({
+
+email,
+password
+
+});
+
+if(loginError){
+
 showPopup(
-error.message
+loginError.message
 );
 
-}
+return;
 
 }
 
-</script>
+showPopup(
+'Registrasi berhasil'
+);
 
-</body>
-</html>
-```
+setTimeout(()=>{
+
+window.location.href =
+'dashboard.html';
+
+},1000);
