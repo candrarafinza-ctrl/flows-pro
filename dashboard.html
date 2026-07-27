@@ -423,11 +423,8 @@ document.getElementById("editName").value=profile.nama;
 if(profile.avatar_url){
 
 document.getElementById("userPhoto").src=profile.avatar_url;
-
 }
-
 }
-
 }
 
 loadUserProfile();
@@ -608,14 +605,30 @@ const latest = data[0];
 document.getElementById('waterLevel').innerText =
 latest.tinggi_air + ' cm';
 
-document.getElementById('statusText').innerText =
-latest.status;
+const statusElement=document.getElementById("statusText");
 
+statusElement.innerText=latest.status;
+
+statusElement.className="big";
+
+if(latest.status==="AMAN"){
+
+statusElement.classList.add("safe");
+
+}else if(latest.status==="WASPADA"){
+
+statusElement.classList.add("warning");
+
+}else{
+
+statusElement.classList.add("danger");
+
+}
 document.getElementById('lastUpdate').innerText =
-new Date().toLocaleTimeString();
+new Date(latest.created_at).toLocaleString("id-ID");
 
 const now =
-new Date().toLocaleTimeString();
+new Date(latest.created_at).toLocaleTimeString("id-ID");
 
 dashboardChart.data.labels.push(now);
 
@@ -633,13 +646,22 @@ dashboardChart.data.datasets[0].data.shift();
 
 dashboardChart.update();
 
-marker.bindPopup(
-'Status : ' +
-latest.status +
-'<br>Tinggi Air : ' +
-latest.tinggi_air +
-' cm'
-);
+marker
+.setLatLng([
+latest.latitude,
+latest.longitude
+])
+.bindPopup(`
+<b>FLOWS-PRO Unit 1</b><br>
+Lokasi : ${latest.lokasi}<br>
+Status : ${latest.status}<br>
+Tinggi Air : ${latest.tinggi_air} cm
+`);
+
+dashboardMap.setView([
+latest.latitude,
+latest.longitude
+],16);
 
 }
 
@@ -651,9 +673,21 @@ console.log(err);
 
 }
 
+supabaseClient
+.channel("data_air")
+.on(
+"postgres_changes",
+{
+event:"INSERT",
+schema:"public",
+table:"data_air"
+},
+()=>{
 loadRealtimeData();
-
-setInterval(loadRealtimeData,5000);
+loadSensorRealtime();
+}
+)
+.subscribe();
 
 /* SENSOR REALTIME */
 
@@ -696,14 +730,14 @@ statusClass='danger';
 
 table.innerHTML += `
 <tr>
-<td>FS-${100+index}</td>
-<td>Dumai Timur</td>
+<td>FS-001</td>
+<td>${item.lokasi ?? "Belum ada lokasi"}</td>
 <td>${item.tinggi_air} cm</td>
 <td class="${statusClass}">
 ${item.status}
 </td>
-<td>4.${Math.floor(Math.random()*9)}V</td>
-<td>${new Date().toLocaleTimeString()}</td>
+<td>${item.tegangan ?? "-"} V</td>
+<td>${new Date(item.created_at).toLocaleTimeString("id-ID")}</td>
 </tr>
 `;
 
