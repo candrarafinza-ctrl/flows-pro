@@ -219,6 +219,20 @@ animation:blink 1s infinite;
 100%{opacity:1;}
 }
 
+.live-online{
+    background:#e8fff1;
+    color:#27ae60;
+}
+
+.live-offline{
+    background:#ffe9e9;
+    color:#e74c3c;
+}
+
+.offline-dot{
+    background:#e74c3c !important;
+}
+
 </style>
 </head>
 
@@ -304,9 +318,9 @@ Simpan Profil
 
 <div class="content">
 
-<div class="live-badge">
-<div class="live-dot"></div>
-Realtime FLOWS-PRO Connected
+<div class="live-badge" id="connectionBadge">
+    <div class="live-dot" id="liveDot"></div>
+    <span id="connectionText">Memeriksa koneksi...</span>
 </div>
 
 <div class="grid">
@@ -362,9 +376,6 @@ Realtime FLOWS-PRO Connected
 <div id="dashboardMap"></div>
 </div>
 
-</div>
-
-</div>
 
 <script>
 
@@ -379,6 +390,41 @@ window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
+
+let lastRealtimeTime = null;
+
+function updateConnection(){
+
+    const badge=document.getElementById("connectionBadge");
+    const dot=document.getElementById("liveDot");
+    const text=document.getElementById("connectionText");
+
+    if(!lastRealtimeTime){
+
+        badge.className="live-badge live-offline";
+        dot.classList.add("offline-dot");
+        text.innerHTML="FLOWS-PRO OFFLINE";
+
+        return;
+    }
+
+    const diff=(Date.now()-lastRealtimeTime)/1000;
+
+    if(diff<30){
+
+        badge.className="live-badge live-online";
+        dot.classList.remove("offline-dot");
+        text.innerHTML="FLOWS-PRO ONLINE";
+
+    }else{
+
+        badge.className="live-badge live-offline";
+        dot.classList.add("offline-dot");
+        text.innerHTML="FLOWS-PRO OFFLINE";
+
+    }
+
+}
 
 async function logout(){
 
@@ -602,6 +648,11 @@ if(data && data.length > 0){
 
 const latest = data[0];
 
+lastRealtimeTime =
+new Date(latest.created_at).getTime();
+
+updateConnection();
+
 document.getElementById('waterLevel').innerText =
 latest.tinggi_air + ' cm';
 
@@ -684,6 +735,8 @@ table:"data_air"
 },
 ()=>{
 loadRealtimeData();
+updateConnection();
+setInterval(updateConnection,1000);
 loadSensorRealtime();
 }
 )
@@ -751,8 +804,10 @@ console.log(err);
 
 }
 
+loadRealtimeData();
 loadSensorRealtime();
 
+setInterval(loadRealtimeData,5000);
 setInterval(loadSensorRealtime,5000);
 
 </script>
