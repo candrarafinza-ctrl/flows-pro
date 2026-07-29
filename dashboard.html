@@ -475,18 +475,23 @@ document.getElementById("userPhoto").src=profile.avatar_url;
 
 loadUserProfile();
 
-const {
-data:{session}
-}=await supabaseClient.auth.getSession();
+async function checkSession(){
 
-if(!session){
+    const {
+        data:{session}
+    } = await supabaseClient.auth.getSession();
 
-document.querySelector('a[href="reports.html"]').style.display="none";
+    if(!session){
 
-document.querySelector('a[href="settings.html"]').style.display="none";
+        document.querySelector('a[href="reports.html"]').style.display="none";
+
+        document.querySelector('a[href="settings.html"]').style.display="none";
+
+    }
 
 }
 
+checkSession();
 /* PROFILE */
 
 const profileBtn =
