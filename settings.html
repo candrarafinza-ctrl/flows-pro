@@ -5,7 +5,8 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
+<meta
+name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <title>FLOWS-PRO | Settings</title>
@@ -27,24 +28,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 ===================================================== */
 
 *{
-
     margin:0;
-
     padding:0;
-
     box-sizing:border-box;
-
     font-family:'Segoe UI',sans-serif;
-
 }
 
 
+/* =====================================================
+   BODY
+===================================================== */
+
+html{
+    min-height:100%;
+}
+
 body{
-
+    min-height:100vh;
     background:#edf3f8;
-
+    color:#12395c;
     overflow-x:hidden;
-
 }
 
 
@@ -57,11 +60,9 @@ body{
     position:fixed;
 
     left:0;
-
     top:0;
 
     width:270px;
-
     height:100vh;
 
     background:
@@ -93,9 +94,11 @@ body{
 
     align-items:center;
 
-    padding-left:10px;
+    justify-content:center;
 
-    margin-bottom:30px;
+    padding:0 5px;
+
+    margin-bottom:35px;
 
 }
 
@@ -103,6 +106,8 @@ body{
 .logo img{
 
     width:200px;
+
+    max-width:100%;
 
     height:auto;
 
@@ -144,6 +149,17 @@ body{
 }
 
 
+.menu-item i{
+
+    width:20px;
+
+    text-align:center;
+
+    font-size:17px;
+
+}
+
+
 .menu-item:hover{
 
     background:
@@ -180,6 +196,8 @@ body{
 
     min-height:100vh;
 
+    width:calc(100% - 270px);
+
 }
 
 
@@ -189,7 +207,7 @@ body{
 
 .navbar{
 
-    height:85px;
+    min-height:85px;
 
     background:white;
 
@@ -199,11 +217,17 @@ body{
 
     align-items:center;
 
-    padding:0 35px;
+    padding:15px 35px;
 
     box-shadow:
     0 2px 10px
     rgba(0,0,0,0.06);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:500;
 
 }
 
@@ -220,7 +244,7 @@ body{
 
 
 /* =====================================================
-   PROFILE NAVBAR
+   PROFILE
 ===================================================== */
 
 .profile{
@@ -268,6 +292,8 @@ body{
 
     font-size:12px;
 
+    margin-top:2px;
+
 }
 
 
@@ -278,6 +304,75 @@ body{
 .content{
 
     padding:28px;
+
+    /*
+       PENTING:
+       ruang bawah diperbesar agar tombol
+       paling bawah tidak terpotong.
+    */
+
+    padding-bottom:80px;
+
+}
+
+
+/* =====================================================
+   SYSTEM STATUS
+===================================================== */
+
+.status-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:13px 18px;
+
+    border-radius:14px;
+
+    background:#e8fff1;
+
+    color:#27ae60;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+
+.status-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#27ae60;
+
+    animation:statusBlink 1.5s infinite;
+
+}
+
+
+@keyframes statusBlink{
+
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.3;
+    }
+
+    100%{
+        opacity:1;
+    }
 
 }
 
@@ -325,7 +420,7 @@ body{
 
     font-weight:800;
 
-    margin-bottom:20px;
+    margin-bottom:22px;
 
     color:#12395c;
 
@@ -334,6 +429,13 @@ body{
     align-items:center;
 
     gap:10px;
+
+}
+
+
+.card-title i{
+
+    color:#0072ff;
 
 }
 
@@ -378,7 +480,11 @@ select{
 
     background:white;
 
+    color:#222;
+
     font-size:14px;
+
+    transition:.2s;
 
 }
 
@@ -390,7 +496,20 @@ select:focus{
 
     box-shadow:
     0 0 0 3px
-    rgba(0,114,255,0.08);
+    rgba(0,114,255,.08);
+
+}
+
+
+/* =====================================================
+   FILE INPUT
+===================================================== */
+
+input[type="file"]{
+
+    padding:11px;
+
+    cursor:pointer;
 
 }
 
@@ -420,7 +539,7 @@ button{
 
     cursor:pointer;
 
-    transition:0.3s;
+    transition:.3s;
 
 }
 
@@ -431,14 +550,21 @@ button:hover{
 
     box-shadow:
     0 5px 15px
-    rgba(0,114,255,0.2);
+    rgba(0,114,255,.20);
 
 }
 
 
 button:active{
 
-    transform:scale(0.98);
+    transform:scale(.98);
+
+}
+
+
+button i{
+
+    margin-right:6px;
 
 }
 
@@ -455,6 +581,17 @@ button:active{
 
 }
 
+
+.btn-secondary:hover{
+
+    background:#dfe9f2;
+
+}
+
+
+/* =====================================================
+   DANGER BUTTON
+===================================================== */
 
 .btn-danger{
 
@@ -494,6 +631,8 @@ button:active{
     justify-content:space-between;
 
     align-items:center;
+
+    gap:15px;
 
     padding:16px;
 
@@ -619,7 +758,7 @@ button:active{
 
 
 /* =====================================================
-   THRESHOLD
+   THRESHOLD GRID
 ===================================================== */
 
 .threshold-grid{
@@ -658,6 +797,8 @@ button:active{
 
     font-size:13px;
 
+    color:#12395c;
+
 }
 
 
@@ -673,7 +814,7 @@ button:active{
 
 
 /* =====================================================
-   STATUS PREVIEW
+   THRESHOLD PREVIEW
 ===================================================== */
 
 .threshold-preview{
@@ -697,7 +838,7 @@ button:active{
 
     align-items:center;
 
-    padding:10px 0;
+    padding:12px 0;
 
     border-bottom:
     1px solid #e9eef3;
@@ -718,10 +859,6 @@ button:active{
 
 }
 
-
-/* =====================================================
-   STATUS COLORS
-===================================================== */
 
 .safe{
 
@@ -795,6 +932,8 @@ button:active{
 
     line-height:1.6;
 
+    margin-top:15px;
+
 }
 
 
@@ -811,17 +950,19 @@ button:active{
 
 .save-status{
 
-    margin-top:15px;
+    margin-top:0;
 
-    padding:12px 15px;
+    margin-bottom:20px;
 
-    border-radius:10px;
+    padding:14px 18px;
+
+    border-radius:12px;
 
     background:#e8fff1;
 
     color:#27ae60;
 
-    font-size:13px;
+    font-size:14px;
 
     font-weight:600;
 
@@ -849,9 +990,65 @@ button:active{
     background:
     linear-gradient(
         180deg,
-        #fff,
+        #ffffff,
         #fff8f8
     );
+
+}
+
+
+/* =====================================================
+   BOTTOM ACTION BAR
+===================================================== */
+
+.bottom-actions{
+
+    position:relative;
+
+    width:100%;
+
+    padding:22px;
+
+    background:white;
+
+    border-radius:22px;
+
+    box-shadow:
+    0 5px 20px
+    rgba(0,0,0,.06);
+
+    margin-top:5px;
+
+    margin-bottom:30px;
+
+}
+
+
+.bottom-actions-title{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#12395c;
+
+    margin-bottom:15px;
+
+}
+
+
+.bottom-actions .button-group{
+
+    width:100%;
+
+}
+
+
+.bottom-actions button{
+
+    flex:1;
+
+    min-width:180px;
 
 }
 
@@ -871,7 +1068,8 @@ button:active{
 
     .threshold-grid{
 
-        grid-template-columns:1fr;
+        grid-template-columns:
+        repeat(3,1fr);
 
     }
 
@@ -883,6 +1081,9 @@ button:active{
     .sidebar{
 
         width:90px;
+
+        padding:
+        22px 12px;
 
     }
 
@@ -898,7 +1099,7 @@ button:active{
 
         justify-content:center;
 
-        padding-left:0;
+        padding:0;
 
     }
 
@@ -910,9 +1111,22 @@ button:active{
     }
 
 
+    .menu-item{
+
+        justify-content:center;
+
+        padding:
+        16px 10px;
+
+    }
+
+
     .main{
 
         margin-left:90px;
+
+        width:
+        calc(100% - 90px);
 
     }
 
@@ -923,7 +1137,8 @@ button:active{
 
     .navbar{
 
-        padding:0 15px;
+        padding:
+        12px 15px;
 
     }
 
@@ -946,6 +1161,15 @@ button:active{
 
         padding:15px;
 
+        padding-bottom:60px;
+
+    }
+
+
+    .threshold-grid{
+
+        grid-template-columns:1fr;
+
     }
 
 
@@ -956,9 +1180,18 @@ button:active{
     }
 
 
-    button{
+    .button-group button{
 
         width:100%;
+
+    }
+
+
+    .avatar-preview{
+
+        flex-direction:column;
+
+        align-items:flex-start;
 
     }
 
@@ -975,6 +1208,9 @@ button:active{
 
 
 <body>
+    <!-- =====================================================
+     PART 2 — SIDEBAR + NAVBAR + CONTENT
+===================================================== -->
 
 
 <!-- =====================================================
@@ -983,19 +1219,20 @@ button:active{
 
 <div class="sidebar">
 
-
     <div class="logo">
 
         <img
-        src="FLOWS-PRO-preview 1.png"
-        alt="FLOWS-PRO">
+            src="FLOWS-PRO-preview 1.png"
+            alt="FLOWS-PRO"
+        >
 
     </div>
 
 
     <a
-    class="menu-item"
-    href="dashboard.html">
+        class="menu-item"
+        href="dashboard.html"
+    >
 
         <i class="fa-solid fa-chart-line"></i>
 
@@ -1005,8 +1242,9 @@ button:active{
 
 
     <a
-    class="menu-item"
-    href="live_sensor.html">
+        class="menu-item"
+        href="live_sensor.html"
+    >
 
         <i class="fa-solid fa-microchip"></i>
 
@@ -1016,8 +1254,9 @@ button:active{
 
 
     <a
-    class="menu-item"
-    href="peta_banjir.html">
+        class="menu-item"
+        href="peta_banjir.html"
+    >
 
         <i class="fa-solid fa-map-location-dot"></i>
 
@@ -1027,8 +1266,9 @@ button:active{
 
 
     <a
-    class="menu-item"
-    href="weather.html">
+        class="menu-item"
+        href="weather.html"
+    >
 
         <i class="fa-solid fa-cloud-rain"></i>
 
@@ -1038,8 +1278,9 @@ button:active{
 
 
     <a
-    class="menu-item"
-    href="reports.html">
+        class="menu-item"
+        href="reports.html"
+    >
 
         <i class="fa-solid fa-file"></i>
 
@@ -1049,15 +1290,15 @@ button:active{
 
 
     <a
-    class="menu-item active"
-    href="settings.html">
+        class="menu-item active"
+        href="settings.html"
+    >
 
         <i class="fa-solid fa-gear"></i>
 
         <span>Settings</span>
 
     </a>
-
 
 </div>
 
@@ -1076,7 +1317,6 @@ button:active{
 
     <div class="navbar">
 
-
         <div class="nav-title">
 
             Pengaturan Sistem
@@ -1086,17 +1326,16 @@ button:active{
 
         <div class="profile">
 
-
             <img
-            id="userPhoto"
-            src="https://i.pravatar.cc/150?img=12"
-            alt="Profile">
+                id="userPhoto"
+                src="https://i.pravatar.cc/150?img=12"
+                alt="Profile"
+            >
 
 
             <div>
 
-                <h4
-                id="userName">
+                <h4 id="userName">
 
                     Loading...
 
@@ -1111,9 +1350,7 @@ button:active{
 
             </div>
 
-
         </div>
-
 
     </div>
 
@@ -1124,6 +1361,41 @@ button:active{
     ================================================== -->
 
     <div class="content">
+
+
+        <!-- =================================================
+             SYSTEM STATUS
+        ================================================== -->
+
+        <div class="status-box">
+
+            <span class="status-dot"></span>
+
+            <span id="systemStatus">
+
+                Sistem FLOWS-PRO siap digunakan
+
+            </span>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SAVE STATUS
+        ================================================== -->
+
+        <div
+            class="save-status"
+            id="saveStatus"
+        >
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Pengaturan berhasil disimpan.
+
+        </div>
+
 
 
         <!-- =================================================
@@ -1139,7 +1411,6 @@ button:active{
 
             <div class="card">
 
-
                 <div class="card-title">
 
                     <i class="fa-solid fa-user"></i>
@@ -1149,29 +1420,33 @@ button:active{
                 </div>
 
 
-                <!-- FOTO -->
+                <!-- FOTO PROFIL -->
 
                 <div class="avatar-preview">
 
-
                     <img
-                    id="avatarPreview"
-                    src="https://i.pravatar.cc/150?img=12"
-                    alt="Foto Profil">
+                        id="avatarPreview"
+                        src="https://i.pravatar.cc/150?img=12"
+                        alt="Foto Profil"
+                    >
 
 
                     <div>
 
                         <strong>
+
                             Foto Profil
+
                         </strong>
 
+
                         <p
-                        style="
-                        color:#888;
-                        font-size:13px;
-                        margin-top:5px;
-                        ">
+                            style="
+                            color:#888;
+                            font-size:13px;
+                            margin-top:5px;
+                            "
+                        >
 
                             Foto disimpan pada
                             perangkat ini.
@@ -1180,15 +1455,16 @@ button:active{
 
                     </div>
 
-
                 </div>
 
 
+                <!-- UPLOAD FOTO -->
+
                 <div class="form-group">
 
-
                     <label
-                    for="uploadAvatar">
+                        for="uploadAvatar"
+                    >
 
                         Upload Foto Profil
 
@@ -1196,18 +1472,21 @@ button:active{
 
 
                     <input
-                    type="file"
-                    id="uploadAvatar"
-                    accept="image/*">
+                        type="file"
+                        id="uploadAvatar"
+                        accept="image/*"
+                    >
 
                 </div>
 
 
+                <!-- NAMA -->
+
                 <div class="form-group">
 
-
                     <label
-                    for="nameInput">
+                        for="nameInput"
+                    >
 
                         Nama Lengkap
 
@@ -1215,18 +1494,21 @@ button:active{
 
 
                     <input
-                    type="text"
-                    id="nameInput"
-                    placeholder="Masukkan nama lengkap">
+                        type="text"
+                        id="nameInput"
+                        placeholder="Masukkan nama lengkap"
+                    >
 
                 </div>
 
 
+                <!-- EMAIL -->
+
                 <div class="form-group">
 
-
                     <label
-                    for="emailInput">
+                        for="emailInput"
+                    >
 
                         Email
 
@@ -1234,22 +1516,23 @@ button:active{
 
 
                     <input
-                    type="email"
-                    id="emailInput"
-                    placeholder="Masukkan email">
+                        type="email"
+                        id="emailInput"
+                        placeholder="Masukkan email"
+                    >
 
                 </div>
 
 
                 <button
-                onclick="saveProfile()">
+                    onclick="saveProfile()"
+                >
 
                     <i class="fa-solid fa-floppy-disk"></i>
 
                     Simpan Profil
 
                 </button>
-
 
             </div>
 
@@ -1261,7 +1544,6 @@ button:active{
 
             <div class="card">
 
-
                 <div class="card-title">
 
                     <i class="fa-solid fa-bell"></i>
@@ -1271,10 +1553,9 @@ button:active{
                 </div>
 
 
-                <!-- EMAIL -->
+                <!-- EMAIL ALERT -->
 
                 <div class="toggle">
-
 
                     <div>
 
@@ -1297,19 +1578,14 @@ button:active{
 
                     <label class="switch">
 
-
                         <input
-                        type="checkbox"
-                        id="emailAlert">
+                            type="checkbox"
+                            id="emailAlert"
+                        >
 
-
-                        <span
-                        class="slider">
-                        </span>
-
+                        <span class="slider"></span>
 
                     </label>
-
 
                 </div>
 
@@ -1318,7 +1594,6 @@ button:active{
                 <!-- WHATSAPP -->
 
                 <div class="toggle">
-
 
                     <div>
 
@@ -1341,28 +1616,22 @@ button:active{
 
                     <label class="switch">
 
-
                         <input
-                        type="checkbox"
-                        id="whatsappAlert">
+                            type="checkbox"
+                            id="whatsappAlert"
+                        >
 
-
-                        <span
-                        class="slider">
-                        </span>
-
+                        <span class="slider"></span>
 
                     </label>
-
 
                 </div>
 
 
 
-                <!-- ALARM -->
+                <!-- ALARM DARURAT -->
 
                 <div class="toggle">
-
 
                     <div>
 
@@ -1385,19 +1654,14 @@ button:active{
 
                     <label class="switch">
 
-
                         <input
-                        type="checkbox"
-                        id="emergencyAlarm">
+                            type="checkbox"
+                            id="emergencyAlarm"
+                        >
 
-
-                        <span
-                        class="slider">
-                        </span>
-
+                        <span class="slider"></span>
 
                     </label>
-
 
                 </div>
 
@@ -1406,7 +1670,6 @@ button:active{
                 <!-- BROWSER -->
 
                 <div class="toggle">
-
 
                     <div>
 
@@ -1429,25 +1692,18 @@ button:active{
 
                     <label class="switch">
 
-
                         <input
-                        type="checkbox"
-                        id="browserNotification">
+                            type="checkbox"
+                            id="browserNotification"
+                        >
 
-
-                        <span
-                        class="slider">
-                        </span>
-
+                        <span class="slider"></span>
 
                     </label>
 
-
                 </div>
 
-
             </div>
-
 
         </div>
 
@@ -1458,7 +1714,6 @@ button:active{
         ================================================== -->
 
         <div class="card">
-
 
             <div class="card-title">
 
@@ -1476,7 +1731,6 @@ button:active{
 
                 <div class="threshold-box">
 
-
                     <label>
 
                         Batas AMAN (cm)
@@ -1485,11 +1739,11 @@ button:active{
 
 
                     <input
-                    type="number"
-                    id="thresholdAman"
-                    min="0"
-                    step="1">
-
+                        type="number"
+                        id="thresholdAman"
+                        min="0"
+                        step="1"
+                    >
 
                 </div>
 
@@ -1497,7 +1751,6 @@ button:active{
                 <!-- WASPADA -->
 
                 <div class="threshold-box">
-
 
                     <label>
 
@@ -1507,11 +1760,11 @@ button:active{
 
 
                     <input
-                    type="number"
-                    id="thresholdWaspada"
-                    min="0"
-                    step="1">
-
+                        type="number"
+                        id="thresholdWaspada"
+                        min="0"
+                        step="1"
+                    >
 
                 </div>
 
@@ -1519,7 +1772,6 @@ button:active{
                 <!-- BAHAYA -->
 
                 <div class="threshold-box">
-
 
                     <label>
 
@@ -1529,14 +1781,13 @@ button:active{
 
 
                     <input
-                    type="number"
-                    id="thresholdBahaya"
-                    min="0"
-                    step="1">
-
+                        type="number"
+                        id="thresholdBahaya"
+                        min="0"
+                        step="1"
+                    >
 
                 </div>
-
 
             </div>
 
@@ -1545,9 +1796,7 @@ button:active{
 
             <div class="threshold-preview">
 
-
                 <div class="preview-row">
-
 
                     <span>
 
@@ -1557,19 +1806,18 @@ button:active{
 
 
                     <span
-                    class="preview-status safe"
-                    id="previewAman">
+                        class="preview-status safe"
+                        id="previewAman"
+                    >
 
                         < 30 cm
 
                     </span>
 
-
                 </div>
 
 
                 <div class="preview-row">
-
 
                     <span>
 
@@ -1579,19 +1827,18 @@ button:active{
 
 
                     <span
-                    class="preview-status warning"
-                    id="previewWaspada">
+                        class="preview-status warning"
+                        id="previewWaspada"
+                    >
 
                         30 – 70 cm
 
                     </span>
 
-
                 </div>
 
 
                 <div class="preview-row">
-
 
                     <span>
 
@@ -1601,16 +1848,15 @@ button:active{
 
 
                     <span
-                    class="preview-status danger"
-                    id="previewBahaya">
+                        class="preview-status danger"
+                        id="previewBahaya"
+                    >
 
                         ≥ 100 cm
 
                     </span>
 
-
                 </div>
-
 
             </div>
 
@@ -1619,14 +1865,14 @@ button:active{
 
 
             <button
-            onclick="saveThreshold()">
+                onclick="saveThreshold()"
+            >
 
                 <i class="fa-solid fa-floppy-disk"></i>
 
                 Simpan Threshold
 
             </button>
-
 
         </div>
 
@@ -1637,7 +1883,6 @@ button:active{
         ================================================== -->
 
         <div class="card">
-
 
             <div class="card-title">
 
@@ -1651,14 +1896,15 @@ button:active{
             <div class="settings-grid">
 
 
-                <div>
+                <!-- KOLOM KIRI -->
 
+                <div>
 
                     <div class="form-group">
 
-
                         <label
-                        for="refreshInterval">
+                            for="refreshInterval"
+                        >
 
                             Interval Refresh Sensor
                             (detik)
@@ -1667,21 +1913,21 @@ button:active{
 
 
                         <input
-                        type="number"
-                        id="refreshInterval"
-                        min="1"
-                        max="300"
-                        step="1">
-
+                            type="number"
+                            id="refreshInterval"
+                            min="1"
+                            max="300"
+                            step="1"
+                        >
 
                     </div>
 
 
                     <div class="form-group">
 
-
                         <label
-                        for="sensorLocation">
+                            for="sensorLocation"
+                        >
 
                             Nama Lokasi Sensor
 
@@ -1689,26 +1935,26 @@ button:active{
 
 
                         <input
-                        type="text"
-                        id="sensorLocation"
-                        placeholder="Contoh: Dumai Timur">
-
+                            type="text"
+                            id="sensorLocation"
+                            placeholder="Contoh: Dumai Timur"
+                        >
 
                     </div>
-
 
                 </div>
 
 
 
-                <div>
+                <!-- KOLOM KANAN -->
 
+                <div>
 
                     <div class="form-group">
 
-
                         <label
-                        for="waterUnit">
+                            for="waterUnit"
+                        >
 
                             Satuan Tinggi Air
 
@@ -1716,8 +1962,8 @@ button:active{
 
 
                         <select
-                        id="waterUnit">
-
+                            id="waterUnit"
+                        >
 
                             <option value="cm">
 
@@ -1732,18 +1978,16 @@ button:active{
 
                             </option>
 
-
                         </select>
-
 
                     </div>
 
 
                     <div class="form-group">
 
-
                         <label
-                        for="sensorId">
+                            for="sensorId"
+                        >
 
                             ID Sensor
 
@@ -1751,22 +1995,21 @@ button:active{
 
 
                         <input
-                        type="text"
-                        id="sensorId"
-                        placeholder="Contoh: FS-001">
-
+                            type="text"
+                            id="sensorId"
+                            placeholder="Contoh: FS-001"
+                        >
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
             <button
-            onclick="saveSensorSettings()">
+                onclick="saveSensorSettings()"
+            >
 
                 <i class="fa-solid fa-floppy-disk"></i>
 
@@ -1774,17 +2017,15 @@ button:active{
 
             </button>
 
-
         </div>
 
 
 
         <!-- =================================================
-             LOKASI
+             LOKASI SENSOR
         ================================================== -->
 
         <div class="card">
-
 
             <div class="card-title">
 
@@ -1800,9 +2041,9 @@ button:active{
 
                 <div class="form-group">
 
-
                     <label
-                    for="latitudeInput">
+                        for="latitudeInput"
+                    >
 
                         Latitude
 
@@ -1810,20 +2051,20 @@ button:active{
 
 
                     <input
-                    type="number"
-                    id="latitudeInput"
-                    step="0.000001"
-                    placeholder="-1.675000">
-
+                        type="number"
+                        id="latitudeInput"
+                        step="0.000001"
+                        placeholder="-1.675000"
+                    >
 
                 </div>
 
 
                 <div class="form-group">
 
-
                     <label
-                    for="longitudeInput">
+                        for="longitudeInput"
+                    >
 
                         Longitude
 
@@ -1831,26 +2072,22 @@ button:active{
 
 
                     <input
-                    type="number"
-                    id="longitudeInput"
-                    step="0.000001"
-                    placeholder="101.450000">
-
+                        type="number"
+                        id="longitudeInput"
+                        step="0.000001"
+                        placeholder="101.450000"
+                    >
 
                 </div>
-
 
             </div>
 
 
             <div class="info-box">
 
-
                 <strong>
 
-                    <i
-                    class="fa-solid fa-circle-info">
-                    </i>
+                    <i class="fa-solid fa-circle-info"></i>
 
                     Catatan:
 
@@ -1858,7 +2095,6 @@ button:active{
 
 
                 <br>
-
 
                 Koordinat ini digunakan sebagai
                 konfigurasi lokasi sensor pada
@@ -1868,7 +2104,6 @@ button:active{
                 lokasi sebenarnya sebelum digunakan
                 pada Peta Banjir.
 
-
             </div>
 
 
@@ -1876,14 +2111,14 @@ button:active{
 
 
             <button
-            onclick="saveLocation()">
+                onclick="saveLocation()"
+            >
 
                 <i class="fa-solid fa-location-dot"></i>
 
                 Simpan Lokasi
 
             </button>
-
 
         </div>
 
@@ -1894,7 +2129,6 @@ button:active{
         ================================================== -->
 
         <div class="card">
-
 
             <div class="card-title">
 
@@ -1908,11 +2142,13 @@ button:active{
             <div class="settings-grid">
 
 
+                <!-- VOLUME -->
+
                 <div class="form-group">
 
-
                     <label
-                    for="alarmVolume">
+                        for="alarmVolume"
+                    >
 
                         Volume Alarm
 
@@ -1920,23 +2156,24 @@ button:active{
 
 
                     <input
-                    type="range"
-                    id="alarmVolume"
-                    min="0"
-                    max="100"
-                    value="80">
+                        type="range"
+                        id="alarmVolume"
+                        min="0"
+                        max="100"
+                        value="80"
+                    >
 
 
                     <p
-                    style="
-                    margin-top:8px;
-                    color:#777;
-                    ">
+                        style="
+                        margin-top:8px;
+                        color:#777;
+                        "
+                    >
 
                         Volume:
 
-                        <strong
-                        id="volumeValue">
+                        <strong id="volumeValue">
 
                             80%
 
@@ -1944,15 +2181,17 @@ button:active{
 
                     </p>
 
-
                 </div>
 
 
+
+                <!-- DURASI -->
+
                 <div class="form-group">
 
-
                     <label
-                    for="alarmDuration">
+                        for="alarmDuration"
+                    >
 
                         Durasi Alarm (detik)
 
@@ -1960,24 +2199,23 @@ button:active{
 
 
                     <input
-                    type="number"
-                    id="alarmDuration"
-                    min="1"
-                    max="60"
-                    value="5">
-
+                        type="number"
+                        id="alarmDuration"
+                        min="1"
+                        max="60"
+                        value="5"
+                    >
 
                 </div>
-
 
             </div>
 
 
             <div class="button-group">
 
-
                 <button
-                onclick="saveAlarmSettings()">
+                    onclick="saveAlarmSettings()"
+                >
 
                     <i class="fa-solid fa-floppy-disk"></i>
 
@@ -1987,8 +2225,9 @@ button:active{
 
 
                 <button
-                class="btn-secondary"
-                onclick="testAlarm()">
+                    class="btn-secondary"
+                    onclick="testAlarm()"
+                >
 
                     <i class="fa-solid fa-volume-high"></i>
 
@@ -1996,9 +2235,7 @@ button:active{
 
                 </button>
 
-
             </div>
-
 
         </div>
 
@@ -2009,7 +2246,6 @@ button:active{
         ================================================== -->
 
         <div class="card">
-
 
             <div class="card-title">
 
@@ -2025,9 +2261,9 @@ button:active{
 
                 <div class="form-group">
 
-
                     <label
-                    for="themeSelect">
+                        for="themeSelect"
+                    >
 
                         Tema Tampilan
 
@@ -2035,8 +2271,8 @@ button:active{
 
 
                     <select
-                    id="themeSelect">
-
+                        id="themeSelect"
+                    >
 
                         <option value="light">
 
@@ -2058,18 +2294,17 @@ button:active{
 
                         </option>
 
-
                     </select>
-
 
                 </div>
 
 
+
                 <div class="form-group">
 
-
                     <label
-                    for="autoRefresh">
+                        for="autoRefresh"
+                    >
 
                         Auto Refresh
 
@@ -2077,8 +2312,8 @@ button:active{
 
 
                     <select
-                    id="autoRefresh">
-
+                        id="autoRefresh"
+                    >
 
                         <option value="on">
 
@@ -2093,18 +2328,16 @@ button:active{
 
                         </option>
 
-
                     </select>
 
-
                 </div>
-
 
             </div>
 
 
             <button
-            onclick="saveDisplaySettings()">
+                onclick="saveDisplaySettings()"
+            >
 
                 <i class="fa-solid fa-floppy-disk"></i>
 
@@ -2112,23 +2345,19 @@ button:active{
 
             </button>
 
-
         </div>
 
 
 
         <!-- =================================================
-             DANGER ZONE
+             PENGATURAN LANJUTAN
         ================================================== -->
 
         <div class="card danger-zone">
 
-
             <div class="card-title">
 
-                <i
-                class="fa-solid fa-triangle-exclamation">
-                </i>
+                <i class="fa-solid fa-triangle-exclamation"></i>
 
                 Pengaturan Lanjutan
 
@@ -2136,7 +2365,6 @@ button:active{
 
 
             <div class="info-box">
-
 
                 <strong>
 
@@ -2147,11 +2375,9 @@ button:active{
 
                 <br>
 
-
                 Semua pengaturan yang tersimpan
                 pada browser ini akan dikembalikan
                 ke nilai awal FLOWS-PRO.
-
 
             </div>
 
@@ -2160,8 +2386,9 @@ button:active{
 
 
             <button
-            class="btn-danger"
-            onclick="resetSettings()">
+                class="btn-danger"
+                onclick="resetSettings()"
+            >
 
                 <i class="fa-solid fa-trash"></i>
 
@@ -2169,23 +2396,50 @@ button:active{
 
             </button>
 
-
         </div>
 
 
+
         <!-- =================================================
-             SAVE STATUS
+             BOTTOM ACTION
         ================================================== -->
 
-        <div
-        class="save-status"
-        id="saveStatus">
+        <div class="bottom-actions">
 
-            <i
-            class="fa-solid fa-circle-check">
-            </i>
+            <div class="bottom-actions-title">
 
-            Pengaturan berhasil disimpan.
+                <i class="fa-solid fa-gear"></i>
+
+                Aksi Sistem
+
+            </div>
+
+
+            <div class="button-group">
+
+                <button
+                    onclick="saveAllSettings()"
+                >
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Simpan Semua Pengaturan
+
+                </button>
+
+
+                <button
+                    class="btn-secondary"
+                    onclick="reloadSettings()"
+                >
+
+                    <i class="fa-solid fa-rotate"></i>
+
+                    Muat Ulang Pengaturan
+
+                </button>
+
+            </div>
 
         </div>
 
@@ -2195,281 +2449,134 @@ button:active{
 </div>
 
 
+
 <!-- =====================================================
-     PART 2 DIMULAI DI SINI
+     PART 2 SELESAI
+     PART 3 = JAVASCRIPT UTAMA
 ===================================================== -->
+<!-- =====================================================
+     PART 3 — JAVASCRIPT SETTINGS
+===================================================== -->
+
 <script>
 
 /* =====================================================
-   KONFIGURASI DEFAULT FLOWS-PRO
+   DEFAULT SETTINGS
 ===================================================== */
 
 const DEFAULT_SETTINGS = {
 
-    profile: {
+    nama: '',
 
-        nama: '',
+    email: '',
 
-        email: '',
+    emailAlert: false,
 
-        avatar: ''
+    whatsappAlert: false,
 
-    },
+    browserNotification: false,
 
+    emergencyAlarm: false,
 
-    notification: {
+    thresholdAman: 30,
 
-        emailAlert: false,
+    thresholdWaspada: 70,
 
-        whatsappAlert: false,
+    thresholdBahaya: 100,
 
-        emergencyAlarm: false,
+    refreshInterval: 5,
 
-        browserNotification: false
+    sensorLocation: 'Dumai Timur',
 
-    },
+    sensorId: 'FS-001',
 
+    waterUnit: 'cm',
 
-    threshold: {
+    latitude: -1.675000,
 
-        aman: 30,
+    longitude: 101.450000,
 
-        waspada: 70,
+    alarmVolume: 80,
 
-        bahaya: 100
+    alarmDuration: 5,
 
-    },
+    theme: 'light',
 
-
-    sensor: {
-
-        refreshInterval: 5,
-
-        sensorLocation: 'Dumai Timur',
-
-        sensorId: 'FS-001',
-
-        waterUnit: 'cm'
-
-    },
-
-
-    location: {
-
-        latitude: -1.675000,
-
-        longitude: 101.450000
-
-    },
-
-
-    alarm: {
-
-        volume: 80,
-
-        duration: 5
-
-    },
-
-
-    display: {
-
-        theme: 'light',
-
-        autoRefresh: 'on'
-
-    }
+    autoRefresh: 'on'
 
 };
 
 
 /* =====================================================
-   NAMA STORAGE
+   AMBIL SETTINGS
 ===================================================== */
 
-const SETTINGS_KEY =
-    'flowspro_settings';
-
-
-/* =====================================================
-   COPY OBJECT
-===================================================== */
-
-function cloneDefaultSettings(){
-
-    return JSON.parse(
-        JSON.stringify(
-            DEFAULT_SETTINGS
-        )
-    );
-
-}
-
-
-/* =====================================================
-   LOAD SETTINGS
-===================================================== */
-
-function loadSettings(){
-
-    let settings =
-        cloneDefaultSettings();
-
+function getSettings(){
 
     try{
 
         const saved =
             localStorage.getItem(
-                SETTINGS_KEY
+                'flowspro_settings'
             );
-
 
         if(saved){
 
-            const parsed =
-                JSON.parse(
-                    saved
-                );
-
-
-            settings = {
-
-                ...settings,
-
-                ...parsed,
-
-
-                profile:{
-
-                    ...settings.profile,
-
-                    ...(parsed.profile || {})
-
-                },
-
-
-                notification:{
-
-                    ...settings.notification,
-
-                    ...(parsed.notification || {})
-
-                },
-
-
-                threshold:{
-
-                    ...settings.threshold,
-
-                    ...(parsed.threshold || {})
-
-                },
-
-
-                sensor:{
-
-                    ...settings.sensor,
-
-                    ...(parsed.sensor || {})
-
-                },
-
-
-                location:{
-
-                    ...settings.location,
-
-                    ...(parsed.location || {})
-
-                },
-
-
-                alarm:{
-
-                    ...settings.alarm,
-
-                    ...(parsed.alarm || {})
-
-                },
-
-
-                display:{
-
-                    ...settings.display,
-
-                    ...(parsed.display || {})
-
-                }
-
+            return {
+                ...DEFAULT_SETTINGS,
+                ...JSON.parse(saved)
             };
 
         }
 
-    }
-
-    catch(error){
+    }catch(error){
 
         console.error(
-            'Gagal membaca Settings:',
+            'Gagal membaca settings:',
             error
         );
 
     }
 
-
-    return settings;
+    return {
+        ...DEFAULT_SETTINGS
+    };
 
 }
 
 
 /* =====================================================
-   CURRENT SETTINGS
+   SIMPAN SETTINGS
 ===================================================== */
 
-let flowsSettings =
-    loadSettings();
-
-
-/* =====================================================
-   SAVE SETTINGS KE LOCAL STORAGE
-===================================================== */
-
-function saveSettings(){
+function saveSettings(settings){
 
     try{
 
         localStorage.setItem(
-
-            SETTINGS_KEY,
-
-            JSON.stringify(
-                flowsSettings
-            )
-
+            'flowspro_settings',
+            JSON.stringify(settings)
         );
 
-
-        console.log(
-            'FLOWS-PRO Settings tersimpan:',
-            flowsSettings
+        showSaveStatus(
+            'Pengaturan berhasil disimpan.'
         );
 
+        return true;
 
-        showSaveStatus();
-
-    }
-
-    catch(error){
+    }catch(error){
 
         console.error(
-            'Gagal menyimpan Settings:',
+            'Gagal menyimpan settings:',
             error
         );
 
-
-        alert(
-            'Pengaturan gagal disimpan.'
+        showSaveStatus(
+            'Gagal menyimpan pengaturan.',
+            true
         );
+
+        return false;
 
     }
 
@@ -2481,35 +2588,38 @@ function saveSettings(){
 ===================================================== */
 
 function showSaveStatus(
-    message =
-    'Pengaturan berhasil disimpan.'
+    message,
+    error = false
 ){
 
-    const status =
+    const box =
         document.getElementById(
             'saveStatus'
         );
 
-
-    if(!status){
-
-        return;
-
-    }
+    if(!box) return;
 
 
-    status.innerHTML = `
+    box.innerHTML = error
 
-        <i class="fa-solid fa-circle-check"></i>
+        ? `<i class="fa-solid fa-circle-xmark"></i> ${message}`
 
-        ${message}
-
-    `;
+        : `<i class="fa-solid fa-circle-check"></i> ${message}`;
 
 
-    status.classList.add(
-        'show'
-    );
+    box.style.background =
+        error
+        ? '#fff0f0'
+        : '#e8fff1';
+
+
+    box.style.color =
+        error
+        ? '#e74c3c'
+        : '#27ae60';
+
+
+    box.classList.add('show');
 
 
     clearTimeout(
@@ -2518,338 +2628,75 @@ function showSaveStatus(
 
 
     window.saveStatusTimer =
-        setTimeout(
-            function(){
+        setTimeout(() => {
 
-                status.classList.remove(
-                    'show'
-                );
+            box.classList.remove(
+                'show'
+            );
 
-            },
-            3000
-        );
+        }, 3000);
 
 }
 
 
 /* =====================================================
-   LOGIN USER
+   LOAD LOGIN USER
 ===================================================== */
 
-function loadLoginProfile(){
+function loadUserProfile(){
+
+    let loginData = null;
+
 
     try{
 
-        const loginData =
+        loginData =
             JSON.parse(
                 localStorage.getItem(
                     'userLogin'
                 )
             );
 
-
-        /*
-         * Jika belum ada nama di Settings,
-         * gunakan nama dari login.
-         */
-
-        if(
-            loginData &&
-            loginData.nama
-        ){
-
-            if(
-                !flowsSettings.profile.nama
-            ){
-
-                flowsSettings.profile.nama =
-                    loginData.nama;
-
-            }
-
-        }
-
-
-        /*
-         * Jika login mempunyai email
-         */
-
-        if(
-            loginData &&
-            loginData.email
-        ){
-
-            if(
-                !flowsSettings.profile.email
-            ){
-
-                flowsSettings.profile.email =
-                    loginData.email;
-
-            }
-
-        }
-
-    }
-
-    catch(error){
+    }catch(error){
 
         console.log(
-            'Tidak ada data login.'
+            'Data login tidak valid'
         );
 
     }
 
-}
 
+    const settings =
+        getSettings();
 
-/* =====================================================
-   LOAD KE HTML
-===================================================== */
 
-function populateSettings(){
+    const name =
+        settings.nama ||
+        (loginData && loginData.nama)
+        || 'Guest';
 
-    /*
-     * ==============================================
-     * PROFILE
-     * ==============================================
-     */
 
-    const nameInput =
-        document.getElementById(
-            'nameInput'
-        );
+    const email =
+        settings.email ||
+        (loginData && loginData.email)
+        || '';
 
 
-    const emailInput =
-        document.getElementById(
-            'emailInput'
-        );
+    document.getElementById(
+        'userName'
+    ).innerText = name;
 
 
-    if(nameInput){
+    document.getElementById(
+        'nameInput'
+    ).value = name === 'Guest'
+        ? ''
+        : name;
 
-        nameInput.value =
-            flowsSettings.profile.nama || '';
 
-    }
-
-
-    if(emailInput){
-
-        emailInput.value =
-            flowsSettings.profile.email || '';
-
-    }
-
-
-    /*
-     * ==============================================
-     * NOTIFICATION
-     * ==============================================
-     */
-
-    setCheckbox(
-        'emailAlert',
-        flowsSettings.notification.emailAlert
-    );
-
-
-    setCheckbox(
-        'whatsappAlert',
-        flowsSettings.notification.whatsappAlert
-    );
-
-
-    setCheckbox(
-        'emergencyAlarm',
-        flowsSettings.notification.emergencyAlarm
-    );
-
-
-    setCheckbox(
-        'browserNotification',
-        flowsSettings.notification.browserNotification
-    );
-
-
-    /*
-     * ==============================================
-     * THRESHOLD
-     * ==============================================
-     */
-
-    setValue(
-        'thresholdAman',
-        flowsSettings.threshold.aman
-    );
-
-
-    setValue(
-        'thresholdWaspada',
-        flowsSettings.threshold.waspada
-    );
-
-
-    setValue(
-        'thresholdBahaya',
-        flowsSettings.threshold.bahaya
-    );
-
-
-    /*
-     * ==============================================
-     * SENSOR
-     * ==============================================
-     */
-
-    setValue(
-        'refreshInterval',
-        flowsSettings.sensor.refreshInterval
-    );
-
-
-    setValue(
-        'sensorLocation',
-        flowsSettings.sensor.sensorLocation
-    );
-
-
-    setValue(
-        'sensorId',
-        flowsSettings.sensor.sensorId
-    );
-
-
-    setValue(
-        'waterUnit',
-        flowsSettings.sensor.waterUnit
-    );
-
-
-    /*
-     * ==============================================
-     * LOCATION
-     * ==============================================
-     */
-
-    setValue(
-        'latitudeInput',
-        flowsSettings.location.latitude
-    );
-
-
-    setValue(
-        'longitudeInput',
-        flowsSettings.location.longitude
-    );
-
-
-    /*
-     * ==============================================
-     * ALARM
-     * ==============================================
-     */
-
-    setValue(
-        'alarmVolume',
-        flowsSettings.alarm.volume
-    );
-
-
-    setValue(
-        'alarmDuration',
-        flowsSettings.alarm.duration
-    );
-
-
-    updateVolumeText();
-
-
-    /*
-     * ==============================================
-     * DISPLAY
-     * ==============================================
-     */
-
-    setValue(
-        'themeSelect',
-        flowsSettings.display.theme
-    );
-
-
-    setValue(
-        'autoRefresh',
-        flowsSettings.display.autoRefresh
-    );
-
-
-    /*
-     * ==============================================
-     * AVATAR
-     * ==============================================
-     */
-
-    loadAvatar();
-
-
-    /*
-     * ==============================================
-     * THRESHOLD PREVIEW
-     * ==============================================
-     */
-
-    updateThresholdPreview();
-
-}
-
-
-/* =====================================================
-   SET VALUE
-===================================================== */
-
-function setValue(
-    id,
-    value
-){
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    if(element){
-
-        element.value =
-            value;
-
-    }
-
-}
-
-
-/* =====================================================
-   SET CHECKBOX
-===================================================== */
-
-function setCheckbox(
-    id,
-    value
-){
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    if(element){
-
-        element.checked =
-            Boolean(value);
-
-    }
+    document.getElementById(
+        'emailInput'
+    ).value = email;
 
 }
 
@@ -2860,59 +2707,130 @@ function setCheckbox(
 
 function loadAvatar(){
 
-    let avatar =
-        flowsSettings.profile.avatar;
+    const savedAvatar =
+        localStorage.getItem(
+            'flowspro_avatar'
+        );
 
 
-    /*
-     * Backward compatibility
-     * dengan storage lama.
-     */
+    if(savedAvatar){
 
-    if(!avatar){
-
-        avatar =
-            localStorage.getItem(
-                'flowspro_avatar'
-            );
-
-    }
-
-
-    if(!avatar){
-
-        avatar =
-            'https://i.pravatar.cc/150?img=12';
-
-    }
-
-
-    const userPhoto =
         document.getElementById(
             'userPhoto'
-        );
+        ).src = savedAvatar;
 
 
-    const avatarPreview =
         document.getElementById(
             'avatarPreview'
-        );
-
-
-    if(userPhoto){
-
-        userPhoto.src =
-            avatar;
+        ).src = savedAvatar;
 
     }
 
+}
 
-    if(avatarPreview){
 
-        avatarPreview.src =
-            avatar;
+/* =====================================================
+   UPLOAD AVATAR
+===================================================== */
 
-    }
+const avatarInput =
+    document.getElementById(
+        'uploadAvatar'
+    );
+
+
+if(avatarInput){
+
+    avatarInput.addEventListener(
+        'change',
+        function(event){
+
+            const file =
+                event.target.files[0];
+
+
+            if(!file){
+
+                return;
+
+            }
+
+
+            /* Batasi ukuran file */
+
+            if(
+                file.size >
+                2 * 1024 * 1024
+            ){
+
+                alert(
+                    'Ukuran foto maksimal 2 MB.'
+                );
+
+                event.target.value = '';
+
+                return;
+
+            }
+
+
+            /* Pastikan gambar */
+
+            if(
+                !file.type.startsWith(
+                    'image/'
+                )
+            ){
+
+                alert(
+                    'File harus berupa gambar.'
+                );
+
+                event.target.value = '';
+
+                return;
+
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(e){
+
+                    const image =
+                        e.target.result;
+
+
+                    document.getElementById(
+                        'userPhoto'
+                    ).src = image;
+
+
+                    document.getElementById(
+                        'avatarPreview'
+                    ).src = image;
+
+
+                    localStorage.setItem(
+                        'flowspro_avatar',
+                        image
+                    );
+
+
+                    showSaveStatus(
+                        'Foto profil berhasil diperbarui.'
+                    );
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
 
 }
 
@@ -2935,76 +2853,40 @@ function saveProfile(){
         ).value.trim();
 
 
-    /*
-     * Validasi nama.
-     */
-
     if(!name){
 
         alert(
             'Nama lengkap belum diisi.'
         );
 
-
         return;
 
     }
 
 
-    /*
-     * Validasi email sederhana.
-     */
-
-    if(
-        email &&
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        .test(email)
-    ){
-
-        alert(
-            'Format email tidak valid.'
-        );
+    const settings =
+        getSettings();
 
 
-        return;
-
-    }
-
-
-    flowsSettings.profile.nama =
+    settings.nama =
         name;
 
 
-    flowsSettings.profile.email =
+    settings.email =
         email;
 
 
-    saveSettings();
+    saveSettings(
+        settings
+    );
 
 
-    /*
-     * Update navbar.
-     */
-
-    const userName =
-        document.getElementById(
-            'userName'
-        );
+    document.getElementById(
+        'userName'
+    ).innerText = name;
 
 
-    if(userName){
-
-        userName.innerText =
-            name;
-
-    }
-
-
-    /*
-     * Update login storage
-     * agar halaman lain juga
-     * mendapatkan nama baru.
-     */
+    /* Sinkronisasi userLogin */
 
     try{
 
@@ -3039,313 +2921,169 @@ function saveProfile(){
 
         }
 
-    }
-
-    catch(error){
+    }catch(error){
 
         console.log(
-            'Login storage tidak dapat diperbarui.'
+            'Sinkronisasi login gagal:',
+            error
         );
 
     }
 
-
-    showSaveStatus(
-        'Profil berhasil disimpan.'
-    );
-
 }
 
 
 /* =====================================================
-   UPLOAD AVATAR
+   LOAD NOTIFICATION SETTINGS
 ===================================================== */
 
-const uploadAvatar =
+function loadNotificationSettings(){
+
+    const settings =
+        getSettings();
+
+
     document.getElementById(
-        'uploadAvatar'
-    );
+        'emailAlert'
+    ).checked =
+        Boolean(
+            settings.emailAlert
+        );
 
 
-if(uploadAvatar){
-
-    uploadAvatar.addEventListener(
-        'change',
-        function(event){
-
-            const file =
-                event.target.files[0];
+    document.getElementById(
+        'whatsappAlert'
+    ).checked =
+        Boolean(
+            settings.whatsappAlert
+        );
 
 
-            if(!file){
-
-                return;
-
-            }
-
-
-            /*
-             * Pastikan file gambar.
-             */
-
-            if(
-                !file.type.startsWith(
-                    'image/'
-                )
-            ){
-
-                alert(
-                    'File harus berupa gambar.'
-                );
+    document.getElementById(
+        'browserNotification'
+    ).checked =
+        Boolean(
+            settings.browserNotification
+        );
 
 
-                event.target.value =
-                    '';
-
-
-                return;
-
-            }
-
-
-            /*
-             * Batasi ukuran 2 MB.
-             */
-
-            if(
-                file.size >
-                2 * 1024 * 1024
-            ){
-
-                alert(
-                    'Ukuran foto maksimal 2 MB.'
-                );
-
-
-                event.target.value =
-                    '';
-
-
-                return;
-
-            }
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function(e){
-
-                    const imageData =
-                        e.target.result;
-
-
-                    flowsSettings
-                        .profile
-                        .avatar =
-                        imageData;
-
-
-                    localStorage.setItem(
-                        'flowspro_avatar',
-                        imageData
-                    );
-
-
-                    const userPhoto =
-                        document.getElementById(
-                            'userPhoto'
-                        );
-
-
-                    const avatarPreview =
-                        document.getElementById(
-                            'avatarPreview'
-                        );
-
-
-                    if(userPhoto){
-
-                        userPhoto.src =
-                            imageData;
-
-                    }
-
-
-                    if(avatarPreview){
-
-                        avatarPreview.src =
-                            imageData;
-
-                    }
-
-
-                    saveSettings();
-
-
-                    showSaveStatus(
-                        'Foto profil berhasil disimpan.'
-                    );
-
-                };
-
-
-            reader.readAsDataURL(
-                file
-            );
-
-        }
-    );
+    document.getElementById(
+        'emergencyAlarm'
+    ).checked =
+        Boolean(
+            settings.emergencyAlarm
+        );
 
 }
 
 
 /* =====================================================
-   SAVE NOTIFICATION
+   SAVE NOTIFICATION SETTINGS
 ===================================================== */
 
 function saveNotificationSettings(){
 
-    flowsSettings.notification.emailAlert =
+    const settings =
+        getSettings();
+
+
+    settings.emailAlert =
         document.getElementById(
             'emailAlert'
         ).checked;
 
 
-    flowsSettings.notification.whatsappAlert =
+    settings.whatsappAlert =
         document.getElementById(
             'whatsappAlert'
         ).checked;
 
 
-    flowsSettings.notification.emergencyAlarm =
-        document.getElementById(
-            'emergencyAlarm'
-        ).checked;
-
-
-    flowsSettings.notification.browserNotification =
+    settings.browserNotification =
         document.getElementById(
             'browserNotification'
         ).checked;
 
 
-    saveSettings();
+    settings.emergencyAlarm =
+        document.getElementById(
+            'emergencyAlarm'
+        ).checked;
 
 
-    /*
-     * Browser Notification.
-     */
-
-    if(
-        flowsSettings.notification.browserNotification
-    ){
-
-        requestBrowserNotification();
-
-    }
-
-
-    showSaveStatus(
-        'Pengaturan notifikasi berhasil disimpan.'
+    saveSettings(
+        settings
     );
 
 }
 
 
 /* =====================================================
-   EVENT NOTIFICATION
+   AUTO SAVE NOTIFICATION
 ===================================================== */
 
 [
     'emailAlert',
     'whatsappAlert',
-    'emergencyAlarm',
-    'browserNotification'
-]
-.forEach(
-    function(id){
+    'browserNotification',
+    'emergencyAlarm'
 
-        const element =
-            document.getElementById(
-                id
-            );
+].forEach(id => {
+
+    const element =
+        document.getElementById(id);
 
 
-        if(element){
+    if(element){
 
-            element.addEventListener(
-                'change',
-                saveNotificationSettings
-            );
-
-        }
+        element.addEventListener(
+            'change',
+            saveNotificationSettings
+        );
 
     }
-);
+
+});
 
 
 /* =====================================================
-   BROWSER NOTIFICATION
+   LOAD THRESHOLD
 ===================================================== */
 
-async function requestBrowserNotification(){
+function loadThreshold(){
 
-    if(
-        !('Notification' in window)
-    ){
-
-        alert(
-            'Browser ini tidak mendukung notifikasi.'
-        );
+    const settings =
+        getSettings();
 
 
-        return;
-
-    }
-
-
-    if(
-        Notification.permission ===
-        'granted'
-    ){
-
-        return;
-
-    }
+    document.getElementById(
+        'thresholdAman'
+    ).value =
+        settings.thresholdAman;
 
 
-    if(
-        Notification.permission !==
-        'denied'
-    ){
+    document.getElementById(
+        'thresholdWaspada'
+    ).value =
+        settings.thresholdWaspada;
 
-        try{
 
-            await Notification.requestPermission();
+    document.getElementById(
+        'thresholdBahaya'
+    ).value =
+        settings.thresholdBahaya;
 
-        }
 
-        catch(error){
-
-            console.log(
-                error
-            );
-
-        }
-
-    }
+    updateThresholdPreview();
 
 }
 
 
 /* =====================================================
-   SAVE THRESHOLD
+   VALIDATE THRESHOLD
 ===================================================== */
 
-function saveThreshold(){
+function validateThreshold(){
 
     const aman =
         Number(
@@ -3371,22 +3109,17 @@ function saveThreshold(){
         );
 
 
-    /*
-     * Validasi angka.
-     */
-
     if(
-        !Number.isFinite(aman) ||
-        !Number.isFinite(waspada) ||
-        !Number.isFinite(bahaya)
+        isNaN(aman) ||
+        isNaN(waspada) ||
+        isNaN(bahaya)
     ){
 
         alert(
-            'Semua threshold harus diisi dengan angka.'
+            'Semua threshold harus diisi.'
         );
 
-
-        return;
+        return false;
 
     }
 
@@ -3401,17 +3134,10 @@ function saveThreshold(){
             'Threshold tidak boleh negatif.'
         );
 
-
-        return;
+        return false;
 
     }
 
-
-    /*
-     * Urutan threshold harus benar.
-     *
-     * AMAN < WASPADA < BAHAYA
-     */
 
     if(
         aman >= waspada
@@ -3421,8 +3147,7 @@ function saveThreshold(){
             'Batas AMAN harus lebih kecil dari batas WASPADA.'
         );
 
-
-        return;
+        return false;
 
     }
 
@@ -3435,39 +3160,18 @@ function saveThreshold(){
             'Batas WASPADA harus lebih kecil dari batas BAHAYA.'
         );
 
-
-        return;
+        return false;
 
     }
 
 
-    flowsSettings.threshold.aman =
-        aman;
-
-
-    flowsSettings.threshold.waspada =
-        waspada;
-
-
-    flowsSettings.threshold.bahaya =
-        bahaya;
-
-
-    saveSettings();
-
-
-    updateThresholdPreview();
-
-
-    showSaveStatus(
-        'Threshold berhasil disimpan.'
-    );
+    return true;
 
 }
 
 
 /* =====================================================
-   THRESHOLD PREVIEW
+   UPDATE THRESHOLD PREVIEW
 ===================================================== */
 
 function updateThresholdPreview(){
@@ -3496,86 +3200,140 @@ function updateThresholdPreview(){
         );
 
 
-    const previewAman =
-        document.getElementById(
-            'previewAman'
-        );
+    document.getElementById(
+        'previewAman'
+    ).innerText =
+        `< ${waspada} cm`;
 
 
-    const previewWaspada =
-        document.getElementById(
-            'previewWaspada'
-        );
+    document.getElementById(
+        'previewWaspada'
+    ).innerText =
+        `${waspada} – ${bahaya - 1} cm`;
 
 
-    const previewBahaya =
-        document.getElementById(
-            'previewBahaya'
-        );
-
-
-    if(previewAman){
-
-        previewAman.innerText =
-            '< ' +
-            aman +
-            ' cm';
-
-    }
-
-
-    if(previewWaspada){
-
-        previewWaspada.innerText =
-            aman +
-            ' – ' +
-            waspada +
-            ' cm';
-
-    }
-
-
-    if(previewBahaya){
-
-        previewBahaya.innerText =
-            '≥ ' +
-            bahaya +
-            ' cm';
-
-    }
+    document.getElementById(
+        'previewBahaya'
+    ).innerText =
+        `≥ ${bahaya} cm`;
 
 }
 
 
 /* =====================================================
-   LIVE THRESHOLD PREVIEW
+   LIVE PREVIEW THRESHOLD
 ===================================================== */
 
 [
     'thresholdAman',
     'thresholdWaspada',
     'thresholdBahaya'
-]
-.forEach(
-    function(id){
 
-        const element =
-            document.getElementById(
-                id
-            );
+].forEach(id => {
+
+    const element =
+        document.getElementById(id);
 
 
-        if(element){
+    if(element){
 
-            element.addEventListener(
-                'input',
-                updateThresholdPreview
-            );
-
-        }
+        element.addEventListener(
+            'input',
+            updateThresholdPreview
+        );
 
     }
-);
+
+});
+
+
+/* =====================================================
+   SAVE THRESHOLD
+===================================================== */
+
+function saveThreshold(){
+
+    if(
+        !validateThreshold()
+    ){
+
+        return;
+
+    }
+
+
+    const settings =
+        getSettings();
+
+
+    settings.thresholdAman =
+        Number(
+            document.getElementById(
+                'thresholdAman'
+            ).value
+        );
+
+
+    settings.thresholdWaspada =
+        Number(
+            document.getElementById(
+                'thresholdWaspada'
+            ).value
+        );
+
+
+    settings.thresholdBahaya =
+        Number(
+            document.getElementById(
+                'thresholdBahaya'
+            ).value
+        );
+
+
+    saveSettings(
+        settings
+    );
+
+
+    updateThresholdPreview();
+
+}
+
+
+/* =====================================================
+   LOAD SENSOR SETTINGS
+===================================================== */
+
+function loadSensorSettings(){
+
+    const settings =
+        getSettings();
+
+
+    document.getElementById(
+        'refreshInterval'
+    ).value =
+        settings.refreshInterval;
+
+
+    document.getElementById(
+        'sensorLocation'
+    ).value =
+        settings.sensorLocation;
+
+
+    document.getElementById(
+        'sensorId'
+    ).value =
+        settings.sensorId;
+
+
+    document.getElementById(
+        'waterUnit'
+    ).value =
+        settings.waterUnit;
+
+}
 
 
 /* =====================================================
@@ -3584,7 +3342,7 @@ function updateThresholdPreview(){
 
 function saveSensorSettings(){
 
-    const refreshInterval =
+    const refresh =
         Number(
             document.getElementById(
                 'refreshInterval'
@@ -3592,7 +3350,7 @@ function saveSensorSettings(){
         );
 
 
-    const sensorLocation =
+    const location =
         document.getElementById(
             'sensorLocation'
         ).value.trim();
@@ -3604,40 +3362,32 @@ function saveSensorSettings(){
         ).value.trim();
 
 
-    const waterUnit =
+    const unit =
         document.getElementById(
             'waterUnit'
         ).value;
 
 
-    /*
-     * Validasi refresh.
-     */
-
     if(
-        !Number.isFinite(
-            refreshInterval
-        ) ||
-        refreshInterval < 1 ||
-        refreshInterval > 300
+        !refresh ||
+        refresh < 1 ||
+        refresh > 300
     ){
 
         alert(
-            'Interval refresh harus antara 1 sampai 300 detik.'
+            'Interval sensor harus antara 1 sampai 300 detik.'
         );
-
 
         return;
 
     }
 
 
-    if(!sensorLocation){
+    if(!location){
 
         alert(
             'Nama lokasi sensor belum diisi.'
         );
-
 
         return;
 
@@ -3650,34 +3400,58 @@ function saveSensorSettings(){
             'ID sensor belum diisi.'
         );
 
-
         return;
 
     }
 
 
-    flowsSettings.sensor.refreshInterval =
-        refreshInterval;
+    const settings =
+        getSettings();
 
 
-    flowsSettings.sensor.sensorLocation =
-        sensorLocation;
+    settings.refreshInterval =
+        refresh;
 
 
-    flowsSettings.sensor.sensorId =
+    settings.sensorLocation =
+        location;
+
+
+    settings.sensorId =
         sensorId;
 
 
-    flowsSettings.sensor.waterUnit =
-        waterUnit;
+    settings.waterUnit =
+        unit;
 
 
-    saveSettings();
-
-
-    showSaveStatus(
-        'Pengaturan sensor berhasil disimpan.'
+    saveSettings(
+        settings
     );
+
+}
+
+
+/* =====================================================
+   LOAD LOCATION
+===================================================== */
+
+function loadLocation(){
+
+    const settings =
+        getSettings();
+
+
+    document.getElementById(
+        'latitudeInput'
+    ).value =
+        settings.latitude;
+
+
+    document.getElementById(
+        'longitudeInput'
+    ).value =
+        settings.longitude;
 
 }
 
@@ -3704,112 +3478,108 @@ function saveLocation(){
         );
 
 
-    /*
-     * Validasi latitude.
-     */
-
     if(
-        !Number.isFinite(
-            latitude
-        ) ||
+        isNaN(latitude) ||
         latitude < -90 ||
         latitude > 90
     ){
 
         alert(
-            'Latitude harus berada antara -90 sampai 90.'
+            'Latitude tidak valid.'
         );
-
 
         return;
 
     }
 
 
-    /*
-     * Validasi longitude.
-     */
-
     if(
-        !Number.isFinite(
-            longitude
-        ) ||
+        isNaN(longitude) ||
         longitude < -180 ||
         longitude > 180
     ){
 
         alert(
-            'Longitude harus berada antara -180 sampai 180.'
+            'Longitude tidak valid.'
         );
-
 
         return;
 
     }
 
 
-    flowsSettings.location.latitude =
+    const settings =
+        getSettings();
+
+
+    settings.latitude =
         latitude;
 
 
-    flowsSettings.location.longitude =
+    settings.longitude =
         longitude;
 
 
-    saveSettings();
-
-
-    showSaveStatus(
-        'Lokasi sensor berhasil disimpan.'
+    saveSettings(
+        settings
     );
 
 }
 
 
 /* =====================================================
-   VOLUME ALARM
+   LOAD ALARM
 ===================================================== */
 
-const alarmVolume =
+function loadAlarmSettings(){
+
+    const settings =
+        getSettings();
+
+
+    document.getElementById(
+        'alarmVolume'
+    ).value =
+        settings.alarmVolume;
+
+
+    document.getElementById(
+        'alarmDuration'
+    ).value =
+        settings.alarmDuration;
+
+
+    document.getElementById(
+        'volumeValue'
+    ).innerText =
+        settings.alarmVolume + '%';
+
+}
+
+
+/* =====================================================
+   VOLUME SLIDER
+===================================================== */
+
+const volumeSlider =
     document.getElementById(
         'alarmVolume'
     );
 
 
-if(alarmVolume){
+if(volumeSlider){
 
-    alarmVolume.addEventListener(
+    volumeSlider.addEventListener(
         'input',
-        updateVolumeText
+        function(){
+
+            document.getElementById(
+                'volumeValue'
+            ).innerText =
+                this.value + '%';
+
+        }
     );
-
-}
-
-
-function updateVolumeText(){
-
-    const volume =
-        document.getElementById(
-            'alarmVolume'
-        );
-
-
-    const volumeValue =
-        document.getElementById(
-            'volumeValue'
-        );
-
-
-    if(
-        volume &&
-        volumeValue
-    ){
-
-        volumeValue.innerText =
-            volume.value +
-            '%';
-
-    }
 
 }
 
@@ -3837,15 +3607,13 @@ function saveAlarmSettings(){
 
 
     if(
-        !Number.isFinite(volume) ||
         volume < 0 ||
         volume > 100
     ){
 
         alert(
-            'Volume alarm harus antara 0 sampai 100.'
+            'Volume harus 0–100%.'
         );
-
 
         return;
 
@@ -3853,105 +3621,78 @@ function saveAlarmSettings(){
 
 
     if(
-        !Number.isFinite(duration) ||
         duration < 1 ||
         duration > 60
     ){
 
         alert(
-            'Durasi alarm harus antara 1 sampai 60 detik.'
+            'Durasi alarm harus 1–60 detik.'
         );
-
 
         return;
 
     }
 
 
-    flowsSettings.alarm.volume =
+    const settings =
+        getSettings();
+
+
+    settings.alarmVolume =
         volume;
 
 
-    flowsSettings.alarm.duration =
+    settings.alarmDuration =
         duration;
 
 
-    saveSettings();
-
-
-    showSaveStatus(
-        'Pengaturan alarm berhasil disimpan.'
+    saveSettings(
+        settings
     );
 
 }
 
 
 /* =====================================================
-   AUDIO CONTEXT
-===================================================== */
-
-let audioContext = null;
-
-
-/* =====================================================
-   TES ALARM
+   TEST ALARM
 ===================================================== */
 
 function testAlarm(){
 
+    const volume =
+        Number(
+            document.getElementById(
+                'alarmVolume'
+            ).value
+        );
+
+
     /*
-     * Audio browser membutuhkan interaksi user.
-     */
+       Browser AudioContext.
+       Ini hanya mengetes suara dari website,
+       bukan buzzer fisik Wemos.
+    */
 
     try{
 
-        if(!audioContext){
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
 
-            audioContext =
-                new (
-                    window.AudioContext ||
-                    window.webkitAudioContext
-                )();
+
+        if(!AudioContext){
+
+            alert(
+                'Browser tidak mendukung pengujian audio.'
+            );
+
+            return;
 
         }
 
 
-        if(
-            audioContext.state ===
-            'suspended'
-        ){
-
-            audioContext.resume();
-
-        }
-
-
-        const volume =
-            Number(
-                document.getElementById(
-                    'alarmVolume'
-                ).value
-            ) / 100;
-
-
-        const duration =
-            Number(
-                document.getElementById(
-                    'alarmDuration'
-                ).value
-            );
-
-
-        /*
-         * Jangan gunakan duration panjang
-         * untuk browser test.
-         */
-
-        const testDuration =
-            Math.min(
-                duration,
-                3
-            );
+        const audioContext =
+            new AudioContext();
 
 
         const oscillator =
@@ -3970,10 +3711,8 @@ function testAlarm(){
             880;
 
 
-        gain.gain.setValueAtTime(
-            volume,
-            audioContext.currentTime
-        );
+        gain.gain.value =
+            volume / 100 * 0.15;
 
 
         oscillator.connect(
@@ -3989,30 +3728,55 @@ function testAlarm(){
         oscillator.start();
 
 
-        oscillator.stop(
-            audioContext.currentTime +
-            testDuration
+        setTimeout(
+            () => {
+
+                oscillator.stop();
+
+                audioContext.close();
+
+            },
+            500
         );
 
 
-        showSaveStatus(
-            'Tes alarm dijalankan.'
-        );
+    }catch(error){
 
-    }
-
-    catch(error){
-
-        console.error(
+        console.log(
+            'Alarm test error:',
             error
         );
 
-
-        alert(
-            'Alarm browser tidak dapat dijalankan.'
-        );
-
     }
+
+}
+
+
+/* =====================================================
+   LOAD DISPLAY SETTINGS
+===================================================== */
+
+function loadDisplaySettings(){
+
+    const settings =
+        getSettings();
+
+
+    document.getElementById(
+        'themeSelect'
+    ).value =
+        settings.theme;
+
+
+    document.getElementById(
+        'autoRefresh'
+    ).value =
+        settings.autoRefresh;
+
+
+    applyTheme(
+        settings.theme
+    );
 
 }
 
@@ -4035,24 +3799,25 @@ function saveDisplaySettings(){
         ).value;
 
 
-    flowsSettings.display.theme =
+    const settings =
+        getSettings();
+
+
+    settings.theme =
         theme;
 
 
-    flowsSettings.display.autoRefresh =
+    settings.autoRefresh =
         autoRefresh;
 
 
-    saveSettings();
+    saveSettings(
+        settings
+    );
 
 
     applyTheme(
         theme
-    );
-
-
-    showSaveStatus(
-        'Pengaturan tampilan berhasil disimpan.'
     );
 
 }
@@ -4062,54 +3827,296 @@ function saveDisplaySettings(){
    APPLY THEME
 ===================================================== */
 
-function applyTheme(
-    theme
-){
+function applyTheme(theme){
 
-    /*
-     * Untuk sementara light tetap
-     * menggunakan desain utama.
-     *
-     * Dark akan ditambahkan pada
-     * class body.
-     */
+    if(theme === 'dark'){
+
+        document.body.classList.add(
+            'dark-mode'
+        );
+
+        return;
+
+    }
+
+
+    if(theme === 'system'){
+
+        const dark =
+            window.matchMedia(
+                '(prefers-color-scheme: dark)'
+            ).matches;
+
+
+        document.body.classList.toggle(
+            'dark-mode',
+            dark
+        );
+
+        return;
+
+    }
+
 
     document.body.classList.remove(
-        'theme-dark'
+        'dark-mode'
+    );
+
+}
+
+
+/* =====================================================
+   THEME CHANGE LIVE
+===================================================== */
+
+const themeSelect =
+    document.getElementById(
+        'themeSelect'
     );
 
 
+if(themeSelect){
+
+    themeSelect.addEventListener(
+        'change',
+        function(){
+
+            applyTheme(
+                this.value
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SAVE ALL SETTINGS
+===================================================== */
+
+function saveAllSettings(){
+
+    /*
+       Pastikan threshold benar
+    */
+
     if(
-        theme ===
-        'dark'
+        !validateThreshold()
     ){
 
-        document.body.classList.add(
-            'theme-dark'
+        return;
+
+    }
+
+
+    const settings =
+        getSettings();
+
+
+    /* PROFILE */
+
+    settings.nama =
+        document.getElementById(
+            'nameInput'
+        ).value.trim();
+
+
+    settings.email =
+        document.getElementById(
+            'emailInput'
+        ).value.trim();
+
+
+    /* NOTIFICATION */
+
+    settings.emailAlert =
+        document.getElementById(
+            'emailAlert'
+        ).checked;
+
+
+    settings.whatsappAlert =
+        document.getElementById(
+            'whatsappAlert'
+        ).checked;
+
+
+    settings.browserNotification =
+        document.getElementById(
+            'browserNotification'
+        ).checked;
+
+
+    settings.emergencyAlarm =
+        document.getElementById(
+            'emergencyAlarm'
+        ).checked;
+
+
+    /* THRESHOLD */
+
+    settings.thresholdAman =
+        Number(
+            document.getElementById(
+                'thresholdAman'
+            ).value
+        );
+
+
+    settings.thresholdWaspada =
+        Number(
+            document.getElementById(
+                'thresholdWaspada'
+            ).value
+        );
+
+
+    settings.thresholdBahaya =
+        Number(
+            document.getElementById(
+                'thresholdBahaya'
+            ).value
+        );
+
+
+    /* SENSOR */
+
+    settings.refreshInterval =
+        Number(
+            document.getElementById(
+                'refreshInterval'
+            ).value
+        );
+
+
+    settings.sensorLocation =
+        document.getElementById(
+            'sensorLocation'
+        ).value.trim();
+
+
+    settings.sensorId =
+        document.getElementById(
+            'sensorId'
+        ).value.trim();
+
+
+    settings.waterUnit =
+        document.getElementById(
+            'waterUnit'
+        ).value;
+
+
+    /* LOCATION */
+
+    settings.latitude =
+        Number(
+            document.getElementById(
+                'latitudeInput'
+            ).value
+        );
+
+
+    settings.longitude =
+        Number(
+            document.getElementById(
+                'longitudeInput'
+            ).value
+        );
+
+
+    /* ALARM */
+
+    settings.alarmVolume =
+        Number(
+            document.getElementById(
+                'alarmVolume'
+            ).value
+        );
+
+
+    settings.alarmDuration =
+        Number(
+            document.getElementById(
+                'alarmDuration'
+            ).value
+        );
+
+
+    /* DISPLAY */
+
+    settings.theme =
+        document.getElementById(
+            'themeSelect'
+        ).value;
+
+
+    settings.autoRefresh =
+        document.getElementById(
+            'autoRefresh'
+        ).value;
+
+
+    /* SIMPAN */
+
+    if(
+        saveSettings(
+            settings
+        )
+    ){
+
+        document.getElementById(
+            'userName'
+        ).innerText =
+            settings.nama || 'Guest';
+
+
+        applyTheme(
+            settings.theme
         );
 
     }
 
+}
 
-    if(
-        theme ===
-        'system'
-    ){
 
-        if(
-            window.matchMedia &&
-            window.matchMedia(
-                '(prefers-color-scheme: dark)'
-            ).matches
-        ){
+/* =====================================================
+   RELOAD SETTINGS
+===================================================== */
 
-            document.body.classList.add(
-                'theme-dark'
-            );
+function reloadSettings(){
 
-        }
+    loadAllSettings();
 
-    }
+    showSaveStatus(
+        'Pengaturan dimuat ulang.'
+    );
+
+}
+
+
+/* =====================================================
+   LOAD ALL SETTINGS
+===================================================== */
+
+function loadAllSettings(){
+
+    loadUserProfile();
+
+    loadAvatar();
+
+    loadNotificationSettings();
+
+    loadThreshold();
+
+    loadSensorSettings();
+
+    loadLocation();
+
+    loadAlarmSettings();
+
+    loadDisplaySettings();
 
 }
 
@@ -4122,7 +4129,7 @@ function resetSettings(){
 
     const confirmation =
         confirm(
-            'Yakin ingin mengembalikan semua pengaturan FLOWS-PRO ke nilai awal?'
+            'Yakin ingin mengembalikan semua pengaturan ke nilai awal?'
         );
 
 
@@ -4133,37 +4140,41 @@ function resetSettings(){
     }
 
 
-    flowsSettings =
-        cloneDefaultSettings();
-
-
     localStorage.removeItem(
-        SETTINGS_KEY
+        'flowspro_settings'
     );
 
-
-    /*
-     * Hapus avatar yang disimpan.
-     */
 
     localStorage.removeItem(
         'flowspro_avatar'
     );
 
 
-    /*
-     * Isi kembali HTML.
-     */
-
-    populateSettings();
+    loadAllSettings();
 
 
     /*
-     * Terapkan tema.
-     */
+       Kembalikan avatar default
+    */
+
+    const defaultAvatar =
+        'https://i.pravatar.cc/150?img=12';
+
+
+    document.getElementById(
+        'userPhoto'
+    ).src =
+        defaultAvatar;
+
+
+    document.getElementById(
+        'avatarPreview'
+    ).src =
+        defaultAvatar;
+
 
     applyTheme(
-        flowsSettings.display.theme
+        'light'
     );
 
 
@@ -4175,171 +4186,188 @@ function resetSettings(){
 
 
 /* =====================================================
-   KETIKA HALAMAN SELESAI DIMUAT
+   REQUEST BROWSER NOTIFICATION
 ===================================================== */
 
-loadLoginProfile();
+const browserNotification =
+    document.getElementById(
+        'browserNotification'
+    );
 
-populateSettings();
+
+if(browserNotification){
+
+    browserNotification.addEventListener(
+        'change',
+        async function(){
+
+            if(
+                this.checked &&
+                'Notification' in window
+            ){
+
+                try{
+
+                    const permission =
+                        await Notification.requestPermission();
+
+
+                    if(
+                        permission !== 'granted'
+                    ){
+
+                        this.checked = false;
+
+
+                        const settings =
+                            getSettings();
+
+
+                        settings.browserNotification =
+                            false;
+
+
+                        saveSettings(
+                            settings
+                        );
+
+
+                        alert(
+                            'Izin notifikasi browser belum diberikan.'
+                        );
+
+                    }
+
+                }catch(error){
+
+                    console.log(
+                        'Notification error:',
+                        error
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+}
 
 
 /* =====================================================
-   NAMA USER NAVBAR
+   SYSTEM STATUS
 ===================================================== */
 
-function updateNavbarUser(){
+function updateSystemStatus(){
 
-    const userName =
+    const status =
         document.getElementById(
-            'userName'
+            'systemStatus'
         );
 
 
-    if(
-        userName &&
-        flowsSettings.profile.nama
-    ){
+    if(!status){
 
-        userName.innerText =
-            flowsSettings.profile.nama;
+        return;
 
     }
 
+
+    status.innerText =
+        'Sistem FLOWS-PRO siap digunakan';
+
 }
 
 
-updateNavbarUser();
-
-
 /* =====================================================
-   TERAPKAN TEMA SAAT LOAD
+   INITIALIZATION
 ===================================================== */
 
-applyTheme(
-    flowsSettings.display.theme
+document.addEventListener(
+    'DOMContentLoaded',
+    function(){
+
+        loadAllSettings();
+
+        updateSystemStatus();
+
+    }
 );
 
-
-/* =====================================================
-   SIMPAN NOTIFIKASI KETIKA DIUBAH
-===================================================== */
-
-function saveNotificationOnChange(){
-
-    flowsSettings.notification.emailAlert =
-        document.getElementById(
-            'emailAlert'
-        ).checked;
-
-
-    flowsSettings.notification.whatsappAlert =
-        document.getElementById(
-            'whatsappAlert'
-        ).checked;
-
-
-    flowsSettings.notification.emergencyAlarm =
-        document.getElementById(
-            'emergencyAlarm'
-        ).checked;
-
-
-    flowsSettings.notification.browserNotification =
-        document.getElementById(
-            'browserNotification'
-        ).checked;
-
-
-    saveSettings();
-
-}
-
-
-/* =====================================================
-   END PART 2
-===================================================== */
-
 </script>
-
-
 <!-- =====================================================
-     PART 3 DIMULAI DI SINI
-===================================================== -->
-<!-- =====================================================
-     PART 3 — DARK MODE, SINKRONISASI & BACKUP SETTINGS
+     PART 4 — DARK MODE + FINAL + PENUTUP
 ===================================================== -->
 
-<script>
+
+<style>
 
 /* =====================================================
    DARK MODE
 ===================================================== */
 
-const darkModeStyle = document.createElement('style');
+body.dark-mode{
 
-darkModeStyle.id = 'flowspro-dark-mode';
-
-darkModeStyle.innerHTML = `
-
-/* ============================================
-   DARK MODE
-============================================ */
-
-body.theme-dark{
-
-    background:#0b1724;
+    background:#091521;
 
     color:#e8eef5;
 
 }
 
 
-/* NAVBAR */
+/* =====================================================
+   DARK MODE — NAVBAR
+===================================================== */
 
-body.theme-dark .navbar{
+body.dark-mode .navbar{
 
     background:#102235;
 
     box-shadow:
     0 2px 10px
-    rgba(0,0,0,0.30);
+    rgba(0,0,0,.35);
 
 }
 
 
-body.theme-dark .nav-title{
+body.dark-mode .nav-title{
 
     color:#ffffff;
 
 }
 
 
-/* PROFILE */
+/* =====================================================
+   DARK MODE — PROFILE
+===================================================== */
 
-body.theme-dark .profile{
+body.dark-mode .profile{
 
     background:#172c40;
 
 }
 
 
-body.theme-dark .profile h4{
+body.dark-mode .profile h4{
 
     color:#ffffff;
 
 }
 
 
-body.theme-dark .profile p{
+body.dark-mode .profile p{
 
-    color:#9eacb9;
+    color:#9eacb9 !important;
 
 }
 
 
-/* CARD */
+/* =====================================================
+   DARK MODE — CARD
+===================================================== */
 
-body.theme-dark .card{
+body.dark-mode .card{
 
     background:#102235;
 
@@ -4347,49 +4375,76 @@ body.theme-dark .card{
 
     box-shadow:
     0 5px 20px
-    rgba(0,0,0,0.25);
+    rgba(0,0,0,.30);
 
 }
 
 
-body.theme-dark .card-title{
+body.dark-mode .card-title{
 
     color:#ffffff;
 
 }
 
 
-/* FORM */
+body.dark-mode .card-title i{
 
-body.theme-dark input,
-body.theme-dark select{
-
-    background:#172c40;
-
-    color:#ffffff;
-
-    border-color:#294258;
+    color:#00c6ff;
 
 }
 
 
-body.theme-dark input::placeholder{
+/* =====================================================
+   DARK MODE — LABEL
+===================================================== */
 
-    color:#8293a3;
-
-}
-
-
-body.theme-dark .form-group label{
+body.dark-mode label{
 
     color:#dbe5ee;
 
 }
 
 
-/* TOGGLE */
+/* =====================================================
+   DARK MODE — INPUT
+===================================================== */
 
-body.theme-dark .toggle{
+body.dark-mode input,
+body.dark-mode select{
+
+    background:#172c40;
+
+    color:#ffffff;
+
+    border-color:#345067;
+
+}
+
+
+body.dark-mode input::placeholder{
+
+    color:#8293a3;
+
+}
+
+
+body.dark-mode input:focus,
+body.dark-mode select:focus{
+
+    border-color:#00c6ff;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(0,198,255,.10);
+
+}
+
+
+/* =====================================================
+   DARK MODE — TOGGLE
+===================================================== */
+
+body.dark-mode .toggle{
 
     background:#172c40;
 
@@ -4398,23 +4453,25 @@ body.theme-dark .toggle{
 }
 
 
-body.theme-dark .toggle h4{
+body.dark-mode .toggle h4{
 
     color:#ffffff;
 
 }
 
 
-body.theme-dark .toggle p{
+body.dark-mode .toggle p{
 
     color:#9eacb9;
 
 }
 
 
-/* THRESHOLD */
+/* =====================================================
+   DARK MODE — THRESHOLD
+===================================================== */
 
-body.theme-dark .threshold-box{
+body.dark-mode .threshold-box{
 
     background:#172c40;
 
@@ -4423,41 +4480,94 @@ body.theme-dark .threshold-box{
 }
 
 
-body.theme-dark .threshold-preview{
-
-    background:#172c40;
-
-}
-
-
-body.theme-dark .preview-row{
-
-    border-color:#294258;
-
-}
-
-
-/* INFO */
-
-body.theme-dark .info-box{
-
-    background:#172c40;
-
-    color:#b9c6d2;
-
-}
-
-
-body.theme-dark .info-box strong{
+body.dark-mode .threshold-box label{
 
     color:#ffffff;
 
 }
 
 
-/* BUTTON SECONDARY */
+body.dark-mode .threshold-preview{
 
-body.theme-dark .btn-secondary{
+    background:#172c40;
+
+}
+
+
+body.dark-mode .preview-row{
+
+    border-color:#294258;
+
+}
+
+
+body.dark-mode .preview-row span:first-child{
+
+    color:#e8eef5;
+
+}
+
+
+/* =====================================================
+   DARK MODE — INFO BOX
+===================================================== */
+
+body.dark-mode .info-box{
+
+    background:#172c40;
+
+    color:#aebdca;
+
+}
+
+
+body.dark-mode .info-box strong{
+
+    color:#ffffff;
+
+}
+
+
+/* =====================================================
+   DARK MODE — SAVE STATUS
+===================================================== */
+
+body.dark-mode .save-status{
+
+    background:#143a2a;
+
+    color:#6be6a3;
+
+}
+
+
+/* =====================================================
+   DARK MODE — BOTTOM ACTION
+===================================================== */
+
+body.dark-mode .bottom-actions{
+
+    background:#102235;
+
+    box-shadow:
+    0 5px 20px
+    rgba(0,0,0,.30);
+
+}
+
+
+body.dark-mode .bottom-actions-title{
+
+    color:#ffffff;
+
+}
+
+
+/* =====================================================
+   DARK MODE — SECONDARY BUTTON
+===================================================== */
+
+body.dark-mode .btn-secondary{
 
     background:#263c50;
 
@@ -4466,9 +4576,18 @@ body.theme-dark .btn-secondary{
 }
 
 
-/* DANGER */
+body.dark-mode .btn-secondary:hover{
 
-body.theme-dark .danger-zone{
+    background:#324d64;
+
+}
+
+
+/* =====================================================
+   DARK MODE — DANGER
+===================================================== */
+
+body.dark-mode .danger-zone{
 
     background:
     linear-gradient(
@@ -4477,14 +4596,16 @@ body.theme-dark .danger-zone{
         #241719
     );
 
-    border-color:#573333;
+    border-color:#593333;
 
 }
 
 
-/* SAVE STATUS */
+/* =====================================================
+   DARK MODE — STATUS
+===================================================== */
 
-body.theme-dark .save-status{
+body.dark-mode .status-box{
 
     background:#143a2a;
 
@@ -4492,62 +4613,400 @@ body.theme-dark .save-status{
 
 }
 
-`;
 
+/* =====================================================
+   DARK MODE — FILE INPUT
+===================================================== */
 
-/* Masukkan CSS ke halaman */
+body.dark-mode input[type="file"]{
 
-document.head.appendChild(
-    darkModeStyle
-);
+    color:#ffffff;
+
+}
 
 
 /* =====================================================
-   APPLY THEME — VERSI LENGKAP
+   DARK MODE — SCROLLBAR
 ===================================================== */
 
-function applyTheme(theme){
+body.dark-mode ::-webkit-scrollbar{
 
-    document.body.classList.remove(
-        'theme-dark'
-    );
+    width:8px;
+
+}
 
 
-    if(
-        theme === 'dark'
-    ){
+body.dark-mode ::-webkit-scrollbar-track{
 
-        document.body.classList.add(
-            'theme-dark'
-        );
+    background:#0b1825;
 
-        return;
+}
+
+
+body.dark-mode ::-webkit-scrollbar-thumb{
+
+    background:#294258;
+
+    border-radius:10px;
+
+}
+
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover{
+
+    background:#3d5c74;
+
+}
+
+
+/* =====================================================
+   NORMAL SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+
+::-webkit-scrollbar-track{
+
+    background:#edf3f8;
+
+}
+
+
+::-webkit-scrollbar-thumb{
+
+    background:#b7c6d4;
+
+    border-radius:10px;
+
+}
+
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#8fa5b7;
+
+}
+
+
+/* =====================================================
+   FINAL RESPONSIVE
+===================================================== */
+
+@media(max-width:1000px){
+
+    .sidebar{
+
+        width:90px;
 
     }
 
 
-    if(
-        theme === 'system'
-    ){
+    .sidebar span{
 
-        const prefersDark =
-            window.matchMedia &&
-            window.matchMedia(
-                '(prefers-color-scheme: dark)'
-            ).matches;
+        display:none;
+
+    }
 
 
-        if(prefersDark){
+    .main{
 
-            document.body.classList.add(
-                'theme-dark'
-            );
+        margin-left:90px;
 
-        }
+        width:
+        calc(100% - 90px);
+
+    }
+
+
+    .logo img{
+
+        width:55px;
+
+    }
+
+
+    .menu-item{
+
+        justify-content:center;
+
+        padding:
+        16px 10px;
 
     }
 
 }
+
+
+@media(max-width:700px){
+
+    .navbar{
+
+        min-height:75px;
+
+        padding:
+        10px 15px;
+
+    }
+
+
+    .nav-title{
+
+        font-size:17px;
+
+    }
+
+
+    .profile{
+
+        padding:4px;
+
+    }
+
+
+    .profile img{
+
+        width:42px;
+
+        height:42px;
+
+    }
+
+
+    .profile div{
+
+        display:none;
+
+    }
+
+
+    .content{
+
+        padding:15px;
+
+        padding-bottom:60px;
+
+    }
+
+
+    .settings-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .threshold-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .bottom-actions{
+
+        padding:18px;
+
+    }
+
+
+    .button-group{
+
+        flex-direction:column;
+
+    }
+
+
+    .button-group button{
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+}
+
+
+/* =====================================================
+   END CSS
+===================================================== */
+
+</style>
+
+
+
+<script>
+
+/* =====================================================
+   FINAL CHECK SETTINGS
+===================================================== */
+
+function finalSettingsCheck(){
+
+    const settings =
+        getSettings();
+
+
+    console.log(
+        '======================================'
+    );
+
+
+    console.log(
+        '      FLOWS-PRO SETTINGS STATUS'
+    );
+
+
+    console.log(
+        '======================================'
+    );
+
+
+    console.log(
+        'Nama              :',
+        settings.nama
+    );
+
+
+    console.log(
+        'Email             :',
+        settings.email
+    );
+
+
+    console.log(
+        'Sensor ID         :',
+        settings.sensorId
+    );
+
+
+    console.log(
+        'Lokasi Sensor     :',
+        settings.sensorLocation
+    );
+
+
+    console.log(
+        'Threshold Aman    :',
+        settings.thresholdAman,
+        'cm'
+    );
+
+
+    console.log(
+        'Threshold Waspada :',
+        settings.thresholdWaspada,
+        'cm'
+    );
+
+
+    console.log(
+        'Threshold Bahaya  :',
+        settings.thresholdBahaya,
+        'cm'
+    );
+
+
+    console.log(
+        'Refresh           :',
+        settings.refreshInterval,
+        'detik'
+    );
+
+
+    console.log(
+        'Latitude          :',
+        settings.latitude
+    );
+
+
+    console.log(
+        'Longitude         :',
+        settings.longitude
+    );
+
+
+    console.log(
+        'Alarm Volume      :',
+        settings.alarmVolume,
+        '%'
+    );
+
+
+    console.log(
+        'Alarm Duration    :',
+        settings.alarmDuration,
+        'detik'
+    );
+
+
+    console.log(
+        'Theme             :',
+        settings.theme
+    );
+
+
+    console.log(
+        'Auto Refresh      :',
+        settings.autoRefresh
+    );
+
+
+    console.log(
+        '======================================'
+    );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+window.addEventListener(
+    'load',
+    function(){
+
+        /*
+         * Load semua pengaturan.
+         */
+
+        loadAllSettings();
+
+
+        /*
+         * Terapkan tema.
+         */
+
+        const settings =
+            getSettings();
+
+
+        applyTheme(
+            settings.theme
+        );
+
+
+        /*
+         * Update status.
+         */
+
+        updateSystemStatus();
+
+
+        /*
+         * Debug.
+         */
+
+        finalSettingsCheck();
+
+    }
+);
 
 
 /* =====================================================
@@ -4558,18 +5017,22 @@ if(
     window.matchMedia
 ){
 
-    const mediaQuery =
+    const systemTheme =
         window.matchMedia(
             '(prefers-color-scheme: dark)'
         );
 
 
-    mediaQuery.addEventListener(
+    systemTheme.addEventListener(
         'change',
         function(){
 
+            const settings =
+                getSettings();
+
+
             if(
-                flowsSettings.display.theme ===
+                settings.theme ===
                 'system'
             ){
 
@@ -4586,1008 +5049,12 @@ if(
 
 
 /* =====================================================
-   VALIDASI THRESHOLD
-===================================================== */
-
-function validateThreshold(){
-
-    const aman =
-        Number(
-            flowsSettings.threshold.aman
-        );
-
-
-    const waspada =
-        Number(
-            flowsSettings.threshold.waspada
-        );
-
-
-    const bahaya =
-        Number(
-            flowsSettings.threshold.bahaya
-        );
-
-
-    if(
-        !Number.isFinite(aman) ||
-        !Number.isFinite(waspada) ||
-        !Number.isFinite(bahaya)
-    ){
-
-        return false;
-
-    }
-
-
-    if(
-        aman >= waspada
-    ){
-
-        return false;
-
-    }
-
-
-    if(
-        waspada >= bahaya
-    ){
-
-        return false;
-
-    }
-
-
-    return true;
-
-}
-
-
-/* =====================================================
-   TENTUKAN STATUS AIR
-===================================================== */
-
-function getWaterStatus(
-    tinggiAir
-){
-
-    const value =
-        Number(
-            tinggiAir
-        );
-
-
-    if(
-        !Number.isFinite(value)
-    ){
-
-        return 'UNKNOWN';
-
-    }
-
-
-    const threshold =
-        flowsSettings.threshold;
-
-
-    /*
-     * AMAN
-     */
-
-    if(
-        value <
-        Number(
-            threshold.aman
-        )
-    ){
-
-        return 'AMAN';
-
-    }
-
-
-    /*
-     * WASPADA
-     */
-
-    if(
-        value <
-        Number(
-            threshold.waspada
-        )
-    ){
-
-        return 'WASPADA';
-
-    }
-
-
-    /*
-     * BAHAYA
-     */
-
-    if(
-        value >=
-        Number(
-            threshold.bahaya
-        )
-    ){
-
-        return 'BAHAYA';
-
-    }
-
-
-    /*
-     * Nilai antara batas waspada
-     * dan bahaya tetap dianggap
-     * WASPADA.
-     */
-
-    return 'WASPADA';
-
-}
-
-
-/* =====================================================
-   STATUS INFORMATION
-===================================================== */
-
-function getThresholdInfo(){
-
-    return {
-
-        aman:
-            Number(
-                flowsSettings.threshold.aman
-            ),
-
-        waspada:
-            Number(
-                flowsSettings.threshold.waspada
-            ),
-
-        bahaya:
-            Number(
-                flowsSettings.threshold.bahaya
-            )
-
-    };
-
-}
-
-
-/* =====================================================
-   STORAGE EVENT
-===================================================== */
-
-/*
- * Jika Settings berubah pada tab lain,
- * halaman ini bisa mendeteksi perubahan
- * localStorage.
- */
-
-window.addEventListener(
-    'storage',
-    function(event){
-
-        if(
-            event.key !==
-            SETTINGS_KEY
-        ){
-
-            return;
-
-        }
-
-
-        try{
-
-            const updated =
-                JSON.parse(
-                    event.newValue
-                );
-
-
-            if(
-                updated
-            ){
-
-                flowsSettings =
-                    {
-
-                        ...cloneDefaultSettings(),
-
-                        ...updated
-
-                    };
-
-
-                /*
-                 * Pastikan nested object
-                 * tetap lengkap.
-                 */
-
-                flowsSettings.profile =
-                    {
-
-                        ...DEFAULT_SETTINGS.profile,
-
-                        ...(updated.profile || {})
-
-                    };
-
-
-                flowsSettings.notification =
-                    {
-
-                        ...DEFAULT_SETTINGS.notification,
-
-                        ...(updated.notification || {})
-
-                    };
-
-
-                flowsSettings.threshold =
-                    {
-
-                        ...DEFAULT_SETTINGS.threshold,
-
-                        ...(updated.threshold || {})
-
-                    };
-
-
-                flowsSettings.sensor =
-                    {
-
-                        ...DEFAULT_SETTINGS.sensor,
-
-                        ...(updated.sensor || {})
-
-                    };
-
-
-                flowsSettings.location =
-                    {
-
-                        ...DEFAULT_SETTINGS.location,
-
-                        ...(updated.location || {})
-
-                    };
-
-
-                flowsSettings.alarm =
-                    {
-
-                        ...DEFAULT_SETTINGS.alarm,
-
-                        ...(updated.alarm || {})
-
-                    };
-
-
-                flowsSettings.display =
-                    {
-
-                        ...DEFAULT_SETTINGS.display,
-
-                        ...(updated.display || {})
-
-                    };
-
-
-                populateSettings();
-
-
-                applyTheme(
-                    flowsSettings.display.theme
-                );
-
-
-                updateNavbarUser();
-
-            }
-
-        }
-
-        catch(error){
-
-            console.error(
-                'Gagal sinkronisasi Settings:',
-                error
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   EXPORT SETTINGS / BACKUP
-===================================================== */
-
-function backupSettings(){
-
-    try{
-
-        /*
-         * Buat object backup.
-         */
-
-        const backup = {
-
-            aplikasi:
-                'FLOWS-PRO',
-
-            versi:
-                '1.0',
-
-            tanggal:
-                new Date()
-                .toISOString(),
-
-            settings:
-                flowsSettings
-
-        };
-
-
-        /*
-         * Convert ke JSON.
-         */
-
-        const json =
-            JSON.stringify(
-                backup,
-                null,
-                2
-            );
-
-
-        /*
-         * Buat file.
-         */
-
-        const blob =
-            new Blob(
-                [
-                    json
-                ],
-                {
-                    type:
-                    'application/json'
-                }
-            );
-
-
-        const url =
-            URL.createObjectURL(
-                blob
-            );
-
-
-        const link =
-            document.createElement(
-                'a'
-            );
-
-
-        link.href =
-            url;
-
-
-        link.download =
-            'FLOWS-PRO_Settings_Backup.json';
-
-
-        document.body.appendChild(
-            link
-        );
-
-
-        link.click();
-
-
-        document.body.removeChild(
-            link
-        );
-
-
-        URL.revokeObjectURL(
-            url
-        );
-
-
-        showSaveStatus(
-            'Backup pengaturan berhasil dibuat.'
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            'Backup pengaturan gagal.'
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   IMPORT SETTINGS
-===================================================== */
-
-function restoreSettings(
-    file
-){
-
-    if(!file){
-
-        return;
-
-    }
-
-
-    if(
-        file.type !==
-        'application/json'
-    ){
-
-        alert(
-            'File backup harus berformat JSON.'
-        );
-
-
-        return;
-
-    }
-
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload =
-        function(event){
-
-            try{
-
-                const backup =
-                    JSON.parse(
-                        event.target.result
-                    );
-
-
-                /*
-                 * Validasi struktur.
-                 */
-
-                if(
-                    !backup ||
-                    !backup.settings
-                ){
-
-                    throw new Error(
-                        'Format backup tidak valid.'
-                    );
-
-                }
-
-
-                /*
-                 * Konfirmasi.
-                 */
-
-                const confirmation =
-                    confirm(
-                        'Pengaturan saat ini akan diganti dengan pengaturan dari backup. Lanjutkan?'
-                    );
-
-
-                if(!confirmation){
-
-                    return;
-
-                }
-
-
-                const imported =
-                    backup.settings;
-
-
-                flowsSettings = {
-
-                    ...cloneDefaultSettings(),
-
-                    ...imported
-
-                };
-
-
-                /*
-                 * Nested object.
-                 */
-
-                flowsSettings.profile =
-                    {
-
-                        ...DEFAULT_SETTINGS.profile,
-
-                        ...(imported.profile || {})
-
-                    };
-
-
-                flowsSettings.notification =
-                    {
-
-                        ...DEFAULT_SETTINGS.notification,
-
-                        ...(imported.notification || {})
-
-                    };
-
-
-                flowsSettings.threshold =
-                    {
-
-                        ...DEFAULT_SETTINGS.threshold,
-
-                        ...(imported.threshold || {})
-
-                    };
-
-
-                flowsSettings.sensor =
-                    {
-
-                        ...DEFAULT_SETTINGS.sensor,
-
-                        ...(imported.sensor || {})
-
-                    };
-
-
-                flowsSettings.location =
-                    {
-
-                        ...DEFAULT_SETTINGS.location,
-
-                        ...(imported.location || {})
-
-                    };
-
-
-                flowsSettings.alarm =
-                    {
-
-                        ...DEFAULT_SETTINGS.alarm,
-
-                        ...(imported.alarm || {})
-
-                    };
-
-
-                flowsSettings.display =
-                    {
-
-                        ...DEFAULT_SETTINGS.display,
-
-                        ...(imported.display || {})
-
-                    };
-
-
-                /*
-                 * Validasi threshold.
-                 */
-
-                if(
-                    !validateThreshold()
-                ){
-
-                    alert(
-                        'Backup ditolak karena nilai threshold tidak valid.'
-                    );
-
-
-                    flowsSettings =
-                        loadSettings();
-
-
-                    return;
-
-                }
-
-
-                /*
-                 * Simpan.
-                 */
-
-                saveSettings();
-
-
-                /*
-                 * Update tampilan.
-                 */
-
-                populateSettings();
-
-
-                updateNavbarUser();
-
-
-                applyTheme(
-                    flowsSettings.display.theme
-                );
-
-
-                showSaveStatus(
-                    'Backup berhasil dipulihkan.'
-                );
-
-            }
-
-            catch(error){
-
-                console.error(
-                    error
-                );
-
-
-                alert(
-                    'Backup tidak dapat dipulihkan.\n\n' +
-                    error.message
-                );
-
-            }
-
-        };
-
-
-    reader.readAsText(
-        file
-    );
-
-}
-
-
-/* =====================================================
-   VALIDASI LOKASI
-===================================================== */
-
-function validateLocation(){
-
-    const latitude =
-        Number(
-            flowsSettings.location.latitude
-        );
-
-
-    const longitude =
-        Number(
-            flowsSettings.location.longitude
-        );
-
-
-    return (
-
-        Number.isFinite(
-            latitude
-        )
-
-        &&
-
-        Number.isFinite(
-            longitude
-        )
-
-        &&
-
-        latitude >= -90
-
-        &&
-
-        latitude <= 90
-
-        &&
-
-        longitude >= -180
-
-        &&
-
-        longitude <= 180
-
-    );
-
-}
-
-
-/* =====================================================
-   VALIDASI SEMUA SETTINGS
-===================================================== */
-
-function validateAllSettings(){
-
-    /*
-     * Threshold
-     */
-
-    if(
-        !validateThreshold()
-    ){
-
-        alert(
-            'Threshold tidak valid.\n\n' +
-            'Pastikan AMAN < WASPADA < BAHAYA.'
-        );
-
-
-        return false;
-
-    }
-
-
-    /*
-     * Lokasi
-     */
-
-    if(
-        !validateLocation()
-    ){
-
-        alert(
-            'Koordinat lokasi sensor tidak valid.'
-        );
-
-
-        return false;
-
-    }
-
-
-    /*
-     * Sensor refresh
-     */
-
-    const refresh =
-        Number(
-            flowsSettings.sensor.refreshInterval
-        );
-
-
-    if(
-        !Number.isFinite(refresh) ||
-        refresh < 1 ||
-        refresh > 300
-    ){
-
-        alert(
-            'Interval sensor harus 1–300 detik.'
-        );
-
-
-        return false;
-
-    }
-
-
-    return true;
-
-}
-
-
-/* =====================================================
-   SIMPAN SEMUA SETTINGS
-===================================================== */
-
-function saveAllSettings(){
-
-    /*
-     * Ambil nilai dari form.
-     */
-
-    flowsSettings.profile.nama =
-        document.getElementById(
-            'nameInput'
-        ).value.trim();
-
-
-    flowsSettings.profile.email =
-        document.getElementById(
-            'emailInput'
-        ).value.trim();
-
-
-    flowsSettings.notification.emailAlert =
-        document.getElementById(
-            'emailAlert'
-        ).checked;
-
-
-    flowsSettings.notification.whatsappAlert =
-        document.getElementById(
-            'whatsappAlert'
-        ).checked;
-
-
-    flowsSettings.notification.emergencyAlarm =
-        document.getElementById(
-            'emergencyAlarm'
-        ).checked;
-
-
-    flowsSettings.notification.browserNotification =
-        document.getElementById(
-            'browserNotification'
-        ).checked;
-
-
-    flowsSettings.threshold.aman =
-        Number(
-            document.getElementById(
-                'thresholdAman'
-            ).value
-        );
-
-
-    flowsSettings.threshold.waspada =
-        Number(
-            document.getElementById(
-                'thresholdWaspada'
-            ).value
-        );
-
-
-    flowsSettings.threshold.bahaya =
-        Number(
-            document.getElementById(
-                'thresholdBahaya'
-            ).value
-        );
-
-
-    flowsSettings.sensor.refreshInterval =
-        Number(
-            document.getElementById(
-                'refreshInterval'
-            ).value
-        );
-
-
-    flowsSettings.sensor.sensorLocation =
-        document.getElementById(
-            'sensorLocation'
-        ).value.trim();
-
-
-    flowsSettings.sensor.sensorId =
-        document.getElementById(
-            'sensorId'
-        ).value.trim();
-
-
-    flowsSettings.sensor.waterUnit =
-        document.getElementById(
-            'waterUnit'
-        ).value;
-
-
-    flowsSettings.location.latitude =
-        Number(
-            document.getElementById(
-                'latitudeInput'
-            ).value
-        );
-
-
-    flowsSettings.location.longitude =
-        Number(
-            document.getElementById(
-                'longitudeInput'
-            ).value
-        );
-
-
-    flowsSettings.alarm.volume =
-        Number(
-            document.getElementById(
-                'alarmVolume'
-            ).value
-        );
-
-
-    flowsSettings.alarm.duration =
-        Number(
-            document.getElementById(
-                'alarmDuration'
-            ).value
-        );
-
-
-    flowsSettings.display.theme =
-        document.getElementById(
-            'themeSelect'
-        ).value;
-
-
-    flowsSettings.display.autoRefresh =
-        document.getElementById(
-            'autoRefresh'
-        ).value;
-
-
-    /*
-     * Validasi.
-     */
-
-    if(
-        !validateAllSettings()
-    ){
-
-        return false;
-
-    }
-
-
-    /*
-     * Simpan.
-     */
-
-    saveSettings();
-
-
-    /*
-     * Terapkan tema.
-     */
-
-    applyTheme(
-        flowsSettings.display.theme
-    );
-
-
-    /*
-     * Update preview.
-     */
-
-    updateThresholdPreview();
-
-    updateNavbarUser();
-
-    updateVolumeText();
-
-
-    showSaveStatus(
-        'Semua pengaturan berhasil disimpan.'
-    );
-
-
-    return true;
-
-}
-
-
-/* =====================================================
-   KEYBOARD SHORTCUT
+   CTRL + S
 ===================================================== */
 
 document.addEventListener(
     'keydown',
     function(event){
-
-        /*
-         * Ctrl + S
-         */
 
         if(
             event.ctrlKey &&
@@ -5595,7 +5062,6 @@ document.addEventListener(
         ){
 
             event.preventDefault();
-
 
             saveAllSettings();
 
@@ -5606,24 +5072,23 @@ document.addEventListener(
 
 
 /* =====================================================
-   SEBELUM HALAMAN DITUTUP
+   AUTO SAVE BEFORE LEAVE
 ===================================================== */
 
 window.addEventListener(
     'beforeunload',
     function(){
 
-        /*
-         * Pastikan settings yang sudah
-         * berada di memory tersimpan.
-         */
-
         try{
 
+            const settings =
+                getSettings();
+
+
             localStorage.setItem(
-                SETTINGS_KEY,
+                'flowspro_settings',
                 JSON.stringify(
-                    flowsSettings
+                    settings
                 )
             );
 
@@ -5632,7 +5097,8 @@ window.addEventListener(
         catch(error){
 
             console.log(
-                'Tidak dapat menyimpan Settings.'
+                'Gagal menyimpan settings:',
+                error
             );
 
         }
@@ -5642,1167 +5108,17 @@ window.addEventListener(
 
 
 /* =====================================================
-   UPDATE USER PROFILE
-===================================================== */
-
-function updateNavbarUser(){
-
-    const userName =
-        document.getElementById(
-            'userName'
-        );
-
-
-    if(
-        userName
-    ){
-
-        userName.innerText =
-            flowsSettings.profile.nama ||
-            'Operator';
-
-    }
-
-
-    const userPhoto =
-        document.getElementById(
-            'userPhoto'
-        );
-
-
-    if(
-        userPhoto &&
-        flowsSettings.profile.avatar
-    ){
-
-        userPhoto.src =
-            flowsSettings.profile.avatar;
-
-    }
-
-}
-
-
-/* =====================================================
-   DEBUG SETTINGS
-===================================================== */
-
-function showCurrentSettings(){
-
-    console.log(
-        '=============================='
-    );
-
-
-    console.log(
-        'FLOWS-PRO SETTINGS'
-    );
-
-
-    console.log(
-        '=============================='
-    );
-
-
-    console.log(
-        flowsSettings
-    );
-
-}
-
-
-/* =====================================================
-   INISIALISASI ULANG
-===================================================== */
-
-function initializeSettingsPage(){
-
-    /*
-     * Pastikan object settings ada.
-     */
-
-    if(
-        !flowsSettings
-    ){
-
-        flowsSettings =
-            cloneDefaultSettings();
-
-    }
-
-
-    /*
-     * Isi form.
-     */
-
-    populateSettings();
-
-
-    /*
-     * Terapkan tema.
-     */
-
-    applyTheme(
-        flowsSettings.display.theme
-    );
-
-
-    /*
-     * Update navbar.
-     */
-
-    updateNavbarUser();
-
-
-    /*
-     * Update preview.
-
-     */
-
-    updateThresholdPreview();
-
-
-    /*
-     * Update volume.
-
-     */
-
-    updateVolumeText();
-
-}
-
-
-/* =====================================================
-   JALANKAN
-===================================================== */
-
-initializeSettingsPage();
-
-
-/* =====================================================
-   END PART 3
+   END JAVASCRIPT
 ===================================================== */
 
 </script>
 
 
-<!-- =====================================================
-     PART 4 DIMULAI DI SINI
-===================================================== -->
-<!-- =====================================================
-     PART 4 — BACKUP, RESTORE & FINAL SETTINGS
-===================================================== -->
-
-<style>
-
-/* =====================================================
-   BACKUP CARD
-===================================================== */
-
-.backup-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(2,1fr);
-
-    gap:20px;
-
-}
-
-
-.backup-box{
-
-    padding:20px;
-
-    border-radius:16px;
-
-    background:#f8fbff;
-
-    border:
-    1px solid #e5edf5;
-
-}
-
-
-.backup-box h4{
-
-    color:#12395c;
-
-    margin-bottom:8px;
-
-    font-size:17px;
-
-}
-
-
-.backup-box p{
-
-    color:#777;
-
-    font-size:13px;
-
-    line-height:1.6;
-
-    margin-bottom:15px;
-
-}
-
-
-/* DARK MODE */
-
-body.theme-dark .backup-box{
-
-    background:#172c40;
-
-    border-color:#294258;
-
-}
-
-
-body.theme-dark .backup-box h4{
-
-    color:#ffffff;
-
-}
-
-
-body.theme-dark .backup-box p{
-
-    color:#9eacb9;
-
-}
-
-
-/* SAVE ALL */
-
-.save-all-card{
-
-    position:sticky;
-
-    bottom:20px;
-
-    z-index:100;
-
-    background:
-    rgba(255,255,255,0.96);
-
-    backdrop-filter:blur(10px);
-
-    border:
-    2px solid #dcecff;
-
-}
-
-
-body.theme-dark .save-all-card{
-
-    background:
-    rgba(16,34,53,0.96);
-
-    border-color:#294258;
-
-}
-
-
-.save-all{
-
-    width:100%;
-
-    font-size:16px;
-
-    padding:17px;
-
-}
-
-
-/* SETTINGS SUMMARY */
-
-.summary-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(4,1fr);
-
-    gap:15px;
-
-}
-
-
-.summary-item{
-
-    padding:18px;
-
-    background:#f8fbff;
-
-    border-radius:15px;
-
-}
-
-
-.summary-label{
-
-    color:#888;
-
-    font-size:12px;
-
-    margin-bottom:7px;
-
-}
-
-
-.summary-value{
-
-    color:#12395c;
-
-    font-size:20px;
-
-    font-weight:800;
-
-}
-
-
-body.theme-dark .summary-item{
-
-    background:#172c40;
-
-}
-
-
-body.theme-dark .summary-value{
-
-    color:#ffffff;
-
-}
-
-
-body.theme-dark .summary-label{
-
-    color:#9eacb9;
-
-}
-
-
-@media(max-width:900px){
-
-    .backup-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-
-    .summary-grid{
-
-        grid-template-columns:
-        1fr 1fr;
-
-    }
-
-}
-
-
-@media(max-width:600px){
-
-    .summary-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-}
-
-</style>
-
-
 
 <!-- =====================================================
-     BACKUP & RESTORE
+     HTML END
 ===================================================== -->
 
-<div class="card">
+</body>
 
-    <div class="card-title">
-
-        <i class="fa-solid fa-database"></i>
-
-        Backup & Restore Pengaturan
-
-    </div>
-
-
-    <div class="backup-grid">
-
-
-        <!-- BACKUP -->
-
-        <div class="backup-box">
-
-            <h4>
-
-                <i class="fa-solid fa-download"></i>
-
-                Backup Pengaturan
-
-            </h4>
-
-
-            <p>
-
-                Simpan seluruh konfigurasi FLOWS-PRO
-                ke dalam file JSON. File ini dapat
-                digunakan sebagai cadangan.
-
-            </p>
-
-
-            <button
-            onclick="backupSettings()">
-
-                <i class="fa-solid fa-download"></i>
-
-                Download Backup
-
-            </button>
-
-        </div>
-
-
-
-        <!-- RESTORE -->
-
-        <div class="backup-box">
-
-            <h4>
-
-                <i class="fa-solid fa-upload"></i>
-
-                Restore Pengaturan
-
-            </h4>
-
-
-            <p>
-
-                Masukkan file backup FLOWS-PRO
-                untuk mengembalikan pengaturan
-                sebelumnya.
-
-            </p>
-
-
-            <input
-            type="file"
-            id="restoreFile"
-            accept=".json,application/json"
-            onchange="restoreSettings(this.files[0])">
-
-        </div>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     RINGKASAN KONFIGURASI
-===================================================== -->
-
-<div class="card">
-
-    <div class="card-title">
-
-        <i class="fa-solid fa-list-check"></i>
-
-        Ringkasan Konfigurasi
-
-    </div>
-
-
-    <div class="summary-grid">
-
-
-        <!-- SENSOR -->
-
-        <div class="summary-item">
-
-            <div class="summary-label">
-
-                ID SENSOR
-
-            </div>
-
-
-            <div
-            class="summary-value"
-            id="summarySensor">
-
-                FS-001
-
-            </div>
-
-        </div>
-
-
-
-        <!-- LOKASI -->
-
-        <div class="summary-item">
-
-            <div class="summary-label">
-
-                LOKASI
-
-            </div>
-
-
-            <div
-            class="summary-value"
-            id="summaryLocation">
-
-                Dumai Timur
-
-            </div>
-
-        </div>
-
-
-
-        <!-- BAHAYA -->
-
-        <div class="summary-item">
-
-            <div class="summary-label">
-
-                BATAS BAHAYA
-
-            </div>
-
-
-            <div
-            class="summary-value"
-            id="summaryDanger">
-
-                100 cm
-
-            </div>
-
-        </div>
-
-
-
-        <!-- REFRESH -->
-
-        <div class="summary-item">
-
-            <div class="summary-label">
-
-                REFRESH SENSOR
-
-            </div>
-
-
-            <div
-            class="summary-value"
-            id="summaryRefresh">
-
-                5 detik
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     SIMPAN SEMUA
-===================================================== -->
-
-<div class="card save-all-card">
-
-
-    <button
-    class="save-all"
-    onclick="saveEverything()">
-
-        <i class="fa-solid fa-floppy-disk"></i>
-
-        SIMPAN SEMUA PENGATURAN
-
-    </button>
-
-
-</div>
-
-
-
-<script>
-
-/* =====================================================
-   UPDATE SUMMARY
-===================================================== */
-
-function updateSettingsSummary(){
-
-    /*
-     * Sensor ID
-     */
-
-    const summarySensor =
-        document.getElementById(
-            'summarySensor'
-        );
-
-
-    if(summarySensor){
-
-        summarySensor.innerText =
-            flowsSettings.sensor.sensorId ||
-            '-';
-
-    }
-
-
-    /*
-     * Lokasi
-     */
-
-    const summaryLocation =
-        document.getElementById(
-            'summaryLocation'
-        );
-
-
-    if(summaryLocation){
-
-        summaryLocation.innerText =
-            flowsSettings.sensor.sensorLocation ||
-            '-';
-
-    }
-
-
-    /*
-     * Batas bahaya
-     */
-
-    const summaryDanger =
-        document.getElementById(
-            'summaryDanger'
-        );
-
-
-    if(summaryDanger){
-
-        summaryDanger.innerText =
-
-            flowsSettings
-                .threshold
-                .bahaya
-
-            +
-
-            ' cm';
-
-    }
-
-
-    /*
-     * Refresh
-     */
-
-    const summaryRefresh =
-        document.getElementById(
-            'summaryRefresh'
-        );
-
-
-    if(summaryRefresh){
-
-        summaryRefresh.innerText =
-
-            flowsSettings
-                .sensor
-                .refreshInterval
-
-            +
-
-            ' detik';
-
-    }
-
-}
-
-
-/* =====================================================
-   SIMPAN SEMUA
-===================================================== */
-
-function saveEverything(){
-
-    /*
-     * PROFILE
-     */
-
-    const nameElement =
-        document.getElementById(
-            'nameInput'
-        );
-
-
-    const emailElement =
-        document.getElementById(
-            'emailInput'
-        );
-
-
-    if(nameElement){
-
-        flowsSettings.profile.nama =
-            nameElement.value.trim();
-
-    }
-
-
-    if(emailElement){
-
-        flowsSettings.profile.email =
-            emailElement.value.trim();
-
-    }
-
-
-    /*
-     * NOTIFICATION
-     */
-
-    const emailAlert =
-        document.getElementById(
-            'emailAlert'
-        );
-
-
-    const whatsappAlert =
-        document.getElementById(
-            'whatsappAlert'
-        );
-
-
-    const emergencyAlarm =
-        document.getElementById(
-            'emergencyAlarm'
-        );
-
-
-    const browserNotification =
-        document.getElementById(
-            'browserNotification'
-        );
-
-
-    if(emailAlert){
-
-        flowsSettings.notification.emailAlert =
-            emailAlert.checked;
-
-    }
-
-
-    if(whatsappAlert){
-
-        flowsSettings.notification.whatsappAlert =
-            whatsappAlert.checked;
-
-    }
-
-
-    if(emergencyAlarm){
-
-        flowsSettings.notification.emergencyAlarm =
-            emergencyAlarm.checked;
-
-    }
-
-
-    if(browserNotification){
-
-        flowsSettings.notification.browserNotification =
-            browserNotification.checked;
-
-    }
-
-
-    /*
-     * THRESHOLD
-     */
-
-    flowsSettings.threshold.aman =
-
-        Number(
-            document.getElementById(
-                'thresholdAman'
-            ).value
-        );
-
-
-    flowsSettings.threshold.waspada =
-
-        Number(
-            document.getElementById(
-                'thresholdWaspada'
-            ).value
-        );
-
-
-    flowsSettings.threshold.bahaya =
-
-        Number(
-            document.getElementById(
-                'thresholdBahaya'
-            ).value
-        );
-
-
-    /*
-     * SENSOR
-     */
-
-    flowsSettings.sensor.refreshInterval =
-
-        Number(
-            document.getElementById(
-                'refreshInterval'
-            ).value
-        );
-
-
-    flowsSettings.sensor.sensorLocation =
-
-        document.getElementById(
-            'sensorLocation'
-        ).value.trim();
-
-
-    flowsSettings.sensor.sensorId =
-
-        document.getElementById(
-            'sensorId'
-        ).value.trim();
-
-
-    flowsSettings.sensor.waterUnit =
-
-        document.getElementById(
-            'waterUnit'
-        ).value;
-
-
-    /*
-     * LOCATION
-     */
-
-    flowsSettings.location.latitude =
-
-        Number(
-            document.getElementById(
-                'latitudeInput'
-            ).value
-        );
-
-
-    flowsSettings.location.longitude =
-
-        Number(
-            document.getElementById(
-                'longitudeInput'
-            ).value
-        );
-
-
-    /*
-     * ALARM
-     */
-
-    flowsSettings.alarm.volume =
-
-        Number(
-            document.getElementById(
-                'alarmVolume'
-            ).value
-        );
-
-
-    flowsSettings.alarm.duration =
-
-        Number(
-            document.getElementById(
-                'alarmDuration'
-            ).value
-        );
-
-
-    /*
-     * DISPLAY
-     */
-
-    flowsSettings.display.theme =
-
-        document.getElementById(
-            'themeSelect'
-        ).value;
-
-
-    flowsSettings.display.autoRefresh =
-
-        document.getElementById(
-            'autoRefresh'
-        ).value;
-
-
-    /*
-     * VALIDASI SEMUA
-     */
-
-    if(
-        !validateAllSettings()
-    ){
-
-        return;
-
-    }
-
-
-    /*
-     * SIMPAN
-     */
-
-    saveSettings();
-
-
-    /*
-     * UPDATE USER
-     */
-
-    updateNavbarUser();
-
-
-    /*
-     * UPDATE PREVIEW
-     */
-
-    updateThresholdPreview();
-
-
-    updateVolumeText();
-
-
-    updateSettingsSummary();
-
-
-    /*
-     * APPLY THEME
-     */
-
-    applyTheme(
-        flowsSettings.display.theme
-    );
-
-
-    /*
-     * Browser notification
-     */
-
-    if(
-        flowsSettings
-            .notification
-            .browserNotification
-    ){
-
-        requestBrowserNotification();
-
-    }
-
-
-    showSaveStatus(
-        'Semua pengaturan FLOWS-PRO berhasil disimpan.'
-    );
-
-}
-
-
-/* =====================================================
-   UPDATE SUMMARY SETELAH LOAD
-===================================================== */
-
-updateSettingsSummary();
-
-
-/* =====================================================
-   UPDATE SUMMARY SAAT FORM BERUBAH
-===================================================== */
-
-[
-    'sensorId',
-    'sensorLocation',
-    'refreshInterval',
-    'thresholdBahaya'
-]
-.forEach(
-    function(id){
-
-        const element =
-            document.getElementById(
-                id
-            );
-
-
-        if(element){
-
-            element.addEventListener(
-                'input',
-                function(){
-
-                    /*
-                     * Ambil sementara
-                     * untuk preview.
-                     */
-
-                    if(id === 'sensorId'){
-
-                        flowsSettings
-                            .sensor
-                            .sensorId =
-                            element.value;
-
-                    }
-
-
-                    if(id === 'sensorLocation'){
-
-                        flowsSettings
-                            .sensor
-                            .sensorLocation =
-                            element.value;
-
-                    }
-
-
-                    if(id === 'refreshInterval'){
-
-                        flowsSettings
-                            .sensor
-                            .refreshInterval =
-                            Number(
-                                element.value
-                            );
-
-                    }
-
-
-                    if(id === 'thresholdBahaya'){
-
-                        flowsSettings
-                            .threshold
-                            .bahaya =
-                            Number(
-                                element.value
-                            );
-
-                    }
-
-
-                    updateSettingsSummary();
-
-                }
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   LOG SETTINGS KE CONSOLE
-===================================================== */
-
-function debugFLOWSSettings(){
-
-    console.log(
-        '================================'
-    );
-
-
-    console.log(
-        'FLOWS-PRO SETTINGS'
-    );
-
-
-    console.log(
-        '================================'
-    );
-
-
-    console.table({
-
-        'Nama':
-            flowsSettings.profile.nama,
-
-        'Email':
-            flowsSettings.profile.email,
-
-        'Sensor':
-            flowsSettings.sensor.sensorId,
-
-        'Lokasi':
-            flowsSettings.sensor.sensorLocation,
-
-        'Aman':
-            flowsSettings.threshold.aman,
-
-        'Waspada':
-            flowsSettings.threshold.waspada,
-
-        'Bahaya':
-            flowsSettings.threshold.bahaya,
-
-        'Refresh':
-            flowsSettings.sensor.refreshInterval,
-
-        'Latitude':
-            flowsSettings.location.latitude,
-
-        'Longitude':
-            flowsSettings.location.longitude,
-
-        'Alarm':
-            flowsSettings.notification.emergencyAlarm,
-
-        'Tema':
-            flowsSettings.display.theme
-
-    });
-
-}
-
-
-/* =====================================================
-   JALANKAN DEBUG
-===================================================== */
-
-debugFLOWSSettings();
-
-
-/* =====================================================
-   END PART 4
-===================================================== */
-
-</script>
+</html>
